@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+  --font-plex: "IBM Plex Sans", sans-serif;
+  
+  --color-cerulean: #007BA7;
+  --color-azure-mist: #F0FFFF;
+  --color-lab-border: #E0FFFF;
+}
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: var(--font-plex);
+    background-color: white;
+    color: var(--color-slate-800);
+  }
+}
+
+@layer components {
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--color-lab-border);
+  }
+
+  .input-terminal {
+    @apply w-full py-4 bg-transparent border-b-2 border-slate-100 outline-none text-slate-800 font-semibold tracking-wide placeholder:text-slate-300 transition-all duration-400;
+  }
+
+  .input-terminal:focus {
+    border-bottom-color: var(--color-cerulean);
+    padding-left: 4px;
+  }
+}
