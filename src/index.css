@@ -39,4 +39,20 @@
     border-bottom-color: var(--color-cerulean);
     padding-left: 4px;
   }
+
+  .text-cerulean {
+    color: #42B5E8 !important;
+  }
+
+  .bg-cerulean {
+    background-color: #42B5E8 !important;
+  }
+
+  .hover\:text-cerulean:hover {
+    color: #42B5E8 !important;
+  }
+
+  .hover\:border-cerulean\/30:hover {
+    border-color: rgba(66, 181, 232, 0.3) !important;
+  }
 }
