@@ -5,7 +5,17 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    // 1. Crear tablas si no existen
+    // 1. Crear tabla Sede
+    await sql`
+      CREATE TABLE IF NOT EXISTS "Sede" (
+        id VARCHAR(36) PRIMARY KEY,
+        nombre VARCHAR(255) UNIQUE NOT NULL,
+        direccion TEXT,
+        telefono VARCHAR(20),
+        activo BOOLEAN DEFAULT true
+      );
+    `;
+
     await sql`
       CREATE TABLE IF NOT EXISTS "Reactivo" (
         id VARCHAR(255) PRIMARY KEY,
@@ -62,14 +72,45 @@ export async function GET() {
       );
     `;
 
-    // 2. Sembrar datos iniciales si están vacías
+    // 2. Migraciones
+    await sql`ALTER TABLE "Usuario" ADD COLUMN IF NOT EXISTS "activo" BOOLEAN DEFAULT true`;
+    await sql`ALTER TABLE "Reactivo" ADD COLUMN IF NOT EXISTS "sedeId" VARCHAR(36) REFERENCES "Sede"(id)`;
+    await sql`ALTER TABLE "Paciente" ADD COLUMN IF NOT EXISTS "sedeId" VARCHAR(36) REFERENCES "Sede"(id)`;
+    await sql`ALTER TABLE "PruebaClinica" ADD COLUMN IF NOT EXISTS "sedeId" VARCHAR(36) REFERENCES "Sede"(id)`;
+
+    // 3. Sembrar sedes si están vacías
+    const sedeCount = await sql`SELECT COUNT(*) FROM "Sede"`;
+    const sCount = parseInt((sedeCount[0] as any).count, 10);
+    if (sCount === 0) {
+      await sql`
+        INSERT INTO "Sede" (id, nombre, direccion, telefono) VALUES
+        ('SEDE-BRENA', 'Breña', 'Av. Breña 123, Lima', '01-5550101'),
+        ('SEDE-COMAS', 'Comas', 'Av. Comas 456, Lima', '01-5550202')
+      `;
+    }
+
+    // 4. Migrar sedeId desde texto
+    await sql`
+      UPDATE "Reactivo" SET "sedeId" = (SELECT id FROM "Sede" WHERE nombre = "Reactivo".sede)
+      WHERE "sedeId" IS NULL AND sede IS NOT NULL
+    `;
+    await sql`
+      UPDATE "Paciente" SET "sedeId" = (SELECT id FROM "Sede" WHERE nombre = "Paciente"."sedeRegistro")
+      WHERE "sedeId" IS NULL AND "sedeRegistro" IS NOT NULL
+    `;
+    await sql`
+      UPDATE "PruebaClinica" SET "sedeId" = (SELECT id FROM "Sede" WHERE nombre = "PruebaClinica".sede)
+      WHERE "sedeId" IS NULL AND sede IS NOT NULL
+    `;
+
+    // 5. Sembrar datos iniciales si están vacías
     const usuariosCount = await sql`SELECT COUNT(*) FROM "Usuario"`;
     const uCount = parseInt((usuariosCount[0] as any).count, 10);
     if (uCount === 0) {
       await sql`
-        INSERT INTO "Usuario" (id, username, password, nombre, rol) VALUES 
-        ('U-ADMIN', 'admin', 'admin', 'Administrador Clínico', 'ADMIN'),
-        ('U-DOCTOR', 'doctor', 'doctor', 'Dr. Juan Pérez', 'DOCTOR')
+        INSERT INTO "Usuario" (id, username, password, nombre, rol, activo) VALUES 
+        ('U-ADMIN', 'admin', 'admin', 'Administrador Clínico', 'ADMIN', true),
+        ('U-DOCTOR', 'doctor', 'doctor', 'Dr. Juan Pérez', 'DOCTOR', true)
       `;
     }
 
@@ -77,15 +118,15 @@ export async function GET() {
     const rCount = parseInt((reactivosCount[0] as any).count, 10);
     if (rCount === 0) {
       await sql`
-        INSERT INTO "Reactivo" (id, name, stock, unit, "minStock", sede) VALUES 
-        ('R1-B', 'Reactivo Glucosa COD', 15, 'Frascos 50ml', 10, 'Breña'),
-        ('R2-B', 'Tiras Reactivas de Orina', 8, 'Cajas x100', 12, 'Breña'),
-        ('R3-B', 'Tubos EDTA Tapa Morada', 120, 'Unidades', 50, 'Breña'),
-        ('R4-B', 'Reactivo Colesterol HDL', 5, 'Frascos 20ml', 8, 'Breña'),
-        ('R1-C', 'Reactivo Glucosa COD', 25, 'Frascos 50ml', 10, 'Comas'),
-        ('R2-C', 'Tiras Reactivas de Orina', 18, 'Cajas x100', 12, 'Comas'),
-        ('R3-C', 'Tubos EDTA Tapa Morada', 95, 'Unidades', 50, 'Comas'),
-        ('R4-C', 'Reactivo Hemoglobina Glicosilada', 12, 'Frascos 10ml', 10, 'Comas')
+        INSERT INTO "Reactivo" (id, name, stock, unit, "minStock", sede, "sedeId") VALUES 
+        ('R1-B', 'Reactivo Glucosa COD', 15, 'Frascos 50ml', 10, 'SEDE-BRENA', 'SEDE-BRENA'),
+        ('R2-B', 'Tiras Reactivas de Orina', 8, 'Cajas x100', 12, 'SEDE-BRENA', 'SEDE-BRENA'),
+        ('R3-B', 'Tubos EDTA Tapa Morada', 120, 'Unidades', 50, 'SEDE-BRENA', 'SEDE-BRENA'),
+        ('R4-B', 'Reactivo Colesterol HDL', 5, 'Frascos 20ml', 8, 'SEDE-BRENA', 'SEDE-BRENA'),
+        ('R1-C', 'Reactivo Glucosa COD', 25, 'Frascos 50ml', 10, 'SEDE-COMAS', 'SEDE-COMAS'),
+        ('R2-C', 'Tiras Reactivas de Orina', 18, 'Cajas x100', 12, 'SEDE-COMAS', 'SEDE-COMAS'),
+        ('R3-C', 'Tubos EDTA Tapa Morada', 95, 'Unidades', 50, 'SEDE-COMAS', 'SEDE-COMAS'),
+        ('R4-C', 'Reactivo Hemoglobina Glicosilada', 12, 'Frascos 10ml', 10, 'SEDE-COMAS', 'SEDE-COMAS')
       `;
     }
 
@@ -93,9 +134,9 @@ export async function GET() {
     const pCount = parseInt((pacientesCount[0] as any).count, 10);
     if (pCount === 0) {
       await sql`
-        INSERT INTO "Paciente" (dni, nombre, apellido, telefono, correo, "sedeRegistro", "fechaRegistro") VALUES 
-        ('12345678', 'JUAN', 'PÉREZ GARCÍA', '987654321', 'juan.perez@gmail.com', 'Breña', '2026-07-01'),
-        ('87654321', 'MARÍA', 'RODRÍGUEZ LÓPEZ', '912345678', 'maria.rod@outlook.com', 'Comas', '2026-07-02')
+        INSERT INTO "Paciente" (dni, nombre, apellido, telefono, correo, "sedeRegistro", "fechaRegistro", "sedeId") VALUES 
+        ('12345678', 'JUAN', 'PÉREZ GARCÍA', '987654321', 'juan.perez@gmail.com', 'SEDE-BRENA', '2026-07-01', 'SEDE-BRENA'),
+        ('87654321', 'MARÍA', 'RODRÍGUEZ LÓPEZ', '912345678', 'maria.rod@outlook.com', 'SEDE-COMAS', '2026-07-02', 'SEDE-COMAS')
       `;
     }
 
@@ -103,10 +144,10 @@ export async function GET() {
     const prCount = parseInt((pruebasCount[0] as any).count, 10);
     if (prCount === 0) {
       await sql`
-        INSERT INTO "PruebaClinica" (id, "pacienteDni", examen, status, fecha, resultado, sede) VALUES 
-        ('P1', '12345678', 'Hemoglobina', 'Completado', '2026-07-01', '14.5 g/dL', 'Breña'),
-        ('P2', '12345678', 'Glucosa en Ayunas', 'Completado', '2026-07-01', '85 mg/dL', 'Breña'),
-        ('P3', '87654321', 'Colesterol Total', 'En Proceso', '2026-07-02', NULL, 'Comas')
+        INSERT INTO "PruebaClinica" (id, "pacienteDni", examen, status, fecha, resultado, sede, "sedeId") VALUES 
+        ('P1', '12345678', 'Hemoglobina', 'Completado', '2026-07-01', '14.5 g/dL', 'SEDE-BRENA', 'SEDE-BRENA'),
+        ('P2', '12345678', 'Glucosa en Ayunas', 'Completado', '2026-07-01', '85 mg/dL', 'SEDE-BRENA', 'SEDE-BRENA'),
+        ('P3', '87654321', 'Colesterol Total', 'En Proceso', '2026-07-02', NULL, 'SEDE-COMAS', 'SEDE-COMAS')
       `;
     }
 

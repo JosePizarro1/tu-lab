@@ -4,6 +4,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "AquaLab - Clinical Operations",
   description: "Sistema interno y portal clínico de AquaLab",
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
