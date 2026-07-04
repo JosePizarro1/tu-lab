@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { IconHexagon, IconSearch, IconMenu, IconAward } from '@tabler/icons-react';
 
@@ -7,6 +9,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const menuItems = [
     { id: 'inicio', label: 'Inicio' },
     { id: 'servicios', label: 'Servicios' },
@@ -18,10 +21,10 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   return (
     <header className="w-full bg-white border-b border-slate-100 sticky top-0 z-50">
       {/* Top Banner: Logo, Search, Certifications */}
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between gap-4 md:gap-8">
         
         {/* Brand Logo */}
-        <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveTab('inicio')}>
+        <div className="flex items-center gap-3 cursor-pointer shrink-0" onClick={() => { setActiveTab('inicio'); setMobileMenuOpen(false); }}>
           <div className="relative flex items-center justify-center">
             <div className="absolute w-10 h-10 rounded-full bg-cerulean/10 animate-pulse"></div>
             <div className="relative w-8 h-8 border border-cerulean/30 flex items-center justify-center rotate-45">
@@ -29,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
             </div>
           </div>
           <div>
-            <h1 className="font-jakarta font-extrabold text-xl tracking-tighter text-slate-800 leading-none">
+            <h1 className="font-jakarta font-extrabold text-lg md:text-xl tracking-tighter text-slate-800 leading-none">
               AQUA<span className="text-cerulean">LAB</span>
             </h1>
             <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-slate-400 mt-0.5">Clinical Operations</p>
@@ -47,24 +50,27 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
         </div>
 
         {/* Mobile Menu Trigger */}
-        <div className="flex items-center">
-          <button className="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg">
+        <div className="flex items-center md:hidden">
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg cursor-pointer"
+          >
             <IconMenu className="w-6 h-6" />
           </button>
         </div>
       </div>
 
-      {/* Navigation Menu */}
-      <nav className="w-full border-t border-slate-100 bg-white">
+      {/* Navigation Menu - Desktop */}
+      <nav className="w-full border-t border-slate-100 bg-white hidden md:block">
         <div className="max-w-7xl mx-auto px-6 flex justify-center">
-          <ul className="flex items-center w-full md:w-auto justify-around md:justify-center gap-1 md:gap-8">
+          <ul className="flex items-center gap-8">
             {menuItems.map((item) => {
               const isActive = activeTab === item.id;
               return (
                 <li key={item.id}>
                   <button
                     onClick={() => setActiveTab(item.id)}
-                    className={`relative py-4 px-2 md:px-4 text-sm font-bold uppercase tracking-wider transition-colors duration-300 cursor-pointer ${
+                    className={`relative py-4 px-4 text-sm font-bold uppercase tracking-wider transition-colors duration-300 cursor-pointer ${
                       isActive 
                         ? 'text-cerulean' 
                         : 'text-slate-500 hover:text-slate-800'
@@ -81,6 +87,34 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
           </ul>
         </div>
       </nav>
+
+      {/* Navigation Menu - Mobile */}
+      {mobileMenuOpen && (
+        <nav className="w-full border-t border-slate-100 bg-white md:hidden">
+          <ul className="flex flex-col divide-y divide-slate-50 py-2">
+            {menuItems.map((item) => {
+              const isActive = activeTab === item.id;
+              return (
+                <li key={item.id}>
+                  <button
+                    onClick={() => {
+                      setActiveTab(item.id);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`w-full text-left py-4 px-6 text-sm font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                      isActive 
+                        ? 'text-cerulean bg-slate-50/50' 
+                        : 'text-slate-500 hover:text-slate-850 hover:bg-slate-50/30'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      )}
     </header>
   );
 };

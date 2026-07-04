@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from 'react';
 import { IconChevronDown, IconMicroscope, IconFileCheck, IconActivity } from '@tabler/icons-react';
 import gsap from 'gsap';
@@ -57,12 +59,12 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
       {/* Hero Section */}
       <section 
         ref={heroRef}
-        className="relative h-[65vh] w-full flex items-center overflow-hidden bg-slate-900"
+        className="relative min-h-[40vh] md:h-[65vh] w-full flex items-center overflow-hidden bg-slate-900 py-12 md:py-0"
       >
         {/* Background Image with Gradient Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=2000&q=90" 
+            src="https://sumanlab.com/wp-content/uploads/2024/05/tipos-de-laboratorio.jpg" 
             alt="Clinical Laboratory" 
             className="w-full h-full object-cover object-center opacity-40 scale-105"
           />
@@ -75,17 +77,17 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             <span className="w-1.5 h-1.5 bg-cerulean rounded-full animate-pulse"></span>
             <span className="text-[10px] font-bold uppercase tracking-widest text-azure-mist">Tecnología de Vanguardia</span>
           </div>
-          <h2 className="animate-fade-up font-jakarta text-5xl md:text-7xl font-extrabold text-white tracking-tight leading-none">
+          <h2 className="animate-fade-up font-jakarta text-4xl sm:text-5xl md:text-7xl font-extrabold text-white tracking-tight leading-none">
             Siéntete seguro
           </h2>
-          <p className="animate-fade-up text-slate-300 max-w-lg text-lg font-medium mt-2 leading-relaxed">
+          <p className="animate-fade-up text-slate-300 max-w-lg text-sm sm:text-base md:text-lg font-medium mt-2 leading-relaxed">
             Resultados precisos y diagnósticos confiables con el respaldo de nuestro staff de profesionales de primer nivel.
           </p>
         </div>
       </section>
 
       {/* Cards Overlapping Container */}
-      <section className="max-w-7xl mx-auto px-6 -mt-24 relative z-20">
+      <section className="max-w-7xl mx-auto px-6 -mt-8 md:-mt-24 relative z-20">
         <div 
           ref={cardsRef}
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
@@ -94,7 +96,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             <div 
               key={idx}
               onClick={card.action}
-              className="group relative h-72 rounded-2xl overflow-hidden glass-panel shadow-[0_20px_40px_-15px_rgba(0,0,0,0.06)] border border-slate-100 hover:border-cerulean/30 hover:shadow-[0_30px_60px_-10px_rgba(0,123,167,0.15)] transition-all duration-500 cursor-pointer flex flex-col justify-between p-8"
+              className="group relative min-h-[220px] md:h-72 rounded-2xl overflow-hidden glass-panel shadow-[0_20px_40px_-15px_rgba(0,0,0,0.06)] border border-slate-100 hover:border-cerulean/30 hover:shadow-[0_30px_60px_-10px_rgba(0,123,167,0.15)] transition-all duration-500 cursor-pointer flex flex-col justify-between p-6 md:p-8"
             >
               {/* Card Hover Background Image */}
               <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500">

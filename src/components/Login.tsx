@@ -1,6 +1,8 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import anime from 'animejs';
+import { animate } from 'animejs';
 import { 
   IconHexagon, 
   IconUserCheck, 
@@ -10,8 +12,20 @@ import {
   IconEyeOff
 } from '@tabler/icons-react';
 
-const Login: React.FC = () => {
+import Swal from 'sweetalert2';
+import { database } from '../services/db';
+
+interface LoginProps {
+  onLoginSuccess: () => void;
+}
+
+const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState('admin');
+  const [password, setPassword] = useState('admin');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
+
   const formRef = useRef<HTMLDivElement>(null);
   const leftContentRef = useRef<HTMLDivElement>(null);
   const moleculeRef = useRef<HTMLImageElement>(null);
@@ -35,10 +49,9 @@ const Login: React.FC = () => {
       );
     }
 
-    // Anime.js: Ambient Float for Molecule (v3 syntax)
+    // Anime.js: Ambient Float for Molecule (v4 syntax)
     if (moleculeRef.current) {
-      anime({
-        targets: moleculeRef.current,
+      animate(moleculeRef.current, {
         translateY: [-15, 15],
         rotate: [0, 2],
         scale: [1, 1.02],
@@ -70,14 +83,51 @@ const Login: React.FC = () => {
 
   const handleButtonHover = (isEnter: boolean) => {
     if (buttonRef.current) {
-      anime({
-        targets: buttonRef.current,
+      animate(buttonRef.current, {
         translateY: isEnter ? -4 : 0,
         scale: isEnter ? 1.01 : 1,
         backgroundColor: isEnter ? '#50c3f5' : '#77D4FC',
         duration: isEnter ? 300 : 400,
         easing: 'easeOutQuad'
       });
+    }
+  };
+
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg('');
+    setSuccessMsg('');
+
+    // Mostrar spinner de carga simulando autenticación segura
+    Swal.fire({
+      title: 'Portal Médico',
+      text: 'Conectando y verificando credenciales...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    try {
+      const usuario = await database.login(username, password);
+      
+      if (usuario) {
+        Swal.fire({
+          title: 'Acceso Concedido',
+          text: `Bienvenido, ${usuario.nombre}. Redirigiendo...`,
+          icon: 'success',
+          timer: 1550,
+          showConfirmButton: false
+        }).then(() => {
+          onLoginSuccess();
+        });
+      } else {
+        Swal.close();
+        setErrorMsg('Usuario o contraseña incorrectos. Pruebe con admin / admin.');
+      }
+    } catch (err) {
+      Swal.close();
+      setErrorMsg('Error de conexión con el servidor de autenticación.');
     }
   };
 
@@ -128,7 +178,7 @@ const Login: React.FC = () => {
       </section>
 
       {/* Right Section: Login Form */}
-      <section className="w-full lg:w-1/2 flex items-center justify-center bg-white p-8 relative overflow-hidden">
+      <section className="w-full lg:w-1/2 flex items-center justify-center bg-white p-4 sm:p-8 relative overflow-hidden">
         {/* Subtle Grid Background Pattern */}
         <div 
           className="absolute inset-0 opacity-[0.03] pointer-events-none" 
@@ -141,7 +191,7 @@ const Login: React.FC = () => {
         {/* Login Panel */}
         <div 
           ref={formRef}
-          className="w-full max-w-md glass-panel p-12 lg:p-14 relative z-10 shadow-[0_30px_60px_-15px_rgba(0,123,167,0.08)] rounded-xs"
+          className="w-full max-w-md glass-panel p-8 sm:p-12 lg:p-14 relative z-10 shadow-[0_30px_60px_-15px_rgba(0,123,167,0.08)] rounded-xs"
         >
           <header className="mb-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-azure-mist border border-lab-border mb-4">
@@ -151,18 +201,31 @@ const Login: React.FC = () => {
             <h2 className="font-jakarta text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">Portal Médico</h2>
           </header>
 
-          <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-8" onSubmit={handleLoginSubmit}>
+            {errorMsg && (
+              <div className="p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-600 text-xs font-semibold">
+                {errorMsg}
+              </div>
+            )}
+            {successMsg && (
+              <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl text-emerald-650 text-xs font-semibold">
+                {successMsg}
+              </div>
+            )}
+
             {/* Input: Scientist ID */}
             <div className="group relative">
               <label className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-bold mb-2 block group-focus-within:text-cerulean transition-colors">
-                Código de Médico (C.M.P.)
+                Código de Médico (C.M.P.) / Usuario
               </label>
               <div className="relative">
                 <input 
                   type="text" 
-                  defaultValue="CMP-72489" 
+                  value={username} 
+                  onChange={(e) => setUsername(e.target.value)} 
                   className="input-terminal"
-                  placeholder="Ej: CMP-12345" 
+                  placeholder="Ej: admin" 
+                  required
                 />
                 <IconUserCheck className="absolute right-0 bottom-4 w-5 h-5 text-slate-300 group-focus-within:text-cerulean transition-colors" />
               </div>
@@ -176,9 +239,11 @@ const Login: React.FC = () => {
               <div className="relative">
                 <input 
                   type={showPassword ? "text" : "password"}
-                  defaultValue="••••••••" 
+                  value={password} 
+                  onChange={(e) => setPassword(e.target.value)} 
                   className="input-terminal"
                   placeholder="••••••••" 
+                  required
                 />
                 <button 
                   type="button" 
@@ -194,7 +259,7 @@ const Login: React.FC = () => {
             <div className="pt-4">
               <button 
                 ref={buttonRef}
-                type="button" 
+                type="submit" 
                 onPointerEnter={() => handleButtonHover(true)}
                 onPointerLeave={() => handleButtonHover(false)}
                 className="w-full bg-cerulean text-white py-5 px-8 font-extrabold uppercase tracking-[0.2em] text-xs shadow-lg shadow-cerulean/20 flex items-center justify-center gap-3 cursor-pointer group"
@@ -207,10 +272,10 @@ const Login: React.FC = () => {
 
           {/* Footer Links */}
           <footer className="mt-12 pt-8 border-t border-slate-50 flex items-center justify-between">
-            <button className="text-[11px] text-slate-400 font-bold uppercase tracking-widest hover:text-cerulean transition-colors cursor-pointer">
+            <button type="button" className="text-[11px] text-slate-400 font-bold uppercase tracking-widest hover:text-cerulean transition-colors cursor-pointer">
               Recuperar Contraseña
             </button>
-            <button className="text-[11px] text-cerulean font-bold uppercase tracking-widest hover:underline decoration-2 underline-offset-4 cursor-pointer">
+            <button type="button" className="text-[11px] text-cerulean font-bold uppercase tracking-widest hover:underline decoration-2 underline-offset-4 cursor-pointer">
               Soporte TI
             </button>
           </footer>
