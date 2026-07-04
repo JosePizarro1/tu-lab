@@ -75,8 +75,8 @@ function App() {
         </main>
       </div>
 
-      {/* Footer - Rediseñado Premium en Slate Oscuro */}
-      <footer className="w-full bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-900 font-plex">
+      {/* Footer - Rediseñado Premium en Zinc Oscuro Neutro */}
+      <footer className="w-full bg-zinc-950 text-zinc-400 pt-16 pb-8 border-t border-zinc-900 font-plex">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           
           {/* Columna 1: Branding */}
@@ -92,10 +92,10 @@ function App() {
                 <span className="font-jakarta font-extrabold text-lg tracking-tighter text-white leading-none">
                   AQUA<span className="text-cerulean">LAB</span>
                 </span>
-                <p className="text-[7px] font-bold uppercase tracking-[0.2em] text-slate-500">Clinical Operations</p>
+                <p className="text-[7px] font-bold uppercase tracking-[0.2em] text-zinc-500">Clinical Operations</p>
               </div>
             </div>
-            <p className="text-xs text-slate-500 leading-relaxed max-w-xs mt-2">
+            <p className="text-xs text-zinc-500 leading-relaxed max-w-xs mt-2">
               Comprometidos con brindarte diagnósticos con la mayor precisión, velocidad y calidez humana.
             </p>
           </div>
@@ -132,15 +132,15 @@ function App() {
           {/* Columna 4: Redes Sociales */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-4">Síguenos</h4>
-            <p className="text-xs text-slate-500 mb-4">Mantente al día con nuestros servicios y consejos de salud.</p>
+            <p className="text-xs text-zinc-500 mb-4">Mantente al día con nuestros servicios y consejos de salud.</p>
             <div className="flex items-center gap-3">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2.5 bg-slate-900 hover:bg-cerulean/10 border border-slate-800 hover:border-cerulean/30 text-slate-400 hover:text-cerulean rounded-xl transition-all">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2.5 bg-zinc-900 hover:bg-cerulean/10 border border-zinc-800 hover:border-cerulean/30 text-zinc-400 hover:text-cerulean rounded-xl transition-all">
                 <IconBrandFacebook className="w-4 h-4" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2.5 bg-slate-900 hover:bg-cerulean/10 border border-slate-800 hover:border-cerulean/30 text-slate-400 hover:text-cerulean rounded-xl transition-all">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2.5 bg-zinc-900 hover:bg-cerulean/10 border border-zinc-800 hover:border-cerulean/30 text-zinc-400 hover:text-cerulean rounded-xl transition-all">
                 <IconBrandInstagram className="w-4 h-4" />
               </a>
-              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="p-2.5 bg-slate-900 hover:bg-cerulean/10 border border-slate-800 hover:border-cerulean/30 text-slate-400 hover:text-cerulean rounded-xl transition-all">
+              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="p-2.5 bg-zinc-900 hover:bg-cerulean/10 border border-zinc-800 hover:border-cerulean/30 text-zinc-400 hover:text-cerulean rounded-xl transition-all">
                 <IconBrandTiktok className="w-4 h-4" />
               </a>
             </div>
@@ -148,7 +148,7 @@ function App() {
         </div>
 
         {/* Línea Divisoria Inferior */}
-        <div className="max-w-7xl mx-auto px-6 pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-600">
+        <div className="max-w-7xl mx-auto px-6 pt-8 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-600 font-medium">
           <span>&copy; {new Date().getFullYear()} AquaLab. Todos los derechos reservados.</span>
           <div className="flex gap-6">
             <a href="#" className="hover:text-cerulean transition-colors">Términos de servicio</a>
