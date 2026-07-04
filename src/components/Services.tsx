@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from 'react';
 import ServiceCard from './ServiceCard';
 import { 
@@ -56,17 +58,17 @@ const Services: React.FC = () => {
   ];
 
   return (
-    <div ref={containerRef} className="max-w-7xl mx-auto px-6 py-20 font-plex">
-      <header className="mb-16 text-center animate-service">
-        <h2 className="font-jakarta text-5xl font-extrabold text-slate-900 tracking-tight leading-none mb-4">
+    <div ref={containerRef} className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-20 font-plex">
+      <header className="mb-10 md:mb-16 text-center animate-service">
+        <h2 className="font-jakarta text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-none mb-4">
           Nuestros Servicios
         </h2>
-        <p className="text-slate-500 text-lg font-medium max-w-2xl mx-auto leading-relaxed">
+        <p className="text-slate-500 text-sm md:text-lg font-medium max-w-2xl mx-auto leading-relaxed">
           Contamos con una amplia cartera de análisis y pruebas de diagnóstico con alta precisión.
         </p>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
         {servicesData.map((service, index) => (
           <div key={index} className="animate-service">
             <ServiceCard 
