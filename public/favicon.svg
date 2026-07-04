@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3BB5E8"/>
+      <stop offset="100%" stop-color="#1A8BC6"/>
+    </linearGradient>
+  </defs>
+  <!-- Hexágono de fondo -->
+  <polygon points="50 2 93 26 93 74 50 98 7 74 7 26" fill="url(#g)"/>
+  <!-- Tubo de ensayo -->
+  <rect x="38" y="24" width="24" height="36" rx="3" fill="white" opacity="0.95"/>
+  <rect x="38" y="52" width="24" height="16" rx="3" fill="white" opacity="0.95"/>
+  <rect x="41" y="28" width="18" height="22" rx="2" fill="#3BB5E8" opacity="0.7"/>
+  <!-- Líquido -->
+  <rect x="41" y="44" width="18" height="20" rx="2" fill="#3BB5E8" opacity="0.85"/>
+  <!-- Burbujas -->
+  <circle cx="48" cy="50" r="2" fill="white" opacity="0.5"/>
+  <circle cx="52" cy="55" r="1.5" fill="white" opacity="0.4"/>
+  <circle cx="46" cy="58" r="1.2" fill="white" opacity="0.3"/>
+  <!-- Cuello del tubo -->
+  <rect x="42" y="16" width="16" height="8" rx="2" fill="white" opacity="0.9"/>
+  <!-- Línea de marca -->
+  <line x1="44" y1="36" x2="56" y2="36" stroke="white" stroke-width="0.8" opacity="0.6"/>
+</svg>

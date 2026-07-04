@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { database, Reactivo, Paciente, PruebaClinica, MovimientoInventario } from '../services/db';
+import { database, Reactivo, Paciente, PruebaClinica, MovimientoInventario, Sede, Usuario } from '../services/db';
 import { 
   IconHexagon, 
   IconLayoutDashboard, 
@@ -23,12 +23,17 @@ import {
 
 interface DashboardProps {
   onLogout: () => void;
+  usuario: Usuario;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
-  const [activeSection, setActiveSection] = useState<'resumen' | 'inventario' | 'pacientes' | 'resultados'>('resumen');
-  const [sedeActiva, setSedeActiva] = useState<'Breña' | 'Comas'>('Breña');
+type Section = 'resumen' | 'inventario' | 'pacientes' | 'resultados' | 'sedes' | 'usuarios';
+
+const Dashboard: React.FC<DashboardProps> = ({ onLogout, usuario }) => {
+  const [activeSection, setActiveSection] = useState<Section>('resumen');
+  const [sedeActivaId, setSedeActivaId] = useState<string>('SEDE-BRENA');
+  const [sedes, setSedes] = useState<Sede[]>([]);
   const [showSedeDropdown, setShowSedeDropdown] = useState(false);
+  const sedeActiva = sedes.find(s => s.id === sedeActivaId)?.nombre || sedeActivaId;
   
   // Data States
   const [reactivos, setReactivos] = useState<Reactivo[]>([]);
@@ -51,34 +56,42 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
   const [selectedPacienteForPrueba, setSelectedPacienteForPrueba] = useState<Paciente | null>(null);
   const [tipoPruebaInput, setTipoPruebaInput] = useState('Hemoglobina');
 
-  // Inicializar base de datos de la demo una sola vez al montar
+  // Inicializar
   useEffect(() => {
-    const runSeed = async () => {
+    const init = async () => {
       await database.initSeed();
+      const listaSedes = await database.getSedes();
+      setSedes(listaSedes);
+      if (listaSedes.length > 0) {
+        setSedeActivaId(listaSedes[0].id);
+      }
       await refreshData();
     };
-    runSeed();
+    init();
   }, []);
 
-  // Cargar datos al cambiar de sede o sección
+  // Cargar datos al cambiar de sede
   useEffect(() => {
-    const loadData = async () => {
-      const r = await database.getReactivos(sedeActiva);
-      const p = await database.getPacientes(sedeActiva);
-      const pr = await database.getPruebas(sedeActiva);
-      const m = await database.getMovimientos();
-      setReactivos(r);
-      setPacientes(p);
-      setPruebas(pr);
-      setMovimientos(m);
-    };
-    loadData();
-  }, [sedeActiva, activeSection]);
+    if (sedeActivaId) {
+      loadData();
+    }
+  }, [sedeActivaId, activeSection]);
+
+  const loadData = async () => {
+    const r = await database.getReactivos(sedeActivaId);
+    const p = await database.getPacientes(sedeActivaId);
+    const pr = await database.getPruebas(sedeActivaId);
+    const m = await database.getMovimientos();
+    setReactivos(r);
+    setPacientes(p);
+    setPruebas(pr);
+    setMovimientos(m);
+  };
 
   const refreshData = async () => {
-    const r = await database.getReactivos(sedeActiva);
-    const p = await database.getPacientes(sedeActiva);
-    const pr = await database.getPruebas(sedeActiva);
+    const r = await database.getReactivos(sedeActivaId);
+    const p = await database.getPacientes(sedeActivaId);
+    const pr = await database.getPruebas(sedeActivaId);
     const m = await database.getMovimientos();
     setReactivos(r);
     setPacientes(p);
@@ -155,7 +168,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
       apellido: apellidoInput.toUpperCase(),
       telefono: telefonoInput || undefined,
       correo: correoInput || undefined,
-      sedeRegistro: sedeActiva,
+      sedeRegistro: sedeActivaId,
+      sedeId: sedeActivaId,
       fechaRegistro: new Date().toISOString().split('T')[0]
     };
 
@@ -185,7 +199,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     e.preventDefault();
     if (!selectedPacienteForPrueba) return;
 
-    await database.crearPrueba(selectedPacienteForPrueba.dni, tipoPruebaInput, sedeActiva);
+    await database.crearPrueba(selectedPacienteForPrueba.dni, tipoPruebaInput, sedeActivaId);
     
     Swal.fire({
       title: 'Examen Asignado',
@@ -231,7 +245,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     }).then(async (result) => {
       if (result.isConfirmed && result.value) {
         const cantidad = result.value;
-        const exito = await database.registrarMovimientoReactivo(sedeActiva, reactivo.id, cantidad, tipo);
+        const exito = await database.registrarMovimientoReactivo(sedeActivaId, reactivo.id, cantidad, tipo);
         
         if (exito) {
           Swal.fire({
@@ -372,6 +386,34 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
               <IconClipboardList className="w-5 h-5" />
               Resultados
             </button>
+
+            {usuario.rol === 'ADMIN' && (
+              <div className="border-t border-slate-100 pt-3 mt-3">
+                <p className="px-4 text-[9px] font-bold uppercase tracking-widest text-slate-300 mb-2">Administración</p>
+                <button 
+                  onClick={() => setActiveSection('sedes')} 
+                  className={`w-full flex items-center gap-3 px-4 py-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
+                    activeSection === 'sedes' 
+                      ? 'bg-cerulean/10 text-cerulean' 
+                      : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                  }`}
+                >
+                  <IconBuilding className="w-5 h-5" />
+                  Sedes
+                </button>
+                <button 
+                  onClick={() => setActiveSection('usuarios')} 
+                  className={`w-full flex items-center gap-3 px-4 py-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
+                    activeSection === 'usuarios' 
+                      ? 'bg-cerulean/10 text-cerulean' 
+                      : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                  }`}
+                >
+                  <IconUsers className="w-5 h-5" />
+                  Usuarios
+                </button>
+              </div>
+            )}
           </nav>
         </div>
 
@@ -426,34 +468,24 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
 
               {showSedeDropdown && (
                 <>
-                  {/* Backdrop invisible to dismiss on click outside */}
                   <div className="fixed inset-0 z-40" onClick={() => setShowSedeDropdown(false)}></div>
                   
-                  <div className="absolute right-0 mt-2 w-40 sm:w-44 bg-white/95 backdrop-blur-md border border-slate-100 rounded-xl shadow-lg py-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                    <button
-                      onClick={() => {
-                        setSedeActiva('Breña');
-                        setShowSedeDropdown(false);
-                      }}
-                      className={`w-full text-left px-4 py-2.5 text-[11px] sm:text-xs font-bold transition-colors flex items-center gap-2 cursor-pointer ${
-                        sedeActiva === 'Breña' ? 'text-cerulean bg-cerulean/5' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800'
-                      }`}
-                    >
-                      <span className={`w-1.5 h-1.5 rounded-full ${sedeActiva === 'Breña' ? 'bg-cerulean' : 'bg-transparent'}`}></span>
-                      Sede Breña
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSedeActiva('Comas');
-                        setShowSedeDropdown(false);
-                      }}
-                      className={`w-full text-left px-4 py-2.5 text-[11px] sm:text-xs font-bold transition-colors flex items-center gap-2 cursor-pointer ${
-                        sedeActiva === 'Comas' ? 'text-cerulean bg-cerulean/5' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800'
-                      }`}
-                    >
-                      <span className={`w-1.5 h-1.5 rounded-full ${sedeActiva === 'Comas' ? 'bg-cerulean' : 'bg-transparent'}`}></span>
-                      Sede Comas
-                    </button>
+                  <div className="absolute right-0 mt-2 w-40 sm:w-44 bg-white/95 backdrop-blur-md border border-slate-100 rounded-xl shadow-lg py-1.5 z-50">
+                    {sedes.map(s => (
+                      <button
+                        key={s.id}
+                        onClick={() => {
+                          setSedeActivaId(s.id);
+                          setShowSedeDropdown(false);
+                        }}
+                        className={`w-full text-left px-4 py-2.5 text-[11px] sm:text-xs font-bold transition-colors flex items-center gap-2 cursor-pointer ${
+                          sedeActivaId === s.id ? 'text-cerulean bg-cerulean/5' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800'
+                        }`}
+                      >
+                        <span className={`w-1.5 h-1.5 rounded-full ${sedeActivaId === s.id ? 'bg-cerulean' : 'bg-transparent'}`}></span>
+                        {s.nombre}
+                      </button>
+                    ))}
                   </div>
                 </>
               )}
@@ -977,6 +1009,104 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
             </div>
           )}
 
+          {/* VISTA SEDES (ADMIN) */}
+          {activeSection === 'sedes' && (
+            <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-xs">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <div>
+                  <h3 className="font-jakarta text-base font-bold text-slate-800 uppercase tracking-wider">Gestión de Sedes</h3>
+                  <p className="text-slate-400 text-xs mt-1">Administración de sedes de la clínica</p>
+                </div>
+                <button
+                  onClick={async () => {
+                    const { value } = await Swal.fire({
+                      title: 'Nueva Sede',
+                      html: `
+                        <div class="text-left font-plex text-sm space-y-4">
+                          <div>
+                            <label class="block text-xs uppercase font-bold text-slate-500 mb-1">Nombre</label>
+                            <input id="swal-nombre" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm" placeholder="Ej: San Isidro">
+                          </div>
+                          <div>
+                            <label class="block text-xs uppercase font-bold text-slate-500 mb-1">Dirección</label>
+                            <input id="swal-direccion" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm" placeholder="Av. Principal 123">
+                          </div>
+                          <div>
+                            <label class="block text-xs uppercase font-bold text-slate-500 mb-1">Teléfono</label>
+                            <input id="swal-telefono" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm" placeholder="01-5550000">
+                          </div>
+                        </div>
+                      `,
+                      showCancelButton: true,
+                      confirmButtonText: 'Crear Sede',
+                      cancelButtonText: 'Cancelar',
+                      confirmButtonColor: '#77D4FC',
+                      preConfirm: () => {
+                        const nombre = (document.getElementById('swal-nombre') as HTMLInputElement).value.trim();
+                        if (!nombre) { Swal.showValidationMessage('El nombre es requerido'); return false; }
+                        return {
+                          nombre,
+                          direccion: (document.getElementById('swal-direccion') as HTMLInputElement).value.trim(),
+                          telefono: (document.getElementById('swal-telefono') as HTMLInputElement).value.trim(),
+                        };
+                      }
+                    });
+                    if (value) {
+                      const ok = await database.crearSede(value);
+                      if (ok) {
+                        const lista = await database.getSedes();
+                        setSedes(lista);
+                        Swal.fire({ title: 'Creada', text: 'Sede creada con éxito', icon: 'success', timer: 1500, showConfirmButton: false });
+                      }
+                    }
+                  }}
+                  className="px-4 py-2.5 bg-cerulean hover:bg-cerulean/95 text-white font-bold uppercase tracking-wider text-[10px] rounded-xl shadow-sm transition-colors cursor-pointer"
+                >
+                  + Nueva Sede
+                </button>
+              </div>
+
+              <div className="border border-slate-100 rounded-xl overflow-x-auto w-full max-w-full block touch-pan-x">
+                <div className="sm:hidden text-center pb-2 -mb-2">
+                  <span className="text-[9px] text-slate-300 uppercase tracking-wider font-medium animate-pulse">← Desliza para ver más →</span>
+                </div>
+                <table className="w-full text-left text-xs border-collapse min-w-[650px]">
+                  <thead>
+                    <tr className="bg-slate-50 border-b border-slate-100 text-[10px] font-bold uppercase tracking-wider text-slate-550">
+                      <th className="p-4">Sede</th>
+                      <th className="p-4">Dirección</th>
+                      <th className="p-4">Teléfono</th>
+                      <th className="p-4">Estado</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 text-slate-700">
+                    {sedes.length === 0 ? (
+                      <tr><td colSpan={4} className="p-8 text-center text-slate-450">No hay sedes registradas</td></tr>
+                    ) : (
+                      sedes.map(s => (
+                        <tr key={s.id} className="hover:bg-slate-50/50 transition-colors">
+                          <td className="p-4 font-bold text-slate-800">{s.nombre}</td>
+                          <td className="p-4 text-slate-500">{s.direccion || '-'}</td>
+                          <td className="p-4 text-slate-500">{s.telefono || '-'}</td>
+                          <td className="p-4">
+                            <span className={`px-2.5 py-1 text-[9px] font-bold uppercase rounded-md ${s.activo ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+                              {s.activo ? 'Activo' : 'Inactivo'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* VISTA USUARIOS (ADMIN) */}
+          {activeSection === 'usuarios' && (
+            <UsuarioManager />
+          )}
+
         </main>
 
         {/* MOBILE BOTTOM NAV BAR (Fija en la parte inferior en móvil) */}
@@ -1009,8 +1139,156 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
             <IconClipboardList className="w-5 h-5" />
             <span className="text-[8px] font-bold uppercase tracking-wider">Resultados</span>
           </button>
+
+          {usuario.rol === 'ADMIN' && (
+            <>
+              <button 
+                onClick={() => setActiveSection('sedes')} 
+                className={`p-1.5 rounded-lg flex flex-col items-center gap-0.5 transition-colors cursor-pointer ${activeSection === 'sedes' ? 'text-cerulean' : 'text-slate-400'}`}
+              >
+                <IconBuilding className="w-5 h-5" />
+                <span className="text-[8px] font-bold uppercase tracking-wider">Sedes</span>
+              </button>
+              <button 
+                onClick={() => setActiveSection('usuarios')} 
+                className={`p-1.5 rounded-lg flex flex-col items-center gap-0.5 transition-colors cursor-pointer ${activeSection === 'usuarios' ? 'text-cerulean' : 'text-slate-400'}`}
+              >
+                <IconUsers className="w-5 h-5" />
+                <span className="text-[8px] font-bold uppercase tracking-wider">Users</span>
+              </button>
+            </>
+          )}
         </div>
 
+      </div>
+    </div>
+  );
+};
+
+// --- COMPONENTE DE GESTIÓN DE USUARIOS (ADMIN) ---
+const UsuarioManager: React.FC = () => {
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+
+  const load = async () => {
+    const list = await database.getUsuarios();
+    setUsuarios(list);
+  };
+
+  useEffect(() => { load(); }, []);
+
+  const handleCrear = async () => {
+    const { value } = await Swal.fire({
+      title: 'Nuevo Usuario',
+      html: `
+        <div class="text-left font-plex text-sm space-y-4">
+          <div>
+            <label class="block text-xs uppercase font-bold text-slate-500 mb-1">Username</label>
+            <input id="swal-username" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm" placeholder="ej: tecnico1">
+          </div>
+          <div>
+            <label class="block text-xs uppercase font-bold text-slate-500 mb-1">Nombre Completo</label>
+            <input id="swal-nombre" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm" placeholder="Ej: Carlos López">
+          </div>
+          <div>
+            <label class="block text-xs uppercase font-bold text-slate-500 mb-1">Contraseña</label>
+            <input id="swal-password" type="password" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+          </div>
+          <div>
+            <label class="block text-xs uppercase font-bold text-slate-500 mb-1">Rol</label>
+            <select id="swal-rol" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm cursor-pointer">
+              <option value="DOCTOR">DOCTOR</option>
+              <option value="ADMIN">ADMIN</option>
+            </select>
+          </div>
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Crear Usuario',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#77D4FC',
+      preConfirm: () => {
+        const username = (document.getElementById('swal-username') as HTMLInputElement).value.trim();
+        const nombre = (document.getElementById('swal-nombre') as HTMLInputElement).value.trim();
+        const password = (document.getElementById('swal-password') as HTMLInputElement).value.trim();
+        const rol = (document.getElementById('swal-rol') as HTMLSelectElement).value;
+        if (!username || !nombre || !password) { Swal.showValidationMessage('Todos los campos son requeridos'); return false; }
+        return { username, nombre, password, rol };
+      }
+    });
+    if (value) {
+      const ok = await database.crearUsuario(value);
+      if (ok) {
+        await load();
+        Swal.fire({ title: 'Creado', text: 'Usuario creado con éxito', icon: 'success', timer: 1500, showConfirmButton: false });
+      }
+    }
+  };
+
+  const handleToggleActivo = async (u: Usuario) => {
+    const ok = await database.actualizarUsuario(u.id, { activo: !u.activo });
+    if (ok) await load();
+  };
+
+  return (
+    <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-xs">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <div>
+          <h3 className="font-jakarta text-base font-bold text-slate-800 uppercase tracking-wider">Gestión de Usuarios</h3>
+          <p className="text-slate-400 text-xs mt-1">Administración de cuentas del sistema</p>
+        </div>
+        <button
+          onClick={handleCrear}
+          className="px-4 py-2.5 bg-cerulean hover:bg-cerulean/95 text-white font-bold uppercase tracking-wider text-[10px] rounded-xl shadow-sm transition-colors cursor-pointer"
+        >
+          + Nuevo Usuario
+        </button>
+      </div>
+
+      <div className="border border-slate-100 rounded-xl overflow-x-auto w-full max-w-full block touch-pan-x">
+        <div className="sm:hidden text-center pb-2 -mb-2">
+          <span className="text-[9px] text-slate-300 uppercase tracking-wider font-medium animate-pulse">← Desliza para ver más →</span>
+        </div>
+        <table className="w-full text-left text-xs border-collapse min-w-[650px]">
+          <thead>
+            <tr className="bg-slate-50 border-b border-slate-100 text-[10px] font-bold uppercase tracking-wider text-slate-550">
+              <th className="p-4">Usuario</th>
+              <th className="p-4">Nombre</th>
+              <th className="p-4">Rol</th>
+              <th className="p-4">Estado</th>
+              <th className="p-4 text-right">Acción</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100 text-slate-700">
+            {usuarios.length === 0 ? (
+              <tr><td colSpan={5} className="p-8 text-center text-slate-450">No hay usuarios registrados</td></tr>
+            ) : (
+              usuarios.map(u => (
+                <tr key={u.id} className="hover:bg-slate-50/50 transition-colors">
+                  <td className="p-4 font-mono font-bold text-slate-400">{u.username}</td>
+                  <td className="p-4 font-bold text-slate-800">{u.nombre}</td>
+                  <td className="p-4">
+                    <span className={`px-2.5 py-1 text-[9px] font-bold uppercase rounded-md ${u.rol === 'ADMIN' ? 'bg-purple-50 text-purple-600' : 'bg-sky-50 text-sky-600'}`}>
+                      {u.rol}
+                    </span>
+                  </td>
+                  <td className="p-4">
+                    <span className={`px-2.5 py-1 text-[9px] font-bold uppercase rounded-md ${u.activo ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+                      {u.activo ? 'Activo' : 'Inactivo'}
+                    </span>
+                  </td>
+                  <td className="p-4 text-right">
+                    <button
+                      onClick={() => handleToggleActivo(u)}
+                      className={`px-3 py-1.5 text-[10px] font-bold uppercase rounded-xl transition-all cursor-pointer ${u.activo ? 'bg-rose-50 text-rose-600 hover:bg-rose-100' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'}`}
+                    >
+                      {u.activo ? 'Desactivar' : 'Activar'}
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );

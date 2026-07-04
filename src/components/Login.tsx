@@ -112,6 +112,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
       const usuario = await database.login(username, password);
       
       if (usuario) {
+        sessionStorage.setItem('usuario', JSON.stringify(usuario));
         Swal.fire({
           title: 'Acceso Concedido',
           text: `Bienvenido, ${usuario.nombre}. Redirigiendo...`,

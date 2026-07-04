@@ -6,22 +6,22 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const sede = searchParams.get('sede');
+  const sedeId = searchParams.get('sedeId');
 
   try {
     await ensureSeed();
-    const list = sede 
-      ? await sql`SELECT * FROM "Paciente" WHERE "sedeRegistro" = ${sede}`
+    const list = sedeId 
+      ? await sql`SELECT * FROM "Paciente" WHERE "sedeId" = ${sedeId}`
       : await sql`SELECT * FROM "Paciente"`;
     
-    // Cambiar las propiedades de camelCase a PascalCase para compatibilidad con el frontend
     const mapped = list.map((p: any) => ({
       dni: p.dni,
       nombre: p.nombre,
       apellido: p.apellido,
       telefono: p.telefono,
       correo: p.correo,
-      SedeRegistro: p.sedeRegistro,
+      sedeRegistro: p.sedeRegistro,
+      sedeId: p.sedeId,
       fechaRegistro: p.fechaRegistro
     }));
 
@@ -33,9 +33,9 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { dni, nombre, apellido, telefono, correo, SedeRegistro } = await req.json();
+    const { dni, nombre, apellido, telefono, correo, sedeId } = await req.json();
 
-    if (!dni || !nombre || !apellido || !SedeRegistro) {
+    if (!dni || !nombre || !apellido || !sedeId) {
       return NextResponse.json({ error: 'Faltan parámetros requeridos' }, { status: 400 });
     }
 
@@ -46,17 +46,17 @@ export async function POST(req: NextRequest) {
     const t = telefono || null;
     const c = correo || null;
 
-    // Upsert nativo usando SQL con comillas invertidas y cláusula ON CONFLICT
     const res = await sql`
-      INSERT INTO "Paciente" (dni, nombre, apellido, telefono, correo, "sedeRegistro", "fechaRegistro") 
-      VALUES (${dni}, ${n}, ${a}, ${t}, ${c}, ${SedeRegistro}, ${hoy})
+      INSERT INTO "Paciente" (dni, nombre, apellido, telefono, correo, "sedeRegistro", "fechaRegistro", "sedeId") 
+      VALUES (${dni}, ${n}, ${a}, ${t}, ${c}, ${sedeId}, ${hoy}, ${sedeId})
       ON CONFLICT (dni) 
       DO UPDATE SET 
         nombre = EXCLUDED.nombre,
         apellido = EXCLUDED.apellido,
         telefono = EXCLUDED.telefono,
         correo = EXCLUDED.correo,
-        "sedeRegistro" = EXCLUDED."sedeRegistro"
+        "sedeRegistro" = EXCLUDED."sedeRegistro",
+        "sedeId" = EXCLUDED."sedeId"
       RETURNING *
     `;
 
@@ -67,7 +67,8 @@ export async function POST(req: NextRequest) {
       apellido: p.apellido,
       telefono: p.telefono,
       correo: p.correo,
-      SedeRegistro: p.sedeRegistro,
+      sedeRegistro: p.sedeRegistro,
+      sedeId: p.sedeId,
       fechaRegistro: p.fechaRegistro
     };
 

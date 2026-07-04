@@ -6,23 +6,23 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const sede = searchParams.get('sede');
+  const sedeId = searchParams.get('sedeId');
   const pacienteDni = searchParams.get('pacienteDni');
 
   try {
     await ensureSeed();
 
     let list;
-    if (sede && pacienteDni) {
+    if (sedeId && pacienteDni) {
       list = await sql`
         SELECT * FROM "PruebaClinica" 
-        WHERE sede = ${sede} AND "pacienteDni" = ${pacienteDni} 
+        WHERE "sedeId" = ${sedeId} AND "pacienteDni" = ${pacienteDni} 
         ORDER BY id DESC
       `;
-    } else if (sede) {
+    } else if (sedeId) {
       list = await sql`
         SELECT * FROM "PruebaClinica" 
-        WHERE sede = ${sede} 
+        WHERE "sedeId" = ${sedeId} 
         ORDER BY id DESC
       `;
     } else if (pacienteDni) {
@@ -38,7 +38,6 @@ export async function GET(req: NextRequest) {
       `;
     }
     
-    // Mapear de camelCase a PascalCase para el frontend
     const mapped = list.map((p: any) => ({
       id: p.id,
       pacienteDni: p.pacienteDni,
@@ -46,7 +45,8 @@ export async function GET(req: NextRequest) {
       status: p.status,
       fecha: p.fecha,
       resultado: p.resultado,
-      sede: p.sede
+      sede: p.sede,
+      sedeId: p.sedeId
     }));
 
     return NextResponse.json(mapped);
@@ -57,9 +57,9 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { pacienteDni, examen, sede } = await req.json();
+    const { pacienteDni, examen, sedeId } = await req.json();
 
-    if (!pacienteDni || !examen || !sede) {
+    if (!pacienteDni || !examen || !sedeId) {
       return NextResponse.json({ error: 'Faltan parámetros requeridos' }, { status: 400 });
     }
 
@@ -68,8 +68,8 @@ export async function POST(req: NextRequest) {
     const fecha = new Date().toISOString().split('T')[0];
 
     const res = await sql`
-      INSERT INTO "PruebaClinica" (id, "pacienteDni", examen, status, fecha, resultado, sede) 
-      VALUES (${id}, ${pacienteDni}, ${examen}, 'En Proceso', ${fecha}, ${null}, ${sede})
+      INSERT INTO "PruebaClinica" (id, "pacienteDni", examen, status, fecha, resultado, sede, "sedeId") 
+      VALUES (${id}, ${pacienteDni}, ${examen}, 'En Proceso', ${fecha}, ${null}, ${sedeId}, ${sedeId})
       RETURNING *
     `;
 
@@ -81,7 +81,8 @@ export async function POST(req: NextRequest) {
       status: p.status,
       fecha: p.fecha,
       resultado: p.resultado,
-      sede: p.sede
+      sede: p.sede,
+      sedeId: p.sedeId
     };
 
     return NextResponse.json(nuevaPrueba, { status: 201 });
@@ -120,7 +121,8 @@ export async function PUT(req: NextRequest) {
       status: p.status,
       fecha: p.fecha,
       resultado: p.resultado,
-      sede: p.sede
+      sede: p.sede,
+      sedeId: p.sedeId
     };
 
     return NextResponse.json(pruebaActualizada);

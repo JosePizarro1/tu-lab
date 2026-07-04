@@ -4,19 +4,18 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import Dashboard from '../../components/Dashboard';
+import { Usuario } from '../../services/db';
 
 export default function DashboardPage() {
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // Comprobar la sesión en el navegador
-    const userSession = sessionStorage.getItem('isLoggedIn');
-    if (userSession === 'true') {
-      setIsAuthenticated(true);
+    const raw = sessionStorage.getItem('usuario');
+    if (raw) {
+      setUsuario(JSON.parse(raw));
     } else {
-      // Redirigir al inicio/login si no está autenticado
       router.push('/');
     }
     setLoading(false);
@@ -52,9 +51,9 @@ export default function DashboardPage() {
     );
   }
 
-  if (!isAuthenticated) {
-    return null; // Evitar flashes de UI no autorizada
+  if (!usuario) {
+    return null;
   }
 
-  return <Dashboard onLogout={handleLogout} />;
+  return <Dashboard usuario={usuario} onLogout={handleLogout} />;
 }

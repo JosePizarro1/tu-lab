@@ -6,16 +6,16 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const sede = searchParams.get('sede');
+  const sedeId = searchParams.get('sedeId');
 
-  if (!sede) {
-    return NextResponse.json({ error: 'La sede es requerida' }, { status: 400 });
+  if (!sedeId) {
+    return NextResponse.json({ error: 'sedeId es requerido' }, { status: 400 });
   }
 
   try {
     await ensureSeed();
     const list = await sql`
-      SELECT * FROM "Reactivo" WHERE sede = ${sede}
+      SELECT * FROM "Reactivo" WHERE "sedeId" = ${sedeId}
     `;
     return NextResponse.json(list);
   } catch (e: any) {
@@ -25,15 +25,15 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { reactivoId, cantidad, tipo, sede } = await req.json();
+    const { reactivoId, cantidad, tipo, sedeId } = await req.json();
 
-    if (!reactivoId || !cantidad || !tipo || !sede) {
+    if (!reactivoId || !cantidad || !tipo || !sedeId) {
       return NextResponse.json({ error: 'Faltan parámetros requeridos' }, { status: 400 });
     }
 
     await ensureSeed();
     const reactivos = await sql`
-      SELECT * FROM "Reactivo" WHERE id = ${reactivoId} AND sede = ${sede} LIMIT 1
+      SELECT * FROM "Reactivo" WHERE id = ${reactivoId} AND "sedeId" = ${sedeId} LIMIT 1
     `;
 
     if (reactivos.length === 0) {

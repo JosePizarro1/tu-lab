@@ -1,3 +1,11 @@
+export interface Sede {
+  id: string;
+  nombre: string;
+  direccion?: string;
+  telefono?: string;
+  activo: boolean;
+}
+
 export interface Reactivo {
   id: string;
   name: string;
@@ -5,6 +13,7 @@ export interface Reactivo {
   unit: string;
   minStock: number;
   sede: string;
+  sedeId: string;
 }
 
 export interface Paciente {
@@ -14,6 +23,7 @@ export interface Paciente {
   telefono?: string;
   correo?: string;
   sedeRegistro: string;
+  sedeId: string;
   fechaRegistro: string;
 }
 
@@ -25,6 +35,7 @@ export interface PruebaClinica {
   fecha: string;
   resultado?: string;
   sede: string;
+  sedeId: string;
 }
 
 export interface MovimientoInventario {
@@ -41,10 +52,10 @@ export interface Usuario {
   username: string;
   nombre: string;
   rol: string;
+  activo: boolean;
 }
 
 export const database = {
-  // Inicialización (gatilla el seed de la BD)
   initSeed: async (): Promise<void> => {
     try {
       await fetch('/api/seed');
@@ -69,10 +80,10 @@ export const database = {
     }
   },
 
-  // --- REACTIVOS ---
-  getReactivos: async (sede: string): Promise<Reactivo[]> => {
+  // --- SEDES ---
+  getSedes: async (): Promise<Sede[]> => {
     try {
-      const res = await fetch(`/api/reactivos?sede=${encodeURIComponent(sede)}`);
+      const res = await fetch('/api/sedes');
       if (!res.ok) return [];
       return await res.json();
     } catch (e) {
@@ -81,12 +92,92 @@ export const database = {
     }
   },
 
-  registrarMovimientoReactivo: async (sede: string, reactivoId: string, cantidad: number, tipo: 'Entrada' | 'Salida'): Promise<boolean> => {
+  crearSede: async (sede: Omit<Sede, 'id' | 'activo'>): Promise<boolean> => {
+    try {
+      const res = await fetch('/api/sedes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(sede)
+      });
+      return res.ok;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  },
+
+  actualizarSede: async (id: string, data: Partial<Sede>): Promise<boolean> => {
+    try {
+      const res = await fetch('/api/sedes', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, ...data })
+      });
+      return res.ok;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  },
+
+  // --- USUARIOS ---
+  getUsuarios: async (): Promise<Usuario[]> => {
+    try {
+      const res = await fetch('/api/usuarios');
+      if (!res.ok) return [];
+      return await res.json();
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  },
+
+  crearUsuario: async (usuario: { username: string; password: string; nombre: string; rol: string }): Promise<boolean> => {
+    try {
+      const res = await fetch('/api/usuarios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(usuario)
+      });
+      return res.ok;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  },
+
+  actualizarUsuario: async (id: string, data: Partial<{ username: string; password: string; nombre: string; rol: string; activo: boolean }>): Promise<boolean> => {
+    try {
+      const res = await fetch('/api/usuarios', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, ...data })
+      });
+      return res.ok;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  },
+
+  // --- REACTIVOS ---
+  getReactivos: async (sedeId: string): Promise<Reactivo[]> => {
+    try {
+      const res = await fetch(`/api/reactivos?sedeId=${encodeURIComponent(sedeId)}`);
+      if (!res.ok) return [];
+      return await res.json();
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  },
+
+  registrarMovimientoReactivo: async (sedeId: string, reactivoId: string, cantidad: number, tipo: 'Entrada' | 'Salida'): Promise<boolean> => {
     try {
       const res = await fetch('/api/reactivos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reactivoId, cantidad, tipo, sede })
+        body: JSON.stringify({ reactivoId, cantidad, tipo, sedeId })
       });
       return res.ok;
     } catch (e) {
@@ -100,9 +191,9 @@ export const database = {
   },
 
   // --- PACIENTES ---
-  getPacientes: async (sede?: string): Promise<Paciente[]> => {
+  getPacientes: async (sedeId?: string): Promise<Paciente[]> => {
     try {
-      const url = sede ? `/api/pacientes?sede=${encodeURIComponent(sede)}` : '/api/pacientes';
+      const url = sedeId ? `/api/pacientes?sedeId=${encodeURIComponent(sedeId)}` : '/api/pacientes';
       const res = await fetch(url);
       if (!res.ok) return [];
       return await res.json();
@@ -135,7 +226,7 @@ export const database = {
           apellido: paciente.apellido,
           telefono: paciente.telefono,
           correo: paciente.correo,
-          SedeRegistro: paciente.sedeRegistro
+          sedeId: paciente.sedeId
         })
       });
       return res.ok;
@@ -145,7 +236,7 @@ export const database = {
     }
   },
 
-  // --- PRUEBAS CLÍNICAS (HISTORIAL) ---
+  // --- PRUEBAS CLÍNICAS ---
   getPruebasByPaciente: async (dni: string): Promise<PruebaClinica[]> => {
     try {
       const res = await fetch(`/api/pruebas?pacienteDni=${encodeURIComponent(dni)}`);
@@ -157,9 +248,9 @@ export const database = {
     }
   },
 
-  getPruebas: async (sede?: string): Promise<PruebaClinica[]> => {
+  getPruebas: async (sedeId?: string): Promise<PruebaClinica[]> => {
     try {
-      const url = sede ? `/api/pruebas?sede=${encodeURIComponent(sede)}` : '/api/pruebas';
+      const url = sedeId ? `/api/pruebas?sedeId=${encodeURIComponent(sedeId)}` : '/api/pruebas';
       const res = await fetch(url);
       if (!res.ok) return [];
       return await res.json();
@@ -169,12 +260,12 @@ export const database = {
     }
   },
 
-  crearPrueba: async (pacienteDni: string, examen: string, sede: string): Promise<PruebaClinica | null> => {
+  crearPrueba: async (pacienteDni: string, examen: string, sedeId: string): Promise<PruebaClinica | null> => {
     try {
       const res = await fetch('/api/pruebas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pacienteDni, examen, sede })
+        body: JSON.stringify({ pacienteDni, examen, sedeId })
       });
       if (!res.ok) return null;
       return await res.json();
