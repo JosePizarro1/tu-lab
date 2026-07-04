@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 1080px; height: 1920px; overflow: hidden;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #05070d; color: #fff;
+}
+
+h1,h2,h3,.display { font-family: 'Sora', sans-serif; }
+
+.scene {
+  position: absolute; width: 1080px; height: 1920px;
+  display: flex; flex-direction: column; justify-content: space-evenly; align-items: center;
+  padding: 110px 90px; opacity: 0; overflow: hidden;
+}
+
+/* fondo con red sutil + glow, común a todas las escenas */
+.scene::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background-image: radial-gradient(rgba(53,199,255,0.10) 1.5px, transparent 1.5px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(circle at 50% 40%, black 0%, transparent 75%);
+}
+.scene > * { position: relative; z-index: 1; }
+
+.eyebrow {
+  font-size: 22px; font-weight: 800; letter-spacing: 6px; text-transform: uppercase;
+  color: #35C7FF; opacity: 0.85;
+}
+.section-title { font-size: 78px; font-weight: 800; text-align: center; line-height: 1.08; letter-spacing: -1.5px; }
+.section-title span { color: #35C7FF; }
+.section-sub { font-size: 28px; color: rgba(255,255,255,0.5); text-align: center; font-weight: 500; margin-top: 10px; }
+.heading-block { display:flex; flex-direction:column; align-items:center; gap: 14px; }
+
+/* === ESCENA 1: INTRO === */
+#intro { background: radial-gradient(circle at 50% 38%, #14245c 0%, #05070d 65%); }
+.intro-mark { display:flex; flex-direction:column; align-items:center; }
+.ring { position:absolute; width: 380px; height: 380px; border-radius: 50%; border: 2px solid rgba(53,199,255,0.35); opacity:0; }
+.logo-hex { width: 240px; height: 240px; position: relative; display: flex; justify-content: center; align-items: center; }
+.hex-bg {
+  position: absolute; width: 100%; height: 100%;
+  background: rgba(53,199,255,0.14); border: 4px solid rgba(53,199,255,0.55);
+  border-radius: 40px; transform: rotate(45deg);
+  box-shadow: 0 0 70px rgba(53,199,255,0.3);
+}
+.hex-icon { position: relative; font-size: 104px; z-index: 1; }
+.brand { font-size: 116px; font-weight: 800; letter-spacing: -3px; margin-top: 54px; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.brand span { color: #35C7FF; }
+.tagline { font-size: 27px; color: rgba(255,255,255,0.5); letter-spacing: 11px; text-transform: uppercase; margin-top: 22px; font-weight: 700; }
+
+/* === ESCENA 2: MÓDULOS (tarjetas grandes apiladas) === */
+#modulos { background: linear-gradient(180deg, #05070d 0%, #0b1226 55%, #05070d 100%); }
+
+.modules-stack { display: flex; flex-direction: column; gap: 26px; width: 100%; }
+
+.mod-card {
+  display: flex; align-items: center; gap: 34px; width: 100%;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(53,199,255,0.18);
+  border-radius: 30px; padding: 40px 40px; opacity: 0;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+}
+.mod-card.left { transform: translateX(-90px); }
+.mod-card.right { transform: translateX(90px); }
+
+.mod-icon {
+  width: 128px; height: 128px; flex-shrink: 0; border-radius: 28px;
+  background: rgba(53,199,255,0.14); display:flex; align-items:center; justify-content:center;
+  font-size: 62px; box-shadow: inset 0 0 0 1px rgba(53,199,255,0.25);
+}
+.mod-text h3 { font-size: 34px; font-weight: 800; margin-bottom: 8px; }
+.mod-text p { font-size: 19px; color: rgba(255,255,255,0.48); line-height: 1.5; }
+
+/* === ESCENA 3: TIEMPO (barras verticales tipo termómetro) === */
+#tiempo { background: radial-gradient(circle at 50% 25%, #12224a 0%, #05070d 65%); }
+
+.thermo-row { display: flex; gap: 60px; align-items: flex-end; }
+.thermo-col { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.thermo-tag { font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: rgba(255,255,255,0.55); }
+.thermo-tube {
+  width: 130px; height: 560px; border-radius: 65px; background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; display:flex; align-items:flex-end;
+}
+.thermo-fill { width: 100%; height: 0%; border-radius: 0 0 65px 65px; }
+.thermo-col.before .thermo-fill { background: linear-gradient(180deg, #fca5a5, #ef4444); }
+.thermo-col.after .thermo-fill { background: linear-gradient(180deg, #86efac, #22c55e); }
+.thermo-value { font-size: 44px; font-weight: 800; }
+.thermo-col.before .thermo-value { color: #fb7185; }
+.thermo-col.after .thermo-value { color: #4ade80; }
+.thermo-desc { font-size: 17px; color: rgba(255,255,255,0.4); text-align:center; max-width: 220px; }
+
+.time-badge {
+  opacity: 0; transform: scale(0.7);
+  background: rgba(53,199,255,0.14); border: 2px solid rgba(53,199,255,0.4);
+  border-radius: 100px; padding: 22px 56px; font-size: 38px; font-weight: 800; color: #35C7FF;
+  box-shadow: 0 15px 40px rgba(53,199,255,0.18);
+}
+
+.time-chips { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+.time-chip {
+  display: flex; align-items: center; justify-content: space-between; opacity: 0; transform: translateX(-50px);
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; padding: 24px 34px;
+}
+.time-chip .label { font-size: 22px; font-weight: 700; }
+.time-chip .check { font-size: 20px; font-weight: 800; color: #4ade80; }
+
+/* === ESCENA 4: FEATURES + DASHBOARD === */
+#features { background: linear-gradient(180deg, #05070d 0%, #0c1428 100%); }
+
+.features-list { display: flex; flex-direction: column; gap: 30px; width: 100%; }
+.feature-item { display: flex; align-items: center; gap: 30px; opacity: 0; }
+.feature-icon {
+  width: 88px; height: 88px; border-radius: 24px; background: rgba(53,199,255,0.15);
+  display: flex; align-items: center; justify-content: center; font-size: 42px; flex-shrink: 0;
+  box-shadow: 0 12px 28px rgba(53,199,255,0.12);
+}
+.feature-text h4 { font-size: 27px; font-weight: 800; margin-bottom: 6px; }
+.feature-text p { font-size: 18px; color: rgba(255,255,255,0.46); line-height: 1.5; }
+
+.dashboard-mock {
+  width: 900px; background: #0e1729; border-radius: 30px; border: 1px solid rgba(255,255,255,0.12);
+  overflow: hidden; opacity: 0; box-shadow: 0 45px 90px rgba(0,0,0,0.5);
+}
+.mock-header { height: 60px; background: #070c16; display: flex; align-items: center; padding: 0 28px; gap: 12px; }
+.mock-dot { width: 16px; height: 16px; border-radius: 50%; }
+.mock-dot.r { background: #ef4444; } .mock-dot.y { background: #eab308; } .mock-dot.g { background: #22c55e; }
+.mock-body { padding: 44px; }
+.mock-metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 34px; }
+.mock-metric { background: rgba(53,199,255,0.07); border: 1px solid rgba(53,199,255,0.14); border-radius: 18px; padding: 24px; }
+.mock-metric .label { font-size: 13px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+.mock-metric .value { font-size: 40px; font-weight: 800; color: #35C7FF; margin-top: 6px; }
+.mock-table { background: rgba(255,255,255,0.02); border-radius: 18px; overflow: hidden; }
+.mock-row { display: flex; padding: 20px 28px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 17px; }
+.mock-row.header { color: rgba(255,255,255,0.4); font-weight: 700; text-transform: uppercase; font-size: 13px; letter-spacing: 1.5px; }
+.mock-row > div { flex: 1; }
+.mock-badge { display: inline-block; padding: 4px 14px; border-radius: 100px; font-size: 13px; font-weight: 700; }
+.badge-green { background: rgba(34,197,94,0.2); color: #22c55e; }
+.badge-yellow { background: rgba(234,179,8,0.2); color: #eab308; }
+
+/* === ESCENA 5: PROMO / CTA === */
+#cta { background: radial-gradient(circle at 50% 30%, #16255c 0%, #05070d 70%); }
+
+.ribbon {
+  position: absolute; top: 86px; left: -140px; width: 620px; text-align: center;
+  background: linear-gradient(90deg, #f59e0b, #fbbf24); color: #1a1204;
+  font-size: 30px; font-weight: 800; letter-spacing: 2px; padding: 16px 0;
+  transform: rotate(-14deg); box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+  opacity: 0; z-index: 2;
+}
+
+.confetti { position:absolute; border-radius: 3px; opacity: 0; z-index: 1; }
+
+.price-block { display:flex; flex-direction:column; align-items:center; gap: 2px; opacity: 0; transform: scale(0.75); }
+.price-tag { font-size: 26px; font-weight: 700; color: rgba(255,255,255,0.55); letter-spacing: 2px; text-transform: uppercase; }
+.price-old { font-size: 46px; font-weight: 700; color: rgba(255,255,255,0.42); text-decoration: line-through; text-decoration-thickness: 3px; margin-top: 4px; }
+.price-main { font-size: 210px; font-weight: 800; color: #35C7FF; line-height: 1; text-shadow: 0 15px 50px rgba(53,199,255,0.4); }
+
+.plus-divider { font-size: 34px; color: rgba(255,255,255,0.4); font-weight: 700; opacity: 0; }
+
+.monthly-block { display:flex; flex-direction:column; align-items:center; gap: 6px; opacity: 0; transform: translateY(20px); }
+.monthly-price { font-size: 100px; font-weight: 800; }
+.monthly-price span { color: #35C7FF; }
+.monthly-note { font-size: 25px; color: rgba(255,255,255,0.5); font-weight: 600; }
+
+.promo-dates {
+  opacity: 0; transform: translateY(20px); text-align: center; font-size: 27px; font-weight: 800;
+  color: #fbbf24; background: rgba(251,191,36,0.1); border: 2px solid rgba(251,191,36,0.4);
+  border-radius: 18px; padding: 20px 42px;
+}
+
+.cta-button { padding: 30px 90px; background: #35C7FF; border: none; border-radius: 24px; font-size: 32px; font-weight: 800; color: #05070d; opacity: 0; }
+.cta-url { font-size: 24px; color: rgba(255,255,255,0.4); opacity: 0; font-weight: 600; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<div data-hf-id="hf-app8" id="root" data-composition-id="main" data-start="0" data-duration="24.5" data-width="1080" data-height="1920">
+
+  <!-- Audio sintetizado con Web Audio API: no requiere archivos externos -->
+  <div id="soundToggle" style="position:absolute; z-index:5; top:24px; right:24px; width:60px; height:60px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; font-size:26px; cursor:pointer;">🔈</div>
+
+  <!-- ESCENA 1: INTRO -->
+  <div data-hf-id="hf-bbac" id="intro" class="scene">
+    <div data-hf-id="hf-18pb" class="intro-mark">
+      <div data-hf-id="hf-ring1" class="ring"></div>
+      <div data-hf-id="hf-ring2" class="ring"></div>
+      <div data-hf-id="hf-wkwd" class="logo-hex">
+        <div data-hf-id="hf-nocx" class="hex-bg"></div>
+        <span data-hf-id="hf-knyi" class="hex-icon">🧪</span>
+      </div>
+    </div>
+    <div data-hf-id="hf-i54v" class="brand">AQUA<span data-hf-id="hf-f8ww">LAB</span></div>
+    <div data-hf-id="hf-0f3n" class="tagline">Clinical Operations</div>
+  </div>
+
+  <!-- ESCENA 2: MÓDULOS -->
+  <div data-hf-id="hf-etkr" id="modulos" class="scene">
+    <div data-hf-id="hf-hblk" class="heading-block">
+      <div data-hf-id="hf-eyeb1" class="eyebrow">Todo en un solo lugar</div>
+      <div data-hf-id="hf-bjcj" class="section-title">Tus <span data-hf-id="hf-jw7x">4 módulos</span> clave</div>
+    </div>
+    <div data-hf-id="hf-i9fg" class="modules-stack">
+      <div data-hf-id="hf-xeee" class="mod-card left">
+        <div data-hf-id="hf-et9j" class="mod-icon">🧪</div>
+        <div data-hf-id="hf-mt1" class="mod-text">
+          <h3 data-hf-id="hf-0bsv">Inventario</h3>
+          <p data-hf-id="hf-mr4v">Alertas de stock mínimo y trazabilidad</p>
+        </div>
+      </div>
+      <div data-hf-id="hf-xspf" class="mod-card right">
+        <div data-hf-id="hf-wjai" class="mod-icon">👤</div>
+        <div data-hf-id="hf-mt2" class="mod-text">
+          <h3 data-hf-id="hf-lvso">Pacientes</h3>
+          <p data-hf-id="hf-e78n">Registro automático con consulta RENIEC</p>
+        </div>
+      </div>
+      <div data-hf-id="hf-x03d" class="mod-card left">
+        <div data-hf-id="hf-taab" class="mod-icon">📋</div>
+        <div data-hf-id="hf-mt3" class="mod-text">
+          <h3 data-hf-id="hf-jsl6">Resultados</h3>
+          <p data-hf-id="hf-xcx3">Órdenes y descarga de reportes clínicos</p>
+        </div>
+      </div>
+      <div data-hf-id="hf-wlsc" class="mod-card right">
+        <div data-hf-id="hf-3148" class="mod-icon">🏥</div>
+        <div data-hf-id="hf-mt4" class="mod-text">
+          <h3 data-hf-id="hf-pwd4">Multisede</h3>
+          <p data-hf-id="hf-9mzf">Varias sedes con bases independientes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESCENA 3: AHORRO DE TIEMPO -->
+  <div data-hf-id="hf-tsc1" id="tiempo" class="scene">
+    <div data-hf-id="hf-hblk2" class="heading-block">
+      <div data-hf-id="hf-eyeb2" class="eyebrow">Menos operación manual</div>
+      <div data-hf-id="hf-tst1" class="section-title">Ahorra <span data-hf-id="hf-tst2">tiempo real</span></div>
+    </div>
+
+    <div data-hf-id="hf-thermo" class="thermo-row">
+      <div data-hf-id="hf-tcb1" class="thermo-col before">
+        <div data-hf-id="hf-tcb1a" class="thermo-tag">Antes</div>
+        <div data-hf-id="hf-tcb1e" class="thermo-tube"><div data-hf-id="hf-tcb1f" class="thermo-fill" id="fillBefore"></div></div>
+        <div data-hf-id="hf-tcb1c" class="thermo-value">45 min</div>
+        <div data-hf-id="hf-tcb1d" class="thermo-desc">Registro manual en Excel</div>
+      </div>
+      <div data-hf-id="hf-tcb2" class="thermo-col after">
+        <div data-hf-id="hf-tcb2a" class="thermo-tag">Con AquaLab</div>
+        <div data-hf-id="hf-tcb2e" class="thermo-tube"><div data-hf-id="hf-tcb2f" class="thermo-fill" id="fillAfter"></div></div>
+        <div data-hf-id="hf-tcb2c" class="thermo-value">5 min</div>
+        <div data-hf-id="hf-tcb2d" class="thermo-desc">Automático y en la nube</div>
+      </div>
+    </div>
+
+    <div data-hf-id="hf-tbadge" class="time-badge">−89% de tiempo por proceso</div>
+
+    <div data-hf-id="hf-tchips" class="time-chips">
+      <div data-hf-id="hf-tch1" class="time-chip"><span data-hf-id="hf-tch1a" class="label">Registro de pacientes</span><span data-hf-id="hf-tch1b" class="check">Automático ✓</span></div>
+      <div data-hf-id="hf-tch2" class="time-chip"><span data-hf-id="hf-tch2a" class="label">Control de inventario</span><span data-hf-id="hf-tch2b" class="check">Automático ✓</span></div>
+      <div data-hf-id="hf-tch3" class="time-chip"><span data-hf-id="hf-tch3a" class="label">Reportes de resultados</span><span data-hf-id="hf-tch3b" class="check">Automático ✓</span></div>
+    </div>
+  </div>
+
+  <!-- ESCENA 4: FEATURES + DASHBOARD -->
+  <div data-hf-id="hf-g2uf" id="features" class="scene">
+    <div data-hf-id="hf-145y" class="features-list">
+      <div data-hf-id="hf-ra7y" class="feature-item">
+        <div data-hf-id="hf-3g36" class="feature-icon">🔍</div>
+        <div data-hf-id="hf-l0c6" class="feature-text">
+          <h4 data-hf-id="hf-6xpi">Consulta RENIEC</h4>
+          <p data-hf-id="hf-78qd">Autocompletado de datos por DNI en tiempo real (100 consultas mensuales)</p>
+        </div>
+      </div>
+      <div data-hf-id="hf-txsy" class="feature-item">
+        <div data-hf-id="hf-ica7" class="feature-icon">⚡</div>
+        <div data-hf-id="hf-h5ju" class="feature-text">
+          <h4 data-hf-id="hf-b0qm">Multi-Sede</h4>
+          <p data-hf-id="hf-9mn1">Gestión distribuida e independiente</p>
+        </div>
+      </div>
+      <div data-hf-id="hf-uc3z" class="feature-item">
+        <div data-hf-id="hf-tifh" class="feature-icon">🔔</div>
+        <div data-hf-id="hf-hjuv" class="feature-text">
+          <h4 data-hf-id="hf-khx2">Alertas Automáticas</h4>
+          <p data-hf-id="hf-i80b">Notificaciones críticas en inventario</p>
+        </div>
+      </div>
+    </div>
+
+    <div data-hf-id="hf-hqpj" class="dashboard-mock">
+      <div data-hf-id="hf-679g" class="mock-header">
+        <div data-hf-id="hf-shgu" class="mock-dot r"></div>
+        <div data-hf-id="hf-fyyd" class="mock-dot y"></div>
+        <div data-hf-id="hf-u4dn" class="mock-dot g"></div>
+      </div>
+      <div data-hf-id="hf-8ljv" class="mock-body">
+        <div data-hf-id="hf-5k3y" class="mock-metrics">
+          <div data-hf-id="hf-l26v" class="mock-metric">
+            <div data-hf-id="hf-smm5" class="label">Sede Activa</div>
+            <div data-hf-id="hf-lt40" class="value">Breña</div>
+          </div>
+          <div data-hf-id="hf-mdsn" class="mock-metric">
+            <div data-hf-id="hf-1ma6" class="label">Pacientes</div>
+            <div data-hf-id="hf-l2tl" class="value">127</div>
+          </div>
+        </div>
+        <div data-hf-id="hf-wmax" class="mock-table">
+          <div data-hf-id="hf-1260" class="mock-row header">
+            <div data-hf-id="hf-echj">Paciente</div>
+            <div data-hf-id="hf-kk76">Análisis</div>
+            <div data-hf-id="hf-dygu">Estado</div>
+          </div>
+          <div data-hf-id="hf-fd2t" class="mock-row">
+            <div data-hf-id="hf-rx4y">Juan Pérez</div>
+            <div data-hf-id="hf-5s7o">Glucosa</div>
+            <div data-hf-id="hf-yeow"><span data-hf-id="hf-f8yj" class="mock-badge badge-green">Listo</span></div>
+          </div>
+          <div data-hf-id="hf-k4yx" class="mock-row">
+            <div data-hf-id="hf-sfmm">María López</div>
+            <div data-hf-id="hf-9xj9">Hemoglobina</div>
+            <div data-hf-id="hf-y7yw"><span data-hf-id="hf-vkxu" class="mock-badge badge-yellow">Proceso</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESCENA 5: PROMO / CTA -->
+  <div data-hf-id="hf-kies" id="cta" class="scene">
+    <div data-hf-id="hf-ribbon" class="ribbon">🎉 PROMO MES PATRIO</div>
+
+    <div data-hf-id="hf-conf-wrap" id="confettiWrap"></div>
+
+    <div data-hf-id="hf-pblock" class="price-block">
+      <div data-hf-id="hf-ptag" class="price-tag">Inicial</div>
+      <div data-hf-id="hf-pold" class="price-old">S/600</div>
+      <div data-hf-id="hf-pmain" class="price-main">S/0</div>
+    </div>
+
+    <div data-hf-id="hf-pplus" class="plus-divider">+</div>
+
+    <div data-hf-id="hf-mblock" class="monthly-block">
+      <div data-hf-id="hf-pmonth" class="monthly-price"><span data-hf-id="hf-pmonthspan">S/89</span> / mes</div>
+      <div data-hf-id="hf-pnote" class="monthly-note">Soporte incluido</div>
+    </div>
+
+    <div data-hf-id="hf-pdates" class="promo-dates">Válido del 1 al 15 de julio</div>
+
+    <div data-hf-id="hf-btnwrap" style="display:flex; flex-direction:column; align-items:center; gap:26px;">
+      <div data-hf-id="hf-zvp3" class="cta-button">Empieza Hoy</div>
+      <div data-hf-id="hf-m8d1" class="cta-url">tu-lab.vercel.app</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({ paused: true });
+
+/* ---------- Confetti (una sola vez, en la escena de CTA) ---------- */
+(function buildConfetti(){
+  const wrap = document.getElementById('confettiWrap');
+  const colors = ['#35C7FF', '#fbbf24', '#4ade80', '#f472b6'];
+  for (let i = 0; i < 18; i++) {
+    const d = document.createElement('div');
+    d.className = 'confetti';
+    const size = 8 + Math.random() * 10;
+    d.style.width = size + 'px';
+    d.style.height = size + 'px';
+    d.style.background = colors[i % colors.length];
+    d.style.left = (140 + Math.random() * 800) + 'px';
+    d.style.top = '520px';
+    wrap.appendChild(d);
+  }
+})();
+
+/* ---------- Motor de sonido sintetizado (Web Audio API, sin archivos externos) ---------- */
+let actx = null;
+let soundOn = false;
+function ensureAudio() { if (!actx) { const C = window.AudioContext || window.webkitAudioContext; actx = new C(); } }
+function tone(freq, delay, dur, type, vol) {
+  if (!soundOn || !actx) return;
+  const t0 = actx.currentTime + delay;
+  const osc = actx.createOscillator();
+  const gain = actx.createGain();
+  osc.type = type || 'sine';
+  osc.frequency.setValueAtTime(freq, t0);
+  gain.gain.setValueAtTime(0, t0);
+  gain.gain.linearRampToValueAtTime(vol || 0.14, t0 + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.001, t0 + (dur || 0.2));
+  osc.connect(gain); gain.connect(actx.destination);
+  osc.start(t0); osc.stop(t0 + (dur || 0.2) + 0.05);
+}
+function whoosh(delay) {
+  if (!soundOn || !actx) return;
+  const t0 = actx.currentTime + delay;
+  const osc = actx.createOscillator();
+  const gain = actx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(180, t0);
+  osc.frequency.exponentialRampToValueAtTime(650, t0 + 0.35);
+  gain.gain.setValueAtTime(0.001, t0);
+  gain.gain.linearRampToValueAtTime(0.10, t0 + 0.05);
+  gain.gain.exponentialRampToValueAtTime(0.001, t0 + 0.4);
+  osc.connect(gain); gain.connect(actx.destination);
+  osc.start(t0); osc.stop(t0 + 0.45);
+}
+function chime() {
+  [523, 659, 784, 1046].forEach((f, i) => tone(f, i * 0.09, 0.35, 'triangle', 0.12));
+}
+
+document.getElementById('soundToggle').addEventListener('click', () => {
+  ensureAudio();
+  if (actx.state === 'suspended') actx.resume();
+  soundOn = !soundOn;
+  document.getElementById('soundToggle').textContent = soundOn ? '🔊' : '🔈';
+  if (soundOn) tl.play(0);
+});
+
+/* ---------- ESCENA 1: INTRO (0 - 3s) ---------- */
+tl.to('#intro', { opacity: 1, duration: 0.01 })
+  .call(() => whoosh(0))
+  .from('.logo-hex', { scale: 0, rotation: -180, duration: 1.1, ease: 'back.out(1.5)' }, '<')
+  .to('.ring', { opacity: 0.6, scale: 1, duration: 0.01 }, '<')
+  .fromTo('.ring', { scale: 0.4, opacity: 0.7 }, { scale: 1.4, opacity: 0, duration: 1.4, stagger: 0.25, ease: 'power2.out' }, '<')
+  .from('.brand', { y: 50, opacity: 0, duration: 0.75, ease: 'power3.out' }, '-=0.6')
+  .from('.tagline', { y: 30, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.35')
+  .to('#intro', { opacity: 0, y: -70, scale: 0.96, duration: 0.55, ease: 'power2.inOut' }, '+=0.6');
+
+/* ---------- ESCENA 2: MÓDULOS (3 - 8s) ---------- */
+tl.to('#modulos', { opacity: 1, duration: 0.01 })
+  .from('.eyebrow', { opacity: 0, y: -16, duration: 0.4 })
+  .from('#modulos .section-title', { y: -30, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.2')
+  .to('.mod-card', { opacity: 1, x: 0, duration: 0.55, stagger: 0.18, ease: 'back.out(1.15)',
+      onStart: function () { tone(420, 0, 0.12, 'sine', 0.08); } }, '-=0.1')
+  .to('#modulos', { opacity: 0, scale: 1.04, duration: 0.55, ease: 'power2.inOut' }, '+=1.3');
+
+/* ---------- ESCENA 3: AHORRO DE TIEMPO (8 - 13.5s) ---------- */
+tl.to('#tiempo', { opacity: 1, duration: 0.01 })
+  .call(() => whoosh(0))
+  .from('.eyebrow', { opacity: 0, y: -16, duration: 0.4 }, '<')
+  .from('#tiempo .section-title', { y: -30, opacity: 0, duration: 0.55, ease: 'power3.out' }, '-=0.2')
+  .to('.thermo-tag, .thermo-desc, .thermo-value', { opacity: 1, duration: 0.01 }, '-=0.1')
+  .to('#fillBefore', { height: '100%', duration: 0.9, ease: 'power2.out' }, '-=0.2')
+  .to('#fillAfter', { height: '11%', duration: 0.9, ease: 'power2.out' }, '-=0.75')
+  .to('.time-badge', { opacity: 1, scale: 1, duration: 0.55, ease: 'back.out(1.6)', onStart: () => chime() }, '-=0.2')
+  .to('.time-chip', { opacity: 1, x: 0, duration: 0.5, stagger: 0.14, ease: 'power3.out' }, '-=0.1')
+  .to('#tiempo', { opacity: 0, scale: 0.95, duration: 0.55, ease: 'power2.inOut' }, '+=1.2');
+
+/* ---------- ESCENA 4: FEATURES + DASHBOARD (13.5 - 19s) ---------- */
+tl.to('#features', { opacity: 1, duration: 0.01 })
+  .fromTo('.feature-item', { x: -60, opacity: 0 }, { opacity: 1, x: 0, duration: 0.55, stagger: 0.15, ease: 'power3.out' })
+  .fromTo('.dashboard-mock', { y: 100, scale: 0.95, opacity: 0 }, { opacity: 1, y: 0, scale: 1, duration: 0.75, ease: 'back.out(1.1)' }, '-=0.5')
+  .to('.dashboard-mock', { y: '+=15', yoyo: true, repeat: 2, duration: 2, ease: 'sine.inOut' }, '+=0.2')
+  .to('#features', { opacity: 0, scale: 0.9, duration: 0.55, ease: 'power2.inOut' }, '+=1.1');
+
+/* ---------- ESCENA 5: STATS (19 - 22.5s) ---------- */
+/* ---------- ESCENA 5: PROMO / CTA — la cinta queda visible toda la escena ---------- */
+tl.to('#cta', { opacity: 1, duration: 0.01 })
+  .fromTo('.ribbon', { left: -300, opacity: 0 }, { left: -140, opacity: 1, duration: 0.45, ease: 'power3.out', onStart: () => whoosh(0) })
+  .to('.price-block', { opacity: 1, scale: 1, duration: 0.55, ease: 'back.out(1.4)' }, '-=0.15')
+  .call(() => chime(), null, '-=0.1')
+  .to('.confetti', {
+      opacity: 1, y: () => -260 - Math.random() * 220, x: () => (Math.random() - 0.5) * 460,
+      rotation: () => Math.random() * 360, duration: 0.8, stagger: 0.02, ease: 'power2.out'
+    }, '-=0.3')
+  .to('.confetti', { opacity: 0, duration: 0.4 }, '-=0.1')
+  .to('.plus-divider', { opacity: 1, duration: 0.2 }, '-=0.3')
+  .to('.monthly-block', { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }, '-=0.05')
+  .to('.promo-dates', { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, '-=0.05')
+  .to('.cta-button', { opacity: 1, duration: 0.4, ease: 'back.out(1.7)' }, '-=0.05')
+  .to('.cta-url', { opacity: 1, duration: 0.4 }, '-=0.1')
+  .to('.cta-button', { scale: 1.05, boxShadow: '0 25px 60px rgba(53,199,255,0.5)', yoyo: true, repeat: 3, duration: 0.5, ease: 'sine.inOut' }, '+=0.1');
+
+tl.set(".mock-body", { width: 918, height: 461, immediateRender: true }, 0);
+
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>
