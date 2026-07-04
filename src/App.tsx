@@ -12,7 +12,8 @@ import {
   IconMicroscope,
   IconBrandFacebook,
   IconBrandInstagram,
-  IconBrandTiktok
+  IconBrandTiktok,
+  IconHexagon
 } from '@tabler/icons-react';
 
 function App() {
@@ -27,32 +28,7 @@ function App() {
         return <Login />;
       
       case 'servicios':
-        return (
-          <div className="max-w-7xl mx-auto px-6 py-16 font-plex">
-            <header className="mb-12 text-center">
-              <h2 className="font-jakarta text-4xl font-extrabold text-slate-900 tracking-tight">Nuestros Servicios</h2>
-              <p className="text-slate-500 mt-2 text-base">Contamos con una amplia cartera de análisis y pruebas de diagnóstico con alta precisión.</p>
-            </header>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                { title: 'Inmunología', desc: 'Pruebas hormonales, marcadores tumorales e infecciosos con alta sensibilidad.' },
-                { title: 'Bioquímica Clínica', desc: 'Perfiles metabólicos, renales, hepáticos y lípidos automatizados.' },
-                { title: 'Hematología', desc: 'Hemogramas completos y estudios especiales de coagulación.' },
-                { title: 'Microbiología', desc: 'Cultivos bacterianos, identificación y antibiogramas rápidos.' },
-                { title: 'Biología Molecular', desc: 'Detección por PCR de patógenos virales y estudios genéticos.' },
-                { title: 'Ecografías y Diagnóstico', desc: 'Imágenes ecográficas en 3D/4D con tecnología avanzada.' },
-              ].map((srv, idx) => (
-                <div key={idx} className="p-8 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-                  <div className="w-12 h-12 bg-azure-mist border border-lab-border flex items-center justify-center rounded-xl mb-6">
-                    <IconMicroscope className="text-cerulean w-6 h-6" />
-                  </div>
-                  <h3 className="font-jakarta text-xl font-bold text-slate-800 mb-3">{srv.title}</h3>
-                  <p className="text-slate-500 text-sm leading-relaxed">{srv.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
+        return <Services />;
 
       case 'sedes':
         return <Sedes />;
@@ -99,24 +75,81 @@ function App() {
         </main>
       </div>
 
-      {/* Footer */}
-      <footer className="w-full py-10 bg-white border-t border-slate-100 text-xs text-slate-400 font-medium">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-          <span>&copy; {new Date().getFullYear()} AquaLab. Todos los derechos reservados.</span>
+      {/* Footer - Rediseñado Premium en Slate Oscuro */}
+      <footer className="w-full bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-900 font-plex">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           
-          {/* Social Media Links */}
-          <div className="flex items-center gap-4">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 hover:bg-azure-mist border border-slate-100 hover:border-lab-border text-slate-400 hover:text-cerulean rounded-xl transition-all">
-              <IconBrandFacebook className="w-5 h-5" />
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 hover:bg-azure-mist border border-slate-100 hover:border-lab-border text-slate-400 hover:text-cerulean rounded-xl transition-all">
-              <IconBrandInstagram className="w-5 h-5" />
-            </a>
-            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-50 hover:bg-azure-mist border border-slate-100 hover:border-lab-border text-slate-400 hover:text-cerulean rounded-xl transition-all">
-              <IconBrandTiktok className="w-5 h-5" />
-            </a>
+          {/* Columna 1: Branding */}
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-3">
+              <div className="relative flex items-center justify-center">
+                <div className="absolute w-8 h-8 rounded-full bg-cerulean/20 animate-pulse"></div>
+                <div className="relative w-6 h-6 border border-cerulean/40 flex items-center justify-center rotate-45">
+                  <IconHexagon className="text-cerulean w-4 h-4 -rotate-45" />
+                </div>
+              </div>
+              <div>
+                <span className="font-jakarta font-extrabold text-lg tracking-tighter text-white leading-none">
+                  AQUA<span className="text-cerulean">LAB</span>
+                </span>
+                <p className="text-[7px] font-bold uppercase tracking-[0.2em] text-slate-500">Clinical Operations</p>
+              </div>
+            </div>
+            <p className="text-xs text-slate-500 leading-relaxed max-w-xs mt-2">
+              Comprometidos con brindarte diagnósticos con la mayor precisión, velocidad y calidez humana.
+            </p>
           </div>
 
+          {/* Columna 2: Enlaces Rápidos */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-4">Secciones</h4>
+            <ul className="space-y-2.5 text-xs">
+              <li>
+                <button onClick={() => setActiveTab('inicio')} className="hover:text-cerulean transition-colors cursor-pointer text-left">Inicio</button>
+              </li>
+              <li>
+                <button onClick={() => setActiveTab('servicios')} className="hover:text-cerulean transition-colors cursor-pointer text-left">Servicios</button>
+              </li>
+              <li>
+                <button onClick={() => setActiveTab('sedes')} className="hover:text-cerulean transition-colors cursor-pointer text-left">Sedes</button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Columna 3: Portales */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-4">Accesos</h4>
+            <ul className="space-y-2.5 text-xs">
+              <li>
+                <button onClick={() => setActiveTab('soy_medico')} className="hover:text-cerulean transition-colors cursor-pointer text-left">Soy Médico</button>
+              </li>
+              <li>
+                <button onClick={() => setActiveTab('resultados')} className="hover:text-cerulean transition-colors cursor-pointer text-left">Resultados en Línea</button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Columna 4: Redes Sociales */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-4">Síguenos</h4>
+            <p className="text-xs text-slate-500 mb-4">Mantente al día con nuestros servicios y consejos de salud.</p>
+            <div className="flex items-center gap-3">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2.5 bg-slate-900 hover:bg-cerulean/10 border border-slate-800 hover:border-cerulean/30 text-slate-400 hover:text-cerulean rounded-xl transition-all">
+                <IconBrandFacebook className="w-4 h-4" />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2.5 bg-slate-900 hover:bg-cerulean/10 border border-slate-800 hover:border-cerulean/30 text-slate-400 hover:text-cerulean rounded-xl transition-all">
+                <IconBrandInstagram className="w-4 h-4" />
+              </a>
+              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="p-2.5 bg-slate-900 hover:bg-cerulean/10 border border-slate-800 hover:border-cerulean/30 text-slate-400 hover:text-cerulean rounded-xl transition-all">
+                <IconBrandTiktok className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Línea Divisoria Inferior */}
+        <div className="max-w-7xl mx-auto px-6 pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-600">
+          <span>&copy; {new Date().getFullYear()} AquaLab. Todos los derechos reservados.</span>
           <div className="flex gap-6">
             <a href="#" className="hover:text-cerulean transition-colors">Términos de servicio</a>
             <a href="#" className="hover:text-cerulean transition-colors">Política de privacidad</a>
