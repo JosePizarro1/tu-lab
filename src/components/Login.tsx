@@ -74,7 +74,7 @@ const Login: React.FC = () => {
         targets: buttonRef.current,
         translateY: isEnter ? -4 : 0,
         scale: isEnter ? 1.01 : 1,
-        backgroundColor: isEnter ? '#359ecb' : '#42B5E8',
+        backgroundColor: isEnter ? '#50c3f5' : '#77D4FC',
         duration: isEnter ? 300 : 400,
         easing: 'easeOutQuad'
       });
@@ -133,7 +133,7 @@ const Login: React.FC = () => {
         <div 
           className="absolute inset-0 opacity-[0.03] pointer-events-none" 
           style={{ 
-            backgroundImage: 'linear-gradient(#42B5E8 1px, transparent 1px), linear-gradient(90deg, #42B5E8 1px, transparent 1px)', 
+            backgroundImage: 'linear-gradient(#77D4FC 1px, transparent 1px), linear-gradient(90deg, #77D4FC 1px, transparent 1px)', 
             backgroundSize: '40px 40px' 
           }}
         ></div>

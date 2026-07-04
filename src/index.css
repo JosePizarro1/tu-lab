@@ -4,7 +4,7 @@
   --font-jakarta: "Plus Jakarta Sans", sans-serif;
   --font-plex: "IBM Plex Sans", sans-serif;
   
-  --color-cerulean: #42B5E8;
+  --color-cerulean: #77D4FC;
   --color-azure-mist: #F0FFFF;
   --color-lab-border: #E0FFFF;
 }
@@ -41,18 +41,18 @@
   }
 
   .text-cerulean {
-    color: #42B5E8 !important;
+    color: #77D4FC !important;
   }
 
   .bg-cerulean {
-    background-color: #42B5E8 !important;
+    background-color: #77D4FC !important;
   }
 
   .hover\:text-cerulean:hover {
-    color: #42B5E8 !important;
+    color: #77D4FC !important;
   }
 
   .hover\:border-cerulean\/30:hover {
-    border-color: rgba(66, 181, 232, 0.3) !important;
+    border-color: rgba(119, 212, 252, 0.3) !important;
   }
 }
