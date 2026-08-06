@@ -289,6 +289,22 @@ export const database = {
     }
   },
 
+  eliminarPrueba: async (pruebaId: string): Promise<{ ok: boolean; error?: string }> => {
+    try {
+      const res = await fetch(`/api/pruebas?id=${encodeURIComponent(pruebaId)}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return { ok: false, error: data.error || 'No se pudo eliminar la orden' };
+      }
+      return { ok: true };
+    } catch (e: any) {
+      console.error(e);
+      return { ok: false, error: e.message };
+    }
+  },
+
   // --- CONSULTA RENIEC (ApiInti) ---
   consultarRENIEC: async (dni: string): Promise<{ nombre: string; apellido: string; remaining?: number; maxQueries?: number } | null> => {
     try {

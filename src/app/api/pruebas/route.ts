@@ -64,7 +64,13 @@ export async function POST(req: NextRequest) {
     }
 
     await ensureSeed();
-    const id = 'P-' + Date.now();
+    
+    // Obtener la cantidad de órdenes de hoy para este paciente para crear un correlativo limpio (ej: 70850583-01)
+    const previas = await sql`
+      SELECT COUNT(*)::int as count FROM "PruebaClinica" WHERE "pacienteDni" = ${pacienteDni}
+    `;
+    const num = (previas[0]?.count || 0) + 1;
+    const id = `${pacienteDni}-${String(num).padStart(2, '0')}`;
     const fecha = new Date().toISOString().split('T')[0];
 
     const res = await sql`
@@ -130,3 +136,45 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get('id');
+
+  if (!id) {
+    return NextResponse.json({ error: 'El ID de la orden es requerido' }, { status: 400 });
+  }
+
+  try {
+    await ensureSeed();
+
+    // Verificar el estado de la prueba antes de borrar
+    const existentes = await sql`
+      SELECT * FROM "PruebaClinica" WHERE id = ${id} LIMIT 1
+    `;
+
+    if (existentes.length === 0) {
+      return NextResponse.json({ error: 'Orden no encontrada' }, { status: 404 });
+    }
+
+    const prueba = existentes[0] as any;
+
+    // Regla de seguridad: Si la prueba ya fue procesada por el Lifotronic eCL8000 (Completado), NO se puede eliminar
+    if (prueba.status === 'Completado') {
+      return NextResponse.json(
+        { error: 'No se puede eliminar una orden completada con resultados analíticos procesados' },
+        { status: 403 }
+      );
+    }
+
+    // Si está 'En Proceso' (pendiente), sí se permite cancelar/eliminar
+    await sql`
+      DELETE FROM "PruebaClinica" WHERE id = ${id}
+    `;
+
+    return NextResponse.json({ success: true, message: 'Orden pendiente eliminada correctamente', id });
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
+  }
+}
+

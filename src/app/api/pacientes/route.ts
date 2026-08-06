@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 import { ensureSeed } from '@/lib/seedHelper';
+import { PacienteSchema } from '@/lib/schemas';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,11 +34,17 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { dni, nombre, apellido, telefono, correo, sedeId } = await req.json();
+    const body = await req.json();
+    const validation = PacienteSchema.safeParse(body);
 
-    if (!dni || !nombre || !apellido || !sedeId) {
-      return NextResponse.json({ error: 'Faltan parámetros requeridos' }, { status: 400 });
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: 'Datos de paciente inválidos', details: validation.error.format() },
+        { status: 400 }
+      );
     }
+
+    const { dni, nombre, apellido, telefono, correo, sedeId } = validation.data;
 
     await ensureSeed();
     const hoy = new Date().toISOString().split('T')[0];
