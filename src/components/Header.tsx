@@ -10,48 +10,138 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = React.useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = React.useState(false);
+
+  const servicesSubitems = [
+    'Exámenes',
+    'Ecografías',
+    'Domicilio',
+    'Consultas Médicas'
+  ];
+
   const menuItems = [
     { id: 'inicio', label: 'Inicio' },
-    { id: 'servicios', label: 'Servicios' },
+    { id: 'servicios', label: 'Servicios', isDropdown: true },
     { id: 'soy_medico', label: 'Soy Médico' },
     { id: 'sedes', label: 'Sedes' },
     { id: 'resultados', label: 'Resultados' },
   ];
 
+  const handleNavClick = (tabId: string) => {
+    if (tabId === 'sedes') {
+      if (activeTab !== 'inicio') {
+        setActiveTab('inicio');
+        setTimeout(() => {
+          const el = document.getElementById('sedes');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else {
+        const el = document.getElementById('sedes');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      setActiveTab(tabId);
+    }
+    setMobileMenuOpen(false);
+  };
+
   return (
     <header className="w-full bg-white border-b border-slate-100 sticky top-0 z-50">
-      {/* Top Banner: Logo, Search, Certifications */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between gap-4 md:gap-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between gap-6">
         
         {/* Brand Logo */}
-        <div className="flex items-center gap-3 cursor-pointer shrink-0" onClick={() => { setActiveTab('inicio'); setMobileMenuOpen(false); }}>
-          <div className="relative flex items-center justify-center">
-            <div className="absolute w-10 h-10 rounded-full bg-cerulean/10 animate-pulse"></div>
-            <div className="relative w-8 h-8 border border-cerulean/30 flex items-center justify-center rotate-45">
-              <IconHexagon className="text-cerulean w-5 h-5 -rotate-45" />
-            </div>
-          </div>
-          <div>
-            <h1 className="font-jakarta font-extrabold text-lg md:text-xl tracking-tighter text-slate-800 leading-none">
-              AQUA<span className="text-cerulean">LAB</span>
-            </h1>
-            <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-slate-400 mt-0.5">Clinical Operations</p>
-          </div>
+        <div className="flex items-center gap-2 cursor-pointer shrink-0" onClick={() => handleNavClick('inicio')}>
+          <img 
+            src="/logo-unidoslab.webp" 
+            alt="UNIDOSLAB - Unidos por tu Salud" 
+            className="h-10 md:h-12 w-auto object-contain" 
+          />
         </div>
 
-        {/* Central Search Bar */}
-        <div className="flex-1 max-w-2xl relative hidden md:block">
-          <input 
-            type="text" 
-            placeholder="Busque exámenes, sedes, etc..." 
-            className="w-full pl-14 pr-6 py-3.5 bg-slate-50 border border-slate-100 rounded-full text-slate-700 font-medium text-sm focus:outline-none focus:border-cerulean/30 focus:bg-white focus:ring-4 focus:ring-cerulean/5 transition-all duration-300"
-          />
-          <IconSearch className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-        </div>
+        {/* Navigation Menu - Desktop */}
+        <nav className="hidden md:block">
+          <ul className="flex items-center gap-8">
+            {menuItems.map((item) => {
+              const isActive = activeTab === item.id;
+
+              if (item.isDropdown) {
+                return (
+                  <li 
+                    key={item.id} 
+                    className="relative"
+                    onMouseEnter={() => setServicesDropdownOpen(true)}
+                    onMouseLeave={() => setServicesDropdownOpen(false)}
+                  >
+                    {/* Al hacer clic en Servicios solo abre/cierra el desplegable de arriba y no cambia la vista de la página */}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setServicesDropdownOpen(!servicesDropdownOpen);
+                      }}
+                      className={`font-jakarta relative py-2 text-xs font-extrabold uppercase tracking-wider transition-colors duration-300 cursor-pointer flex items-center gap-1.5 ${
+                        isActive 
+                          ? 'text-[#E52320]' 
+                          : 'text-[#1E3A4C] hover:text-[#E52320]'
+                      }`}
+                    >
+                      {item.label}
+                      <span className={`text-[9px] transition-transform duration-200 ${servicesDropdownOpen ? 'rotate-180 text-[#E52320]' : ''}`}>▼</span>
+                      {isActive && (
+                        <span className="absolute -bottom-1 left-0 right-0 h-[2.5px] bg-[#E52320] rounded-t-full transition-all duration-300"></span>
+                      )}
+                    </button>
+
+                    {/* Desplegable de Servicios Superior */}
+                    {servicesDropdownOpen && (
+                      <div className="absolute top-full left-0 w-60 bg-white border border-slate-200 rounded-2xl shadow-2xl py-2.5 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                        {servicesSubitems.map((sub, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => {
+                              setActiveTab('servicios');
+                              setServicesDropdownOpen(false);
+                            }}
+                            className="font-jakarta w-full text-left px-4 py-2 text-xs font-bold text-slate-700 hover:text-[#E52320] hover:bg-red-50/50 transition-colors flex items-center gap-2 cursor-pointer"
+                          >
+                            <span className="text-[#E52320] font-bold">•</span>
+                            <span>{sub}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </li>
+                );
+              }
+
+              return (
+                <li key={item.id}>
+                  <button
+                    type="button"
+                    onClick={() => handleNavClick(item.id)}
+                    className={`font-jakarta relative py-2 text-xs font-extrabold uppercase tracking-wider transition-colors duration-300 cursor-pointer ${
+                      isActive 
+                        ? 'text-[#E52320]' 
+                        : 'text-[#1E3A4C] hover:text-[#E52320]'
+                    }`}
+                  >
+                    {item.label}
+                    {isActive && (
+                      <span className="absolute -bottom-1 left-0 right-0 h-[2.5px] bg-[#E52320] rounded-t-full transition-all duration-300"></span>
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
         {/* Mobile Menu Trigger */}
         <div className="flex items-center md:hidden">
           <button 
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg cursor-pointer"
           >
@@ -60,51 +150,61 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
         </div>
       </div>
 
-      {/* Navigation Menu - Desktop */}
-      <nav className="w-full border-t border-slate-100 bg-white hidden md:block">
-        <div className="max-w-7xl mx-auto px-6 flex justify-center">
-          <ul className="flex items-center gap-8">
-            {menuItems.map((item) => {
-              const isActive = activeTab === item.id;
-              return (
-                <li key={item.id}>
-                  <button
-                    onClick={() => setActiveTab(item.id)}
-                    className={`relative py-4 px-4 text-sm font-bold uppercase tracking-wider transition-colors duration-300 cursor-pointer ${
-                      isActive 
-                        ? 'text-cerulean' 
-                        : 'text-slate-500 hover:text-slate-800'
-                    }`}
-                  >
-                    {item.label}
-                    {isActive && (
-                      <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-cerulean rounded-t-full transition-all duration-300"></span>
-                    )}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </nav>
-
       {/* Navigation Menu - Mobile */}
       {mobileMenuOpen && (
         <nav className="w-full border-t border-slate-100 bg-white md:hidden">
           <ul className="flex flex-col divide-y divide-slate-50 py-2">
             {menuItems.map((item) => {
               const isActive = activeTab === item.id;
+
+              if (item.isDropdown) {
+                return (
+                  <li key={item.id} className="flex flex-col">
+                    <button
+                      type="button"
+                      onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                      className={`font-jakarta w-full text-left py-4 px-6 text-sm font-extrabold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-between ${
+                        isActive 
+                          ? 'text-[#E52320] bg-red-50/30' 
+                          : 'text-[#1E3A4C] hover:text-[#E52320] hover:bg-slate-50/30'
+                      }`}
+                    >
+                      <span>{item.label}</span>
+                      <span className={`text-xs transition-transform ${mobileServicesOpen ? 'rotate-180' : ''}`}>▼</span>
+                    </button>
+
+                    {/* Submenú en móvil */}
+                    {mobileServicesOpen && (
+                      <div className="bg-slate-50 py-2 px-8 flex flex-col space-y-2">
+                        {servicesSubitems.map((sub, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => {
+                              setActiveTab('servicios');
+                              setMobileMenuOpen(false);
+                            }}
+                            className="text-left text-xs font-bold text-slate-600 hover:text-[#E52320] py-1.5 flex items-center gap-2 cursor-pointer"
+                          >
+                            <span className="text-[#E52320]">•</span>
+                            <span>{sub}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </li>
+                );
+              }
+
               return (
                 <li key={item.id}>
                   <button
-                    onClick={() => {
-                      setActiveTab(item.id);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`w-full text-left py-4 px-6 text-sm font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                    type="button"
+                    onClick={() => handleNavClick(item.id)}
+                    className={`font-jakarta w-full text-left py-4 px-6 text-sm font-extrabold uppercase tracking-wider transition-colors cursor-pointer ${
                       isActive 
-                        ? 'text-cerulean bg-slate-50/50' 
-                        : 'text-slate-500 hover:text-slate-850 hover:bg-slate-50/30'
+                        ? 'text-[#E52320] bg-red-50/30' 
+                        : 'text-[#1E3A4C] hover:text-[#E52320] hover:bg-slate-50/30'
                     }`}
                   >
                     {item.label}

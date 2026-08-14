@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'AquaLab - Clinical Operations';
+export const alt = 'UNIDOSLAB - Unidos por tu Salud';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -16,7 +16,7 @@ export default function Image() {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1a8bc6 100%)',
+          background: 'linear-gradient(135deg, #1e3a4c 0%, #0f1d26 50%, #e52320 100%)',
           fontFamily: 'sans-serif',
         }}
       >
@@ -33,8 +33,8 @@ export default function Image() {
               width: 80,
               height: 80,
               borderRadius: 16,
-              background: 'rgba(59, 181, 232, 0.2)',
-              border: '3px solid rgba(59, 181, 232, 0.5)',
+              background: 'rgba(229, 35, 32, 0.2)',
+              border: '3px solid rgba(229, 35, 32, 0.5)',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -52,19 +52,19 @@ export default function Image() {
             letterSpacing: '-2px',
           }}
         >
-          AQUA<span style={{ color: '#3BB5E8' }}>LAB</span>
+          UNIDOS<span style={{ color: '#E52320' }}>LAB</span>
         </div>
         <div
           style={{
             fontSize: 24,
-            color: 'rgba(255,255,255,0.6)',
+            color: 'rgba(255,255,255,0.8)',
             marginTop: 12,
-            fontWeight: 400,
+            fontWeight: 500,
             letterSpacing: '4px',
             textTransform: 'uppercase',
           }}
         >
-          Clinical Operations
+          Unidos por tu Salud
         </div>
       </div>
     ),

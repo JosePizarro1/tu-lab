@@ -14,9 +14,9 @@ export async function GET(req: NextRequest) {
 
   try {
     await ensureSeed();
-    const list = await sql`
-      SELECT * FROM "Reactivo" WHERE "sedeId" = ${sedeId}
-    `;
+    const list = (sedeId && sedeId !== 'ALL')
+      ? await sql`SELECT * FROM "Reactivo" WHERE "sedeId" = ${sedeId}`
+      : await sql`SELECT * FROM "Reactivo"`;
     return NextResponse.json(list);
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });

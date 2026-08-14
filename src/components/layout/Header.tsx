@@ -20,16 +20,18 @@ export const Header: React.FC<HeaderProps> = ({
   onLogout,
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const sedeActiva = sedes.find((s) => s.id === sedeActivaId)?.nombre || sedeActivaId;
+  const sedeActivaObj = sedes.find((s) => s.id === sedeActivaId);
+  const sedeActivaNombre = sedeActivaId === 'ALL' ? 'Todas' : (sedeActivaObj?.nombre || sedeActivaId);
 
   return (
     <header className="h-16 bg-white border-b border-slate-100 px-4 sm:px-6 flex items-center justify-between shadow-xs sticky top-0 z-30">
       {/* Brand Mobile */}
       <div className="flex items-center gap-2 md:hidden">
-        <IconHexagon className="w-6 h-6 text-cerulean fill-cerulean/20" />
-        <span className="font-jakarta font-extrabold text-base tracking-tight text-slate-800">
-          AQUA<span className="text-cerulean">LAB</span>
-        </span>
+        <img 
+          src="/logo-unidoslab.webp" 
+          alt="UNIDOSLAB" 
+          className="h-6 w-auto object-contain" 
+        />
       </div>
 
       {/* Breadcrumb / Title Info */}
@@ -49,7 +51,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="flex items-center bg-slate-50 border border-slate-200 hover:bg-slate-100/60 rounded-xl px-3 py-2 gap-2 text-xs font-bold text-slate-700 transition-colors cursor-pointer"
           >
             <IconBuilding className="w-4 h-4 text-cerulean" />
-            <span>Sede {sedeActiva}</span>
+            <span>Sede {sedeActivaNombre}</span>
             <IconChevronDown
               className={`w-3.5 h-3.5 text-slate-400 transition-transform ${showDropdown ? 'rotate-180' : ''}`}
             />
@@ -58,7 +60,24 @@ export const Header: React.FC<HeaderProps> = ({
           {showDropdown && (
             <>
               <div className="fixed inset-0 z-40" onClick={() => setShowDropdown(false)}></div>
-              <div className="absolute right-0 mt-2 w-44 bg-white border border-slate-100 rounded-xl shadow-lg py-1.5 z-50">
+              <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-lg py-1.5 z-50">
+                {/* Opción Todas las Sedes */}
+                <button
+                  onClick={() => {
+                    onSelectSede('ALL');
+                    setShowDropdown(false);
+                  }}
+                  className={`w-full text-left px-4 py-2.5 text-xs font-bold transition-colors flex items-center gap-2 cursor-pointer border-b border-slate-100 ${
+                    sedeActivaId === 'ALL'
+                      ? 'text-cerulean bg-cerulean/5'
+                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800'
+                  }`}
+                >
+                  <span className={`w-1.5 h-1.5 rounded-full ${sedeActivaId === 'ALL' ? 'bg-cerulean' : 'bg-transparent'}`}></span>
+                  Todas las Sedes (Red Global)
+                </button>
+
+                {/* Lista de Sedes registradas */}
                 {sedes.map((s) => (
                   <button
                     key={s.id}

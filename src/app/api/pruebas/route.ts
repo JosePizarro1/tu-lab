@@ -13,13 +13,13 @@ export async function GET(req: NextRequest) {
     await ensureSeed();
 
     let list;
-    if (sedeId && pacienteDni) {
+    if (sedeId && sedeId !== 'ALL' && pacienteDni) {
       list = await sql`
         SELECT * FROM "PruebaClinica" 
         WHERE "sedeId" = ${sedeId} AND "pacienteDni" = ${pacienteDni} 
         ORDER BY id DESC
       `;
-    } else if (sedeId) {
+    } else if (sedeId && sedeId !== 'ALL') {
       list = await sql`
         SELECT * FROM "PruebaClinica" 
         WHERE "sedeId" = ${sedeId} 

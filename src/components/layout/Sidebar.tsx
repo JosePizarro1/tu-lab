@@ -26,7 +26,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onLogout, rolUsuario }) => {
     { label: 'Pacientes', path: '/dashboard/pacientes', icon: IconUsers },
     { label: 'Resultados Clínicos', path: '/dashboard/resultados', icon: IconClipboardList },
     { label: 'Inventario / Reactivos', path: '/dashboard/inventario', icon: IconFlask },
-    { label: 'Sedes', path: '/dashboard/sedes', icon: IconBuilding, adminOnly: true },
+    { label: 'Sedes', path: '/dashboard/sedes', icon: IconBuilding },
     { label: 'Usuarios y Accesos', path: '/dashboard/usuarios', icon: IconUsers, adminOnly: true },
   ];
 
@@ -35,10 +35,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ onLogout, rolUsuario }) => {
       {/* DESKTOP SIDEBAR */}
       <aside className="hidden md:flex flex-col w-64 bg-white text-slate-800 min-h-screen p-6 border-r border-slate-100 shrink-0 shadow-xs">
         <div className="flex items-center gap-3 mb-8 px-2">
-          <IconHexagon className="w-8 h-8 text-cerulean fill-cerulean/20" />
-          <span className="font-jakarta font-extrabold text-xl tracking-tight text-slate-800">
-            AQUA<span className="text-cerulean">LAB</span>
-          </span>
+          <img 
+            src="/logo-unidoslab.webp" 
+            alt="UNIDOSLAB" 
+            className="h-8 w-auto object-contain" 
+          />
         </div>
 
         <nav className="flex-1 space-y-1.5">
@@ -76,15 +77,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ onLogout, rolUsuario }) => {
       </aside>
 
       {/* MOBILE BOTTOM NAVIGATION */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-4 py-2 flex justify-around items-center z-50 shadow-lg">
-        {menuItems.slice(0, 4).map((item) => {
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-2 py-2 flex justify-around items-center z-50 shadow-lg">
+        {menuItems.map((item) => {
+          if (item.adminOnly && rolUsuario !== 'Administrador') return null;
           const isActive = pathname === item.path;
           const Icon = item.icon;
           return (
             <Link
               key={item.path}
               href={item.path}
-              className={`flex flex-col items-center py-1.5 px-3 rounded-xl text-[10px] font-bold ${
+              className={`flex flex-col items-center py-1.5 px-2 rounded-xl text-[10px] font-bold ${
                 isActive ? 'text-cerulean' : 'text-slate-400'
               }`}
             >

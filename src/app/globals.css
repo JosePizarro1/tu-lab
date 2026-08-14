@@ -4,9 +4,11 @@
   --font-jakarta: "Plus Jakarta Sans", sans-serif;
   --font-plex: "IBM Plex Sans", sans-serif;
   
-  --color-cerulean: #77D4FC;
-  --color-azure-mist: #F0FFFF;
-  --color-lab-border: #E0FFFF;
+  --color-unidos-red: #E52320;
+  --color-unidos-navy: #1E3A4C;
+  --color-cerulean: #E52320;
+  --color-azure-mist: #FFF5F5;
+  --color-lab-border: #FEE2E2;
 }
 
 @layer base {
@@ -19,13 +21,13 @@
   body {
     font-family: var(--font-plex);
     background-color: white;
-    color: var(--color-slate-800);
+    color: #1E3A4C;
   }
 }
 
 @layer components {
   .glass-panel {
-    background: rgba(255, 255, 255, 0.65);
+    background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--color-lab-border);
@@ -36,23 +38,23 @@
   }
 
   .input-terminal:focus {
-    border-bottom-color: var(--color-cerulean);
+    border-bottom-color: #E52320;
     padding-left: 4px;
   }
 
   .text-cerulean {
-    color: #77D4FC !important;
+    color: #E52320 !important;
   }
 
   .bg-cerulean {
-    background-color: #77D4FC !important;
+    background-color: #E52320 !important;
   }
 
   .hover\:text-cerulean:hover {
-    color: #77D4FC !important;
+    color: #E52320 !important;
   }
 
   .hover\:border-cerulean\/30:hover {
-    border-color: rgba(119, 212, 252, 0.3) !important;
+    border-color: rgba(229, 35, 32, 0.3) !important;
   }
 }

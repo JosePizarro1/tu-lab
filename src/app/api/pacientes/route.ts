@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
 
   try {
     await ensureSeed();
-    const list = sedeId 
+    const list = (sedeId && sedeId !== 'ALL')
       ? await sql`SELECT * FROM "Paciente" WHERE "sedeId" = ${sedeId}`
       : await sql`SELECT * FROM "Paciente"`;
     
