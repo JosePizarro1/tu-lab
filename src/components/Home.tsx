@@ -17,7 +17,9 @@ import {
   IconShieldCheck,
   IconBuildingHospital,
   IconUsers,
-  IconAward
+  IconAward,
+  IconNavigation,
+  IconCar
 } from '@tabler/icons-react';
 import gsap from 'gsap';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -792,85 +794,228 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
         </div>
       </section>
 
-      {/* 5. SECCIÓN: SEDES Y HORARIOS EN TACNA (2 Sedes a la izquierda, Gran Mapa Interactivo a la derecha) */}
-      <section id="sedes" className="max-w-7xl mx-auto px-4 md:px-6 pt-16 pb-12 scroll-mt-24 relative z-10">
-        <div className="bg-white/85 backdrop-blur-md border border-slate-200/80 rounded-3xl p-6 md:p-10 shadow-xl shadow-slate-200/40 relative overflow-hidden">
-          <div aria-hidden="true" className="pointer-events-none absolute -left-20 -top-20 w-80 h-80 rounded-full bg-slate-200/30 blur-[80px]"></div>
-
-          <div className="mb-8 border-b border-slate-200/80 pb-6 relative z-10">
-            <div>
-              <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-[#1E3A4C] mb-1">
+      {/* 5. SECCIÓN: SEDES Y HORARIOS EN TACNA (Diseño fiel al mockup) */}
+      <section id="sedes" className="max-w-7xl mx-auto px-4 md:px-6 pt-16 pb-16 scroll-mt-24 relative z-10 font-plex">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl shadow-slate-900/5 border border-slate-200/80 relative overflow-hidden">
+          
+          {/* Header Superior y Barra de Referencias */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-8 pb-6 border-b border-slate-100">
+            {/* Título y subtítulo */}
+            <div className="lg:col-span-5">
+              <div className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-widest text-[#1E3A4C] mb-2">
                 <span className="w-2 h-2 rounded-full bg-[#E52320]"></span>
                 <span>Atención Presencial en Tacna</span>
               </div>
-              <h3 className="font-jakarta text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#1E3A4C]">
+              <h3 className="font-jakarta text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1E3A4C] tracking-tight">
                 Nuestras Sedes
               </h3>
-              <p className="text-slate-500 text-xs md:text-sm mt-1 font-medium">
+              <p className="text-slate-500 text-xs sm:text-sm mt-1 font-medium">
                 Selecciona una sede a la izquierda para enfocarlo en el mapa.
               </p>
             </div>
+
+            {/* Widget Superior: Ubícanos en Tacna + Puntos de Referencia */}
+            <div className="lg:col-span-7 bg-slate-50/80 border border-slate-200/80 rounded-2xl p-3.5 sm:p-4">
+              <div className="flex items-center gap-2.5 mb-3">
+                <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-[#FF5A5F] shrink-0">
+                  <IconMapPin className="w-4 h-4" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-[#1E3A4C]">Ubícanos en Tacna</h4>
+                  <p className="text-[11px] text-slate-500">Explora nuestras sedes y referencias cercanas.</p>
+                </div>
+              </div>
+
+              {/* Cards de Referencias 3D: Responsive (Vertical en Mobile, Horizontal en Desktop) */}
+              <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
+                {/* Catedral */}
+                <div className="flex flex-col sm:flex-row items-center justify-between sm:justify-start gap-1 sm:gap-2.5 bg-white rounded-xl p-2 sm:p-2.5 border border-slate-200/90 shadow-xs hover:border-slate-300 transition-all text-center sm:text-left">
+                  {/* Nombre en Mobile */}
+                  <p className="sm:hidden text-[10px] font-bold text-[#1E3A4C] leading-tight line-clamp-1 w-full">
+                    Catedral
+                  </p>
+                  {/* Imagen 3D */}
+                  <div className="my-1 sm:my-0 flex items-center justify-center h-10 sm:h-9 w-auto shrink-0">
+                    <img 
+                      src="/catedral_3d_tacna.png" 
+                      alt="Catedral de Tacna" 
+                      className="h-full w-auto max-w-[48px] sm:max-w-[36px] object-contain drop-shadow-sm" 
+                    />
+                  </div>
+                  {/* Info Desktop (Horizontal) */}
+                  <div className="hidden sm:block min-w-0 flex-1">
+                    <p className="text-[11px] font-bold text-[#1E3A4C] truncate">Catedral de Tacna</p>
+                    <p className="text-[10px] text-slate-400 font-medium">A 6 min</p>
+                  </div>
+                  {/* Minutos Mobile */}
+                  <span className="sm:hidden inline-block text-[9.5px] text-slate-400 font-semibold bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100">
+                    A 6 min
+                  </span>
+                </div>
+
+                {/* Mercado 2 de Mayo */}
+                <div className="flex flex-col sm:flex-row items-center justify-between sm:justify-start gap-1 sm:gap-2.5 bg-white rounded-xl p-2 sm:p-2.5 border border-slate-200/90 shadow-xs hover:border-slate-300 transition-all text-center sm:text-left">
+                  {/* Nombre en Mobile */}
+                  <p className="sm:hidden text-[10px] font-bold text-[#1E3A4C] leading-tight line-clamp-1 w-full">
+                    Mercado
+                  </p>
+                  {/* Imagen 3D */}
+                  <div className="my-1 sm:my-0 flex items-center justify-center h-10 sm:h-9 w-auto shrink-0">
+                    <img 
+                      src="/2_de_mayo.png" 
+                      alt="Mercado 2 de Mayo" 
+                      className="h-full w-auto max-w-[48px] sm:max-w-[36px] object-contain drop-shadow-sm" 
+                    />
+                  </div>
+                  {/* Info Desktop (Horizontal) */}
+                  <div className="hidden sm:block min-w-0 flex-1">
+                    <p className="text-[11px] font-bold text-[#1E3A4C] truncate">Mercado 2 de Mayo</p>
+                    <p className="text-[10px] text-slate-400 font-medium">A 4 min</p>
+                  </div>
+                  {/* Minutos Mobile */}
+                  <span className="sm:hidden inline-block text-[9.5px] text-slate-400 font-semibold bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100">
+                    A 4 min
+                  </span>
+                </div>
+
+                {/* Plaza Zela */}
+                <div className="flex flex-col sm:flex-row items-center justify-between sm:justify-start gap-1 sm:gap-2.5 bg-white rounded-xl p-2 sm:p-2.5 border border-slate-200/90 shadow-xs hover:border-slate-300 transition-all text-center sm:text-left">
+                  {/* Nombre en Mobile */}
+                  <p className="sm:hidden text-[10px] font-bold text-[#1E3A4C] leading-tight line-clamp-1 w-full">
+                    Plaza Zela
+                  </p>
+                  {/* Imagen 3D */}
+                  <div className="my-1 sm:my-0 flex items-center justify-center h-10 sm:h-9 w-auto shrink-0">
+                    <img 
+                      src="/catedral_3d_tacna.png" 
+                      alt="Plaza Zela" 
+                      className="h-full w-auto max-w-[48px] sm:max-w-[36px] object-contain opacity-85 drop-shadow-sm" 
+                    />
+                  </div>
+                  {/* Info Desktop (Horizontal) */}
+                  <div className="hidden sm:block min-w-0 flex-1">
+                    <p className="text-[11px] font-bold text-[#1E3A4C] truncate">Plaza Zela</p>
+                    <p className="text-[10px] text-slate-400 font-medium">A 8 min</p>
+                  </div>
+                  {/* Minutos Mobile */}
+                  <span className="sm:hidden inline-block text-[9.5px] text-slate-400 font-semibold bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100">
+                    A 8 min
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative z-10">
+          {/* Grid Principal: Tarjetas de Sedes y Mapa */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mb-8">
 
-            {/* Columna Izquierda: 2 Tarjetas de Sedes Compactas (5 columnas) */}
-            <div className="lg:col-span-5 flex flex-col gap-3.5">
+            {/* Columna Izquierda: Tarjetas de Sedes (5 columnas) */}
+            <div className="lg:col-span-5 flex flex-col gap-4">
               {sedesData.map((sede, idx) => {
                 const isSelected = selectedSedeIndex === idx;
                 return (
-                  <motion.div
+                  <div
                     key={sede.id}
                     onClick={() => setSelectedSedeIndex(idx)}
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    className={`p-4.5 sm:p-5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between relative overflow-hidden ${isSelected
-                      ? 'bg-white border-[#1E3A4C] shadow-lg shadow-slate-300/40 ring-4 ring-slate-100'
-                      : 'bg-slate-50/70 hover:bg-white border-slate-200/80 hover:border-slate-300 shadow-xs'
-                      }`}
+                    className={`rounded-2xl p-5 border-2 transition-all duration-300 cursor-pointer flex flex-col justify-between ${
+                      isSelected
+                        ? 'bg-[#0F1F2C] text-white border-[#0F1F2C] shadow-xl shadow-slate-900/15'
+                        : 'bg-white text-slate-700 border-slate-200/80 hover:border-slate-300 hover:shadow-md'
+                    }`}
                   >
-                    <div className="space-y-2.5">
-                      <div className="flex items-center justify-between">
-                        <h4 className="font-jakarta text-lg sm:text-xl font-extrabold text-[#1E3A4C]">
-                          {sede.name}
-                        </h4>
+                    <div>
+                      {/* Badge Superior */}
+                      {isSelected ? (
+                        <div className="inline-block mb-3 px-2.5 py-0.5 rounded-full bg-[#E52320] text-[9px] font-extrabold uppercase tracking-widest text-white">
+                          SEDE ACTIVA
+                        </div>
+                      ) : (
+                        <div className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-2">
+                          SEDE
+                        </div>
+                      )}
 
-                        <a
-                          href={sede.mapsExternalUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          title="Abrir en Google Maps"
-                          className="w-8 h-8 rounded-xl bg-white hover:bg-slate-100 shadow-sm border border-slate-200/80 flex items-center justify-center transition-all hover:scale-110 p-1 shrink-0"
-                        >
+                      <div className="flex items-start gap-4 mb-3">
+                        {/* Pin 3D Container */}
+                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 p-1.5 ${
+                          isSelected ? 'bg-white/10' : 'bg-slate-50 border border-slate-100'
+                        }`}>
                           <img 
-                            src="/icon_google_maps.png" 
-                            alt="Google Maps" 
-                            className="w-5 h-5 object-contain" 
+                            src="/pin_sedes.png" 
+                            alt={sede.name} 
+                            className="w-10 h-10 object-contain drop-shadow-md"
                           />
-                        </a>
-                      </div>
+                        </div>
 
-                      <p className="text-xs text-slate-600 font-medium flex items-center gap-1.5">
-                        <IconMapPin className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-[#1E3A4C]' : 'text-slate-400'}`} />
-                        <span>{sede.address}</span>
-                      </p>
+                        {/* Info de la sede */}
+                        <div className="flex-1 min-w-0">
+                          <h4 className={`font-jakarta text-lg sm:text-xl font-extrabold leading-snug ${
+                            isSelected ? 'text-white' : 'text-[#1E3A4C]'
+                          }`}>
+                            {sede.name.replace('Sede ', '')}
+                          </h4>
+                          
+                          <p className={`text-xs mt-1.5 flex items-center gap-1.5 ${
+                            isSelected ? 'text-slate-300' : 'text-slate-500'
+                          }`}>
+                            <IconMapPin className="w-3.5 h-3.5 shrink-0 opacity-70" />
+                            <span className="truncate">{sede.address}</span>
+                          </p>
 
-                      <div className="pt-2 text-xs text-slate-600 border-t border-slate-100 flex justify-between items-center">
-                        <span className="font-semibold text-slate-600 flex items-center gap-1.5">
-                          <IconClock className="w-3.5 h-3.5 text-slate-400" />
-                          Horario General:
-                        </span>
-                        <span className="font-extrabold text-[#1E3A4C]">{sede.schedule}</span>
+                          <div className={`mt-2 pt-2 border-t flex items-center justify-between text-xs ${
+                            isSelected ? 'border-white/10 text-slate-300' : 'border-slate-100 text-slate-600'
+                          }`}>
+                            <span className="flex items-center gap-1 font-medium">
+                              <IconClock className="w-3.5 h-3.5 opacity-70" />
+                              Horario General:
+                            </span>
+                            <span className={`font-bold ${isSelected ? 'text-white' : 'text-[#1E3A4C]'}`}>
+                              {sede.schedule}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </motion.div>
+
+                    {/* Botones de acción inferiores */}
+                    <div className="flex items-center gap-3 mt-3 pt-3 border-t border-dashed border-slate-200/30">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedSedeIndex(idx);
+                        }}
+                        className={`flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                          isSelected
+                            ? 'bg-white text-[#0F1F2C] hover:bg-slate-100 shadow-sm'
+                            : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                        }`}
+                      >
+                        <span>Ver en mapa</span>
+                        <IconMapPin className="w-3.5 h-3.5" />
+                      </button>
+
+                      <a
+                        href={sede.mapsExternalUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className={`flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                          isSelected
+                            ? 'text-red-400 hover:text-red-300'
+                            : 'text-[#E52320] hover:text-red-700'
+                        }`}
+                      >
+                        <span>Cómo llegar</span>
+                        <IconNavigation className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  </div>
                 );
               })}
             </div>
 
-            {/* Columna Derecha: Mapa Interactivo con Pines Personalizados 1 y 2 (7 columnas) */}
-            <div className="lg:col-span-7 h-[440px] lg:h-[500px]">
+            {/* Columna Derecha: Mapa Interactivo (7 columnas) */}
+            <div className="lg:col-span-7 h-[440px] lg:h-auto min-h-[440px]">
               <SedesMap
                 sedes={sedesData}
                 selectedSedeIndex={selectedSedeIndex}
@@ -879,6 +1024,43 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             </div>
 
           </div>
+
+          {/* Fila Inferior: 3 Badges de Resumen */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-slate-100">
+            {/* Item 1 */}
+            <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/60 border border-slate-100">
+              <div className="w-11 h-11 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/25">
+                <IconMapPin className="w-5 h-5" />
+              </div>
+              <div>
+                <h5 className="text-xs font-bold text-[#1E3A4C]">2 sedes en Tacna</h5>
+                <p className="text-[11px] text-slate-500 font-medium leading-tight">Ubicaciones estratégicas para estar más cerca de ti.</p>
+              </div>
+            </div>
+
+            {/* Item 2 */}
+            <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/60 border border-slate-100">
+              <div className="w-11 h-11 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/25">
+                <IconUsers className="w-5 h-5" />
+              </div>
+              <div>
+                <h5 className="text-xs font-bold text-[#1E3A4C]">Atención presencial</h5>
+                <p className="text-[11px] text-slate-500 font-medium leading-tight">Te atendemos con calidez, tecnología y bioseguridad.</p>
+              </div>
+            </div>
+
+            {/* Item 3 */}
+            <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/60 border border-slate-100">
+              <div className="w-11 h-11 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/25">
+                <IconCar className="w-5 h-5" />
+              </div>
+              <div>
+                <h5 className="text-xs font-bold text-[#1E3A4C]">Rutas rápidas</h5>
+                <p className="text-[11px] text-slate-500 font-medium leading-tight">Encuentra la mejor ruta desde tu ubicación con un solo clic.</p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
