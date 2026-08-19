@@ -327,12 +327,12 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
               className="flex flex-wrap items-center gap-4 pt-2"
             >
               <motion.button
-                onClick={() => setActiveTab('resultados')}
+                onClick={() => setActiveTab('servicios')}
                 whileHover={{ scale: 1.025, transition: { duration: 0.15, ease: [0.16, 1, 0.3, 1] } }}
                 whileTap={{ scale: 0.97, transition: { duration: 0.08 } }}
                 className="group px-7 py-3.5 bg-[#FF5A5F] hover:bg-[#E84A4F] text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow-lg shadow-red-500/35 transition-colors cursor-pointer flex items-center gap-3"
               >
-                <span>Consultar Resultados</span>
+                <span>Ver Servicios</span>
                 <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-1 transition-transform">
                   <IconArrowRight className="w-3.5 h-3.5 text-white" />
                 </span>
