@@ -175,96 +175,29 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
         <IconSparkles className="absolute top-[62%] left-[22%] w-16 h-16 text-amber-400/12 stroke-[1.5]" />
       </div>
 
-      {/* 1. HERO SECTION PRINCIPAL (Fondo 3D Esculpido con Ondas Fluidas & Líneas Senoidales) */}
+      {/* 1. HERO SECTION PRINCIPAL (Diseño Limpio, Luminoso y Moderno en Blanco/Slate) */}
       <section
         ref={heroRef}
-        className="relative min-h-[620px] lg:min-h-[700px] w-full bg-gradient-to-br from-[#0A1A27] via-[#0E2A3E] to-[#12436D] overflow-hidden pt-28 sm:pt-36 pb-28 md:pb-36 px-4 md:px-8 text-white relative z-10"
+        className="relative min-h-[620px] lg:min-h-[700px] w-full bg-gradient-to-b from-slate-50/90 via-white to-slate-50/50 overflow-hidden pt-28 sm:pt-36 pb-28 md:pb-36 px-4 md:px-8 text-slate-800 relative z-10"
       >
-        {/* CAPA DE FONDO 1: Olas Esculpidas 3D & Curvas Fluidas Orgánicas */}
+        {/* CAPA DE FONDO: Detalles sutiles y Cruz Médica de cristal */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          
+          {/* Halos de luz y gradientes de fondo limpios */}
+          <div className="absolute top-1/4 -left-32 w-[520px] h-[520px] rounded-full bg-gradient-to-tr from-red-500/5 via-rose-300/4 to-transparent blur-[140px]"></div>
+          <div className="absolute top-1/3 -right-32 w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-sky-400/8 via-slate-200/20 to-transparent blur-[150px]"></div>
 
-          {/* Ola Curva Superior Izquierda (Esculpida con borde de luz cian) */}
-          <svg
-            className="absolute -top-20 -left-20 w-[680px] h-[680px] text-[#0A2234] opacity-90 transition-transform"
-            viewBox="0 0 600 600"
-            fill="none"
-          >
-            <path
-              d="M0,0 L600,0 C540,180 480,340 320,440 C180,520 60,560 0,600 Z"
-              fill="url(#wave-gradient-1)"
-            />
-            <path
-              d="M0,0 C380,140 460,320 320,440 C180,520 60,560 0,600"
-              stroke="url(#wave-glow-1)"
-              strokeWidth="2.5"
-              strokeOpacity="0.4"
-            />
-            <defs>
-              <linearGradient id="wave-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#081A26" stopOpacity="0.95" />
-                <stop offset="60%" stopColor="#0E314B" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#13456C" stopOpacity="0.4" />
-              </linearGradient>
-              <linearGradient id="wave-glow-1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#38BDF8" />
-                <stop offset="100%" stopColor="#60A5FA" />
-              </linearGradient>
-            </defs>
-          </svg>
-
-          {/* Malla de Líneas Senoidales (Flujo Diagnóstico / ECG Digital) */}
-          <svg
-            className="absolute top-[20%] left-[25%] w-[800px] h-[500px] opacity-25"
-            viewBox="0 0 800 500"
-            fill="none"
-          >
-            <path d="M0,250 C150,150 250,350 400,220 C550,90 650,280 800,200" stroke="#38BDF8" strokeWidth="1.2" />
-            <path d="M0,265 C150,165 250,365 400,235 C550,105 650,295 800,215" stroke="#38BDF8" strokeWidth="1" strokeDasharray="4 4" />
-            <path d="M0,280 C150,180 250,380 400,250 C550,120 650,310 800,230" stroke="#60A5FA" strokeWidth="1.5" />
-            <path d="M0,295 C150,195 250,395 400,265 C550,135 650,325 800,245" stroke="#38BDF8" strokeWidth="0.8" />
-            <path d="M0,310 C150,210 250,410 400,280 C550,150 650,340 800,260" stroke="#93C5FD" strokeWidth="1" />
-          </svg>
-
-          {/* Gran Ola Inferior Dinámica que abraza la base del Hero */}
-          <svg
-            className="absolute -bottom-2 left-0 right-0 w-full h-44 text-slate-50/40"
-            viewBox="0 0 1440 180"
-            preserveAspectRatio="none"
-            fill="none"
-          >
-            <path
-              d="M0,60 C320,160 680,20 1080,110 C1260,150 1380,130 1440,120 L1440,180 L0,180 Z"
-              fill="url(#wave-bottom-gradient)"
-            />
-            <path
-              d="M0,60 C320,160 680,20 1080,110 C1260,150 1380,130 1440,120"
-              stroke="#38BDF8"
-              strokeWidth="2"
-              strokeOpacity="0.3"
-            />
-            <defs>
-              <linearGradient id="wave-bottom-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#0B1F2E" stopOpacity="0.7" />
-                <stop offset="50%" stopColor="#0E334E" stopOpacity="0.5" />
-                <stop offset="100%" stopColor="#0284C7" stopOpacity="0.3" />
-              </linearGradient>
-            </defs>
-          </svg>
-
-          {/* Cruz Médica de Cristal en el fondo superior central */}
-          <div className="absolute top-[18%] left-[45%] -translate-x-1/2 opacity-15 pointer-events-none">
-            <svg className="w-36 h-36 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+          {/* Cruz Médica suave en el fondo central */}
+          <div className="absolute top-[15%] left-[45%] -translate-x-1/2 opacity-30 pointer-events-none">
+            <svg className="w-48 h-48 text-slate-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
               <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3z" />
             </svg>
           </div>
-
-          {/* Halo de luz suave en el centro */}
-          <div className="absolute top-1/4 right-1/4 w-[480px] h-[480px] rounded-full bg-sky-400/20 blur-[130px]"></div>
         </div>
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-20">
 
-          {/* Columna Izquierda: Titular y CTA (Staggered Children con resortes Emil Kowalski) */}
+          {/* Columna Izquierda: Titular y CTA */}
           <motion.div
             initial="hidden"
             animate="visible"
@@ -278,19 +211,19 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             className="lg:col-span-7 space-y-6"
           >
 
-            {/* Badge superior (Color Sólido de Alto Contraste - Cero Translucidez) */}
+            {/* Badge superior */}
             <motion.div
               variants={{
                 hidden: { opacity: 0, y: 12 },
                 visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 25, mass: 0.7 } }
               }}
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white text-[#1E3A4C] text-[11px] sm:text-xs font-extrabold uppercase tracking-widest shadow-md shadow-slate-950/25 border border-white"
+              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white text-[#1E3A4C] text-[11px] sm:text-xs font-extrabold uppercase tracking-widest shadow-sm border border-slate-200/90"
             >
               <span className="w-2.5 h-2.5 rounded-full bg-[#FF5A5F] shrink-0"></span>
               <span>Laboratorio Clínico Tacna · Perú</span>
             </motion.div>
 
-            {/* Titular contundente con acento de punto y barrita de diseño */}
+            {/* Titular contundente */}
             <motion.div
               variants={{
                 hidden: { opacity: 0, y: 14 },
@@ -298,8 +231,8 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
               }}
             >
               <h1 className="font-jakarta text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.12] tracking-tight">
-                <span className="block text-white">Tu Salud Es</span>
-                <span className="block text-white">
+                <span className="block text-[#1E3A4C]">Tu Salud Es</span>
+                <span className="block text-[#1E3A4C]">
                   Nuestra Prioridad<span className="text-[#FF5A5F]">.</span>
                 </span>
               </h1>
@@ -313,12 +246,12 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                 hidden: { opacity: 0, y: 12 },
                 visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 28, mass: 0.8 } }
               }}
-              className="text-sky-100/90 text-sm sm:text-base md:text-lg max-w-xl font-normal leading-relaxed"
+              className="text-slate-500 text-sm sm:text-base md:text-lg max-w-xl font-normal leading-relaxed"
             >
               Tecnología diagnóstica automatizada de alta precisión, calidez humana y entrega digital inmediata de tus análisis clínicos.
             </motion.p>
 
-            {/* Botones de acción con respuesta táctil física instantánea (80ms tap) */}
+            {/* Botones de acción */}
             <motion.div
               variants={{
                 hidden: { opacity: 0, y: 12 },
@@ -330,7 +263,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                 onClick={() => setActiveTab('servicios')}
                 whileHover={{ scale: 1.025, transition: { duration: 0.15, ease: [0.16, 1, 0.3, 1] } }}
                 whileTap={{ scale: 0.97, transition: { duration: 0.08 } }}
-                className="group px-7 py-3.5 bg-[#FF5A5F] hover:bg-[#E84A4F] text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow-lg shadow-red-500/35 transition-colors cursor-pointer flex items-center gap-3"
+                className="group px-7 py-3.5 bg-[#FF5A5F] hover:bg-[#E84A4F] text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow-lg shadow-red-500/25 transition-colors cursor-pointer flex items-center gap-3"
               >
                 <span>Ver Servicios</span>
                 <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-1 transition-transform">
@@ -342,16 +275,17 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                 href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20mayor%20informaci%C3%B3n%20sobre%20an%C3%A1lisis%20cl%C3%ADnicos"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.18)", transition: { duration: 0.15 } }}
+                whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 1)", transition: { duration: 0.15 } }}
                 whileTap={{ scale: 0.97, transition: { duration: 0.08 } }}
-                className="px-7 py-3.5 bg-white/10 text-white border border-white/25 font-bold text-xs uppercase tracking-wider rounded-full backdrop-blur-md flex items-center gap-2 cursor-pointer transition-colors"
+                className="px-7 py-3.5 bg-white text-[#1E3A4C] hover:text-[#25D366] border border-slate-200/90 font-bold text-xs uppercase tracking-wider rounded-full shadow-xs flex items-center gap-2 cursor-pointer transition-all"
               >
+                <IconSend className="w-4 h-4 text-[#25D366]" />
                 <span>Escríbenos por WhatsApp</span>
               </motion.a>
             </motion.div>
           </motion.div>
 
-          {/* Columna Derecha: Especialistas Médicos & Marco Squircle 3D */}
+          {/* Columna Derecha: Especialistas Médicos & Marco Squircle Limpio */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -360,57 +294,57 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
           >
 
             {/* Matriz de puntos decorativos detrás de los doctores */}
-            <div className="absolute -top-6 -right-6 w-32 h-32 opacity-25 grid grid-cols-6 gap-2 pointer-events-none">
+            <div className="absolute -top-6 -right-6 w-32 h-32 opacity-20 grid grid-cols-6 gap-2 pointer-events-none">
               {Array.from({ length: 36 }).map((_, i) => (
-                <span key={i} className="w-1.5 h-1.5 rounded-full bg-white block"></span>
+                <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-400 block"></span>
               ))}
             </div>
 
-            {/* Imagen del especialista con marco squircle de cristal */}
-            <div className="relative z-10 rounded-[38px] p-2 bg-gradient-to-b from-white/30 via-white/10 to-white/5 border-2 border-white/35 shadow-2xl backdrop-blur-md max-w-sm sm:max-w-md w-full">
-              <div className="rounded-[30px] overflow-hidden bg-gradient-to-b from-sky-300/20 via-[#0E2C44]/40 to-[#091825]/90 flex items-end justify-center pt-4">
+            {/* Imagen del especialista con marco squircle blanco suave */}
+            <div className="relative z-10 rounded-[38px] p-2.5 bg-white/80 border-2 border-white shadow-2xl shadow-slate-200/60 backdrop-blur-md max-w-sm sm:max-w-md w-full">
+              <div className="rounded-[30px] overflow-hidden bg-gradient-to-b from-slate-100/80 via-slate-50 to-slate-100/60 flex items-end justify-center pt-4">
                 <img
                   src="/home_chica.png"
                   alt="Especialista UNIDOSLAB Tacna"
-                  className="w-full h-[370px] sm:h-[430px] object-contain object-bottom drop-shadow-2xl"
+                  className="w-full h-[370px] sm:h-[430px] object-contain object-bottom drop-shadow-xl"
                 />
               </div>
             </div>
 
-            {/* Barra lateral flotante de redes sociales */}
+            {/* Barra lateral flotante de redes sociales (Estilo Blanco Píldora del Mockup) */}
             <motion.div
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.3, type: "spring", stiffness: 350, damping: 25 }}
-              className="hidden xl:flex absolute -right-6 top-1/2 -translate-y-1/2 flex-col gap-3 bg-[#FF5A5F] text-white p-2.5 rounded-2xl shadow-xl z-20"
+              className="hidden xl:flex absolute -right-5 top-1/2 -translate-y-1/2 flex-col gap-3.5 bg-white text-slate-600 p-2.5 rounded-2xl shadow-xl shadow-slate-300/40 border border-slate-100 z-20"
             >
               <motion.a
-                whileHover={{ scale: 1.15, rotate: 2, transition: { type: "spring", stiffness: 400, damping: 15 } }}
+                whileHover={{ scale: 1.15, transition: { type: "spring", stiffness: 400, damping: 15 } }}
                 whileTap={{ scale: 0.92 }}
                 href="https://facebook.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 rounded-xl hover:bg-white/20 flex items-center justify-center transition-colors text-xs font-bold"
+                className="w-7 h-7 rounded-xl hover:bg-red-50 text-[#FF5A5F] flex items-center justify-center transition-colors text-xs font-bold"
               >
                 f
               </motion.a>
               <motion.a
-                whileHover={{ scale: 1.15, rotate: 2, transition: { type: "spring", stiffness: 400, damping: 15 } }}
+                whileHover={{ scale: 1.15, transition: { type: "spring", stiffness: 400, damping: 15 } }}
                 whileTap={{ scale: 0.92 }}
                 href="https://instagram.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 rounded-xl hover:bg-white/20 flex items-center justify-center transition-colors text-xs font-bold"
+                className="w-7 h-7 rounded-xl hover:bg-red-50 text-[#FF5A5F] flex items-center justify-center transition-colors text-xs font-bold"
               >
                 ig
               </motion.a>
               <motion.a
-                whileHover={{ scale: 1.15, rotate: 2, transition: { type: "spring", stiffness: 400, damping: 15 } }}
+                whileHover={{ scale: 1.15, transition: { type: "spring", stiffness: 400, damping: 15 } }}
                 whileTap={{ scale: 0.92 }}
                 href="https://api.whatsapp.com/send/?phone=51952920616"
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 rounded-xl hover:bg-white/20 flex items-center justify-center transition-colors text-xs font-bold"
+                className="w-7 h-7 rounded-xl hover:bg-emerald-50 text-[#25D366] flex items-center justify-center transition-colors text-xs font-bold"
               >
                 wa
               </motion.a>
@@ -560,11 +494,15 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10">
 
-            {/* Columna Izquierda: Información, Checklist Clínico & Estadísticas (7 Columnas) */}
-            <div className="lg:col-span-7 space-y-6">
+            {/* Columna Izquierda: Información de Confianza & Estadísticas (7 Columnas) */}
+            <div className="lg:col-span-7 space-y-8">
 
               {/* Titular contundente */}
               <div>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-50 border border-red-100 text-[#FF5A5F] text-[11px] font-extrabold uppercase tracking-widest mb-3">
+                  <span className="w-2 h-2 rounded-full bg-[#FF5A5F]"></span>
+                  <span>Experiencia y Precisión</span>
+                </div>
                 <h2 className="font-jakarta text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#1E3A4C] leading-[1.12] tracking-tight">
                   ¿Por qué confiar tu<br />
                   diagnóstico en<br />
@@ -573,71 +511,21 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                 <div className="w-14 h-1 bg-[#FF5A5F] rounded-full mt-3"></div>
               </div>
 
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal max-w-xl">
-                Análisis clínicos especializados con tecnología automatizada de alta precisión y la calidez humana que tú y tu familia merecen.
+              <p className="text-slate-600 text-sm sm:text-base md:text-lg leading-relaxed font-normal max-w-xl">
+                Más de 6 años brindando resultados certeros, diagnóstico oportuno y atención médica personalizada a las familias e instituciones de Tacna.
               </p>
 
-              {/* Checklist de Beneficios Clínicos de Alta Confianza */}
-              <div className="space-y-3.5 pt-1">
-
-                {/* Beneficio 1 */}
-                <div className="flex items-start gap-3.5">
-                  <div className="w-7 h-7 rounded-lg bg-red-500/10 text-[#FF5A5F] flex items-center justify-center shrink-0 mt-0.5 shadow-xs border border-red-500/20">
-                    <IconCheck className="w-4 h-4 stroke-[3]" />
-                  </div>
-                  <div>
-                    <h4 className="font-jakarta text-sm font-bold text-[#1E3A4C]">
-                      Doble Validación & Control de Calidad Estricto
-                    </h4>
-                    <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
-                      Cada análisis es procesado en equipos automatizados y certificado por bioquímicos colegiados.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Beneficio 2 */}
-                <div className="flex items-start gap-3.5">
-                  <div className="w-7 h-7 rounded-lg bg-sky-500/10 text-sky-600 flex items-center justify-center shrink-0 mt-0.5 shadow-xs border border-sky-500/20">
-                    <IconCheck className="w-4 h-4 stroke-[3]" />
-                  </div>
-                  <div>
-                    <h4 className="font-jakarta text-sm font-bold text-[#1E3A4C]">
-                      Entrega Digital Inmediata 24/7
-                    </h4>
-                    <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
-                      Consulta y descarga tus resultados en tiempo real ingresando tu DNI desde cualquier dispositivo.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Beneficio 3 */}
-                <div className="flex items-start gap-3.5">
-                  <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5 shadow-xs border border-emerald-500/20">
-                    <IconCheck className="w-4 h-4 stroke-[3]" />
-                  </div>
-                  <div>
-                    <h4 className="font-jakarta text-sm font-bold text-[#1E3A4C]">
-                      2 Sedes Céntricas en Tacna & Atención a Domicilio
-                    </h4>
-                    <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
-                      Atención ágil en Av. Leguía y Patricio Meléndez, o toma de muestras en la comodidad de tu hogar.
-                    </p>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* 2 Cápsulas de Estadísticas en Azul Marino Flotante */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
+              {/* 2 Grandes Cápsulas de Estadísticas en Azul Marino */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
 
                 {/* Cápsula 1: +6 Años de Trayectoria Clínica */}
                 <motion.div
-                  whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+                  whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 20 } }}
                   whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
-                  className="bg-[#1E3A4C] text-white p-4 sm:p-5 rounded-3xl shadow-xl shadow-slate-900/15 border border-slate-700/30 flex items-center gap-4 cursor-default"
+                  className="bg-[#1E3A4C] text-white p-6 rounded-3xl shadow-xl shadow-slate-900/15 border border-slate-700/30 flex items-center gap-4.5 cursor-default transition-all"
                 >
-                  <div className="w-12 h-12 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/30">
-                    <IconAward className="w-6 h-6" />
+                  <div className="w-14 h-14 rounded-2xl bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-lg shadow-red-500/30">
+                    <IconAward className="w-7 h-7" />
                   </div>
                   <div>
                     <div className="flex items-baseline">
@@ -646,21 +534,21 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                         {yearsCount}
                       </span>
                     </div>
-                    <span className="text-[11px] font-bold text-slate-300 block leading-tight">
+                    <span className="text-xs font-bold text-slate-300 block leading-tight mt-0.5">
                       Años de Trayectoria Clínica
                     </span>
-                    <div className="w-8 h-0.5 bg-[#FF5A5F] rounded-full mt-1.5"></div>
+                    <div className="w-10 h-0.5 bg-[#FF5A5F] rounded-full mt-2"></div>
                   </div>
                 </motion.div>
 
                 {/* Cápsula 2: Pacientes atendidos */}
                 <motion.div
-                  whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+                  whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 20 } }}
                   whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
-                  className="bg-[#1E3A4C] text-white p-4 sm:p-5 rounded-3xl shadow-xl shadow-slate-900/15 border border-slate-700/30 flex items-center gap-4 cursor-default"
+                  className="bg-[#1E3A4C] text-white p-6 rounded-3xl shadow-xl shadow-slate-900/15 border border-slate-700/30 flex items-center gap-4.5 cursor-default transition-all"
                 >
-                  <div className="w-12 h-12 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/30">
-                    <IconUsers className="w-6 h-6" />
+                  <div className="w-14 h-14 rounded-2xl bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-lg shadow-red-500/30">
+                    <IconUsers className="w-7 h-7" />
                   </div>
                   <div>
                     <div className="flex items-baseline">
@@ -669,10 +557,10 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                       </span>
                       <span className="text-[#FF5A5F] text-2xl font-extrabold ml-0.5">+</span>
                     </div>
-                    <span className="text-[11px] font-bold text-slate-300 block leading-tight">
-                      Pacientes atendidos
+                    <span className="text-xs font-bold text-slate-300 block leading-tight mt-0.5">
+                      Pacientes atendidos en Tacna
                     </span>
-                    <div className="w-8 h-0.5 bg-[#FF5A5F] rounded-full mt-1.5"></div>
+                    <div className="w-10 h-0.5 bg-[#FF5A5F] rounded-full mt-2"></div>
                   </div>
                 </motion.div>
 

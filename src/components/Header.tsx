@@ -14,11 +14,9 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   const [mobileServicesOpen, setMobileServicesOpen] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
 
-  const isHome = activeTab === 'inicio';
-
   React.useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 30);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -59,15 +57,22 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
     setMobileMenuOpen(false);
   };
 
-  const headerContainerClass = 'fixed top-0 left-0 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/70 shadow-xs z-50 transition-all duration-300 pointer-events-auto';
+  const isHome = activeTab === 'inicio';
+  const showFullHeader = !isHome || isScrolled;
+
+  const headerContainerClass = `fixed top-0 left-0 w-full z-50 transition-all duration-300 pointer-events-auto ${
+    showFullHeader 
+      ? 'bg-white/95 backdrop-blur-md border-b border-slate-200/70 shadow-xs' 
+      : 'bg-transparent border-b border-transparent shadow-none'
+  }`;
 
   return (
     <header className={headerContainerClass}>
       <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between gap-6 h-20 transition-all duration-300">
         
-        {/* Brand Logo (100% nítido sobre fondo blanco limpio) */}
+        {/* Brand Logo (Siempre visible) */}
         <div 
-          className="flex items-center gap-2 cursor-pointer shrink-0 pointer-events-auto" 
+          className="flex items-center gap-2 cursor-pointer shrink-0 pointer-events-auto transition-transform hover:scale-102" 
           onClick={() => handleNavClick('inicio')}
         >
           <img 
@@ -77,8 +82,12 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
           />
         </div>
 
-        {/* Navigation Menu - Desktop (Siempre visible y accesible) */}
-        <nav className="hidden md:block transition-all duration-300">
+        {/* Navigation Menu - Desktop (Aparece suavemente al scrolear en Home, o siempre en otras pestañas) */}
+        <nav className={`hidden md:block transition-all duration-300 ${
+          showFullHeader 
+            ? 'opacity-100 translate-y-0 pointer-events-auto' 
+            : 'opacity-0 -translate-y-2 pointer-events-none'
+        }`}>
           <ul className="flex items-center gap-8">
             {menuItems.map((item) => {
               const isActive = activeTab === item.id;
@@ -155,16 +164,22 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
           </ul>
         </nav>
 
-        {/* Right CTA Button & Mobile Menu Trigger */}
+        {/* Right CTA Button & Mobile Menu Trigger (Aparece al scrolear) */}
         <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => handleNavClick('resultados')}
-            className="hidden lg:inline-flex items-center gap-2 px-6 py-2.5 bg-[#FF5A5F] hover:bg-[#E84A4F] text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow-md shadow-red-500/20 transition-all transform hover:scale-105 cursor-pointer"
-          >
-            <span>Consultar Resultados</span>
-            <span className="font-bold">›</span>
-          </button>
+          <div className={`transition-all duration-300 ${
+            showFullHeader 
+              ? 'opacity-100 scale-100 pointer-events-auto' 
+              : 'opacity-0 scale-95 pointer-events-none'
+          }`}>
+            <button
+              type="button"
+              onClick={() => handleNavClick('resultados')}
+              className="hidden lg:inline-flex items-center gap-2 px-6 py-2.5 bg-[#FF5A5F] hover:bg-[#E84A4F] text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow-md shadow-red-500/20 transition-all transform hover:scale-105 cursor-pointer"
+            >
+              <span>Consultar Resultados</span>
+              <span className="font-bold">›</span>
+            </button>
+          </div>
 
           <button 
             type="button"
