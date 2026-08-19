@@ -8,6 +8,8 @@ import Home from '../components/Home';
 import Login from '../components/Login';
 import Services from '../components/Services';
 import Sedes from '../components/Sedes';
+import Terminos from '../components/Terminos';
+import Privacidad from '../components/Privacidad';
 import { 
   IconMapPin, 
   IconClock, 
@@ -135,7 +137,13 @@ export default function Page() {
         return <Services />;
 
       case 'sedes':
-        return <Sedes />;
+        return <Home setActiveTab={setActiveTab} />;
+
+      case 'terminos':
+        return <Terminos onBack={() => { setActiveTab('inicio'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />;
+
+      case 'privacidad':
+        return <Privacidad onBack={() => { setActiveTab('inicio'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />;
 
       case 'resultados':
         return (
@@ -386,7 +394,23 @@ export default function Page() {
                 <button onClick={() => setActiveTab('servicios')} className="hover:text-cerulean transition-colors cursor-pointer text-center sm:text-left w-full sm:w-auto">Servicios</button>
               </li>
               <li>
-                <button onClick={() => setActiveTab('sedes')} className="hover:text-cerulean transition-colors cursor-pointer text-center sm:text-left w-full sm:w-auto">Sedes</button>
+                <button 
+                  onClick={() => {
+                    if (activeTab !== 'inicio') {
+                      setActiveTab('inicio');
+                      setTimeout(() => {
+                        const el = document.getElementById('sedes');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      }, 100);
+                    } else {
+                      const el = document.getElementById('sedes');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }} 
+                  className="hover:text-[#E52320] transition-colors cursor-pointer text-center sm:text-left w-full sm:w-auto"
+                >
+                  Sedes
+                </button>
               </li>
             </ul>
           </div>
@@ -451,8 +475,18 @@ export default function Page() {
         <div className="max-w-7xl mx-auto px-4 md:px-6 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400 font-medium text-center sm:text-left">
           <span>&copy; {new Date().getFullYear()} UNIDOSLAB. Todos los derechos reservados.</span>
           <div className="flex justify-center sm:justify-start gap-6">
-            <a href="#" className="hover:text-cerulean transition-colors">Términos de servicio</a>
-            <a href="#" className="hover:text-cerulean transition-colors">Política de privacidad</a>
+            <button 
+              onClick={() => { setActiveTab('terminos'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+              className="hover:text-[#E52320] transition-colors cursor-pointer"
+            >
+              Términos de servicio
+            </button>
+            <button 
+              onClick={() => { setActiveTab('privacidad'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+              className="hover:text-[#E52320] transition-colors cursor-pointer"
+            >
+              Política de privacidad
+            </button>
           </div>
         </div>
       </footer>

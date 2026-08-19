@@ -106,8 +106,8 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         >
           {/* Imagen clínica de fondo con overlay */}
           <img 
-            src="https://images.pexels.com/photos/4021775/pexels-photo-4021775.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80" 
-            alt="Médico examinando resultados clínicos" 
+            src="https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80" 
+            alt="Médico especialista accediendo a la plataforma clínica" 
             className="absolute inset-0 h-full w-full object-cover" 
           />
           <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-slate-950/40"></div>
@@ -125,21 +125,18 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
           {/* Mensaje central */}
           <div className="relative z-10 my-8">
-            <p className="animate-entry mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-red-400">
-              Red de Laboratorios UNIDOSLAB
-            </p>
             <h1 className="animate-entry font-jakarta text-3xl sm:text-4xl font-extrabold leading-tight tracking-tight text-white">
-              Portal Especializado para Médicos & Clínicas
+              Portal Médico
             </h1>
             <p className="animate-entry mt-4 text-xs sm:text-sm leading-relaxed text-slate-300 font-medium max-w-md">
-              Accede en tiempo real a los informes de tus pacientes, historial analítico y validaciones de patología clínica con la mayor seguridad.
+              Accede a los resultados e informes de tus pacientes en tiempo real de forma rápida y segura.
             </p>
 
             {/* Chips de características con bordes redondeados */}
             <div className="animate-entry mt-6 flex flex-wrap gap-2 text-[10px] font-bold uppercase tracking-wider text-white/90">
               <span className="inline-flex items-center gap-1.5 border border-white/15 bg-white/10 px-3.5 py-2 rounded-full backdrop-blur-md">
                 <IconShieldCheck className="text-sm text-emerald-400" />
-                Cifrado Médica SSL
+                Acceso Seguro
               </span>
               <span className="inline-flex items-center gap-1.5 border border-white/15 bg-white/10 px-3.5 py-2 rounded-full backdrop-blur-md">
                 <IconUserCheck className="text-sm text-sky-400" />

@@ -1,46 +1,73 @@
 "use client";
 
 import React, { useEffect, useRef } from 'react';
-import { 
-  IconFlask, 
-  IconMicroscope, 
-  IconTestPipe, 
-  IconDna, 
+import {
+  IconFlask,
+  IconMicroscope,
+  IconTestPipe,
+  IconDna,
   IconCheck,
   IconClock,
   IconMapPin,
   IconArrowRight,
   IconFileCertificate,
-  IconSend
+  IconSend,
+  IconPlus,
+  IconSparkles,
+  IconShieldCheck,
+  IconBuildingHospital,
+  IconUsers,
+  IconAward
 } from '@tabler/icons-react';
 import gsap from 'gsap';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface HomeProps {
   setActiveTab: (tab: string) => void;
 }
 
 const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
-  const heroRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
-  
+
   const [yearsCount, setYearsCount] = React.useState(0);
   const [examsCount, setExamsCount] = React.useState(0);
+  const [showCards, setShowCards] = React.useState(false);
+  const [selectedSedeIndex, setSelectedSedeIndex] = React.useState<number>(0);
+
+  const sedesData = [
+    {
+      id: 'leguia',
+      number: '01',
+      name: 'Avenida Leguía',
+      address: 'Av. Leguía, Tacna (Frente a consultorios médicos)',
+      badge: 'Abierto Lunes a Sábado',
+      schedule: '7:00 AM – 7:00 PM',
+      mapsEmbedUrl: 'https://maps.google.com/maps?q=Av.%20Legu%C3%ADa%2C%20Tacna%2C%20Per%C3%BA&t=m&z=16&output=embed',
+      mapsExternalUrl: 'https://maps.app.goo.gl/HUAqRFnH5PYh8r1q6'
+    },
+    {
+      id: 'melendez',
+      number: '02',
+      name: 'Calle Patricio Meléndez',
+      address: 'Calle Patricio Meléndez, Tacna Centro',
+      badge: 'Abierto Lunes a Sábado',
+      schedule: '7:00 AM – 7:00 PM',
+      mapsEmbedUrl: 'https://maps.google.com/maps?q=Calle%20Patricio%20Mel%C3%A9ndez%2C%20Tacna%2C%20Per%C3%BA&t=m&z=16&output=embed',
+      mapsExternalUrl: 'https://maps.app.goo.gl/YY4MkEoko7847tmb9'
+    }
+  ];
 
   useEffect(() => {
-    if (heroRef.current) {
-      gsap.fromTo(heroRef.current.querySelectorAll('.animate-fade-up'), 
-        { autoAlpha: 0, y: 25 },
-        { autoAlpha: 1, y: 0, stagger: 0.12, duration: 0.8, ease: 'power3.out' }
-      );
-    }
+    const handleScroll = () => {
+      if (window.scrollY > 30) {
+        setShowCards(true);
+      }
+    };
 
-    if (cardsRef.current) {
-      gsap.fromTo(cardsRef.current.children, 
-        { autoAlpha: 0, y: 35 },
-        { autoAlpha: 1, y: 0, stagger: 0.08, duration: 0.7, ease: 'power2.out', delay: 0.3 }
-      );
-    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    if (window.scrollY > 30) setShowCards(true);
 
     // Animación de conteo desde 0 para Años (5) y Exámenes (5,125)
     const duration = 1800; // ms
@@ -52,183 +79,652 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
       // Easing suave (easeOutExpo)
       const easeOut = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
 
-      setYearsCount(Math.floor(easeOut * 5));
+      setYearsCount(Math.floor(easeOut * 6));
       setExamsCount(Math.floor(easeOut * 5125));
 
       if (progress < 1) {
         requestAnimationFrame(animateCounters);
       } else {
-        setYearsCount(5);
+        setYearsCount(6);
         setExamsCount(5125);
       }
     };
 
     requestAnimationFrame(animateCounters);
+
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (showCards && cardsRef.current) {
+      gsap.fromTo(cardsRef.current.children,
+        { autoAlpha: 0, y: 35 },
+        { autoAlpha: 1, y: 0, stagger: 0.08, duration: 0.7, ease: 'power2.out' }
+      );
+    }
+  }, [showCards]);
 
   const featureCards = [
     {
       title: 'Servicio de Análisis Clínicos',
-      description: 'Ofrecemos todo tipo de análisis clínicos para el apoyo del diagnóstico médico certero.',
-      icon: <IconFlask className="w-10 h-10 text-white" />,
+      description: 'Ofrecemos todo tipo de análisis clínicos, para el apoyo del diagnóstico médico.',
+      icon: <IconFlask className="w-12 h-12 text-white stroke-[1.5]" />,
       action: () => setActiveTab('servicios')
     },
     {
-      title: 'Análisis y Pruebas Especiales',
-      description: 'Perfiles hormonales, marcadores y pruebas de alta sensibilidad diagnóstica.',
-      icon: <IconMicroscope className="w-10 h-10 text-white" />,
+      title: 'Análisis de pruebas toxicológicas',
+      description: 'Utiliza para determinar si una persona ha sido expuesta a drogas legales o ilegales.',
+      icon: <IconMicroscope className="w-12 h-12 text-white stroke-[1.5]" />,
       action: () => setActiveTab('servicios')
     },
     {
-      title: 'Exámenes Preventivos & PSA',
-      description: 'Detección oportuna, chequeos preventivos y seguimiento integral de salud.',
-      icon: <IconTestPipe className="w-10 h-10 text-white" />,
+      title: 'Examen PSA',
+      description: 'Ayuda a diagnosticar y hacerle seguimiento al cáncer de próstata en los hombres.',
+      icon: <IconTestPipe className="w-12 h-12 text-white stroke-[1.5]" />,
       action: () => setActiveTab('servicios')
     },
     {
-      title: 'Atención a Domicilio',
-      description: 'Llámanos o escríbenos por WhatsApp y te atendemos en la comodidad de tu casa o trabajo.',
-      icon: <IconDna className="w-10 h-10 text-white" />,
+      title: 'Atención a domicilio',
+      description: 'Llámanos o escríbenos por WhatsApp y te atendemos en la comodidad de tu casa o en tu trabajo.',
+      icon: <IconDna className="w-12 h-12 text-white stroke-[1.5]" />,
       action: () => window.open('https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20atenci%C3%B3n%20a%20domicilio%20en%20Tacna', '_blank')
     }
   ];
 
   return (
-    <div className="w-full min-h-screen bg-white pb-16 font-plex">
-      
-      {/* 1. HERO SECTION (Estilo Laboratorios Tacna - Espacioso y Limpio) */}
-      <section 
+    <div className="w-full min-h-screen bg-slate-50/40 pb-16 font-plex relative overflow-hidden">
+
+      {/* Elementos ambientales de fondo: Formas orgánicas y marcas de agua de iconos médicos decorativos */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        {/* Curvas y formas orgánicas suaves de fondo (estilo referencia) */}
+        <svg className="absolute -top-10 -left-20 w-[600px] h-[600px] text-sky-100/40" viewBox="0 0 200 200" fill="currentColor">
+          <path d="M45.7,-58.5C58.9,-48.7,69.1,-35.1,73.4,-19.7C77.7,-4.3,76.1,12.9,68.9,27.7C61.7,42.4,48.9,54.7,34.1,62.8C19.3,70.9,2.5,74.8,-13.7,72.4C-29.9,69.9,-45.5,61.1,-56.9,48.1C-68.3,35.1,-75.5,17.6,-74.8,0.4C-74.1,-16.7,-65.5,-33.5,-53.4,-43.5C-41.2,-53.5,-25.6,-56.8,-9.9,-58.1C5.7,-59.5,32.6,-68.3,45.7,-58.5Z" transform="translate(100 100)" />
+        </svg>
+
+        <svg className="absolute top-[35%] -right-24 w-[650px] h-[650px] text-red-50/50" viewBox="0 0 200 200" fill="currentColor">
+          <path d="M42.3,-58.2C54.4,-50.7,63.6,-38.3,68.9,-24.2C74.2,-10.1,75.6,5.7,71.2,20C66.8,34.3,56.6,47.1,43.4,56.4C30.2,65.7,14.1,71.5,-2.1,74.4C-18.3,77.3,-34.6,77.3,-46.9,68.6C-59.2,59.9,-67.5,42.5,-71.4,24.9C-75.3,7.3,-74.8,-10.5,-68.1,-25.4C-61.4,-40.3,-48.5,-52.3,-34.5,-59.1C-20.5,-65.9,-5.4,-67.5,8.8,-66.3C23,-65.1,30.2,-65.7,42.3,-58.2Z" transform="translate(100 100)" />
+        </svg>
+
+        {/* Halos difuminados suaves */}
+        <div className="absolute top-[18%] -left-32 w-[520px] h-[520px] rounded-full bg-gradient-to-tr from-red-500/10 via-rose-300/8 to-transparent blur-[130px]"></div>
+        <div className="absolute top-[42%] -right-32 w-[580px] h-[580px] rounded-full bg-gradient-to-bl from-sky-400/12 via-blue-200/8 to-transparent blur-[140px]"></div>
+        <div className="absolute top-[70%] left-[10%] w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-red-400/8 via-rose-100/6 to-transparent blur-[150px]"></div>
+
+        {/* Iconos gigantes decorativos como marcas de agua sutiles */}
+        <IconMicroscope className="absolute top-[28%] right-[8%] w-64 h-64 text-slate-400/8 stroke-[0.8] rotate-12" />
+        <IconDna className="absolute top-[48%] left-[3%] w-72 h-72 text-red-500/7 stroke-[0.8] -rotate-12" />
+        <IconFlask className="absolute top-[72%] right-[5%] w-60 h-60 text-sky-500/8 stroke-[0.8] rotate-6" />
+        <IconPlus className="absolute top-[15%] left-[8%] w-24 h-24 text-red-400/10 stroke-[2] rotate-45" />
+        <IconPlus className="absolute top-[42%] right-[15%] w-16 h-16 text-slate-400/10 stroke-[2] rotate-12" />
+        <IconPlus className="absolute top-[82%] left-[12%] w-20 h-20 text-sky-400/10 stroke-[2] -rotate-12" />
+        <IconSparkles className="absolute top-[62%] left-[22%] w-16 h-16 text-amber-400/12 stroke-[1.5]" />
+      </div>
+
+      {/* 1. HERO SECTION PRINCIPAL (Fondo 3D Esculpido con Ondas Fluidas & Líneas Senoidales) */}
+      <section
         ref={heroRef}
-        className="relative min-h-[520px] md:min-h-[600px] lg:min-h-[640px] w-full flex items-center overflow-hidden bg-slate-50 pb-20 md:pb-28"
+        className="relative min-h-[620px] lg:min-h-[700px] w-full bg-gradient-to-br from-[#0A1A27] via-[#0E2A3E] to-[#12436D] overflow-hidden pt-28 sm:pt-36 pb-28 md:pb-36 px-4 md:px-8 text-white relative z-10"
       >
-        {/* Imagen de fondo nítida con científico de laboratorio */}
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.pexels.com/photos/8442574/pexels-photo-8442574.jpeg?auto=compress&cs=tinysrgb&w=1600&q=85" 
-            alt="Laboratorio de Análisis Clínicos Tacna" 
-            className="w-full h-full object-cover object-[70%_center] md:object-right opacity-95"
-          />
-          {/* Gradient overlay lateral para legibilidad impecable */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 md:via-white/70 to-transparent"></div>
-        </div>
+        {/* CAPA DE FONDO 1: Olas Esculpidas 3D & Curvas Fluidas Orgánicas */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full py-16 md:py-24 flex flex-col items-start gap-5">
-          <div className="animate-fade-up flex items-center gap-2 text-xs md:text-sm font-bold text-[#E52320] tracking-wide">
-            <span className="w-6 h-[2px] bg-[#E52320]"></span>
-            <span>Laboratorio de Análisis Clínicos - Tacna Perú</span>
-          </div>
-
-          <h1 className="animate-fade-up font-jakarta text-3xl sm:text-4xl md:text-5xl lg:text-[50px] font-extrabold text-[#1E3A4C] leading-[1.15] max-w-2xl tracking-tight">
-            Diagnóstico en análisis clínicos en{' '}
-            <span className="text-[#E52320]">forma eficaz, oportuna y de calidad.</span>
-          </h1>
-
-          <p className="animate-fade-up text-slate-600 max-w-xl text-sm sm:text-base md:text-lg font-normal leading-relaxed mt-1">
-            Estamos comprometidos en un mejoramiento continuo para servir con precisión a nuestros pacientes y médicos de Tacna.
-          </p>
-
-          <div className="animate-fade-up mt-4">
-            <button
-              onClick={() => setActiveTab('resultados')}
-              className="px-9 py-4 bg-[#E52320] hover:bg-red-700 text-white font-extrabold text-xs uppercase tracking-widest rounded-full shadow-lg shadow-red-500/25 transition-all transform hover:scale-105 cursor-pointer"
-            >
-              Acceso a Resultados
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. 4 TARJETAS OSCURAS DE SERVICIOS (Superpuestas con espacio holgado) */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 -mt-14 md:-mt-20 relative z-20">
-        <div 
-          ref={cardsRef}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5"
-        >
-          {featureCards.map((card, idx) => (
-            <div 
-              key={idx}
-              onClick={card.action}
-              className="bg-[#2D3139] hover:bg-[#1E3A4C] text-white p-7 rounded-md shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 cursor-pointer flex flex-col items-center text-center group border-t-2 border-transparent hover:border-[#E52320]"
-            >
-              <div className="mb-5 p-2 transition-transform group-hover:scale-110">
-                {card.icon}
-              </div>
-              <h3 className="font-jakarta text-base font-bold text-white mb-2 leading-snug">
-                {card.title}
-              </h3>
-              <p className="text-xs text-slate-300 font-normal leading-relaxed">
-                {card.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 3. SECCIÓN: ¿POR QUÉ ATENDERSE EN UNIDOSLAB? (Estilo Laboratorios Tacna) */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-slate-50 border border-slate-200/80 rounded-3xl p-6 md:p-10 shadow-sm">
-          
-          {/* Columna Izquierda: Información & Contadores */}
-          <div className="lg:col-span-6 space-y-6">
-            <div className="flex items-center gap-2 text-xs font-bold text-[#E52320] tracking-wide">
-              <span className="w-5 h-[2px] bg-[#E52320]"></span>
-              <span>Laboratorio de Análisis Clínico Tacna Perú</span>
-            </div>
-
-            <h2 className="font-jakarta text-3xl sm:text-4xl font-extrabold text-[#1E3A4C] leading-tight tracking-tight">
-              ¿Por qué atenderse en <br className="hidden sm:block" /> UNIDOSLAB?
-            </h2>
-
-            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal">
-              UNIDOSLAB ofrece al público en general y a la comunidad médica de Tacna, un directorio especializado de más de 3,000 análisis clínicos y de diagnóstico con los más altos estándares de calidad.
-            </p>
-
-            {/* Contadores con animación interactiva desde 0 */}
-            <div className="grid grid-cols-2 gap-6 pt-6 border-t border-slate-200/80">
-              <div className="relative bg-white p-5 rounded-2xl border border-slate-100 shadow-xs">
-                <div className="flex items-baseline">
-                  <span className="text-[#E52320] text-3xl font-extrabold mr-1">+</span>
-                  <span className="font-jakarta text-4xl sm:text-5xl font-extrabold text-[#1E3A4C] tracking-tight">
-                    {yearsCount}
-                  </span>
-                </div>
-                <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-wider block mt-1">
-                  Años en el Mercado
-                </span>
-              </div>
-
-              <div className="relative bg-white p-5 rounded-2xl border border-slate-100 shadow-xs">
-                <div className="flex items-baseline">
-                  <span className="font-jakarta text-4xl sm:text-5xl font-extrabold text-[#1E3A4C] tracking-tight">
-                    {examsCount.toLocaleString('es-PE')}
-                  </span>
-                  <span className="text-[#E52320] text-3xl font-extrabold ml-1">+</span>
-                </div>
-                <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-wider block mt-1">
-                  Exámenes Realizados
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Columna Derecha: Fotografía Clínica Nítida (Opción 3) */}
-          <div className="lg:col-span-6 relative h-[350px] sm:h-[420px] rounded-2xl overflow-hidden shadow-xl border-2 border-white">
-            <img 
-              src="https://images.pexels.com/photos/3735709/pexels-photo-3735709.jpeg?auto=compress&cs=tinysrgb&w=1200" 
-              alt="Tubos de muestra y centrífuga clínica - UNIDOSLAB" 
-              className="w-full h-full object-cover"
+          {/* Ola Curva Superior Izquierda (Esculpida con borde de luz cian) */}
+          <svg
+            className="absolute -top-20 -left-20 w-[680px] h-[680px] text-[#0A2234] opacity-90 transition-transform"
+            viewBox="0 0 600 600"
+            fill="none"
+          >
+            <path
+              d="M0,0 L600,0 C540,180 480,340 320,440 C180,520 60,560 0,600 Z"
+              fill="url(#wave-gradient-1)"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent"></div>
+            <path
+              d="M0,0 C380,140 460,320 320,440 C180,520 60,560 0,600"
+              stroke="url(#wave-glow-1)"
+              strokeWidth="2.5"
+              strokeOpacity="0.4"
+            />
+            <defs>
+              <linearGradient id="wave-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#081A26" stopOpacity="0.95" />
+                <stop offset="60%" stopColor="#0E314B" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#13456C" stopOpacity="0.4" />
+              </linearGradient>
+              <linearGradient id="wave-glow-1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#38BDF8" />
+                <stop offset="100%" stopColor="#60A5FA" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          {/* Malla de Líneas Senoidales (Flujo Diagnóstico / ECG Digital) */}
+          <svg
+            className="absolute top-[20%] left-[25%] w-[800px] h-[500px] opacity-25"
+            viewBox="0 0 800 500"
+            fill="none"
+          >
+            <path d="M0,250 C150,150 250,350 400,220 C550,90 650,280 800,200" stroke="#38BDF8" strokeWidth="1.2" />
+            <path d="M0,265 C150,165 250,365 400,235 C550,105 650,295 800,215" stroke="#38BDF8" strokeWidth="1" strokeDasharray="4 4" />
+            <path d="M0,280 C150,180 250,380 400,250 C550,120 650,310 800,230" stroke="#60A5FA" strokeWidth="1.5" />
+            <path d="M0,295 C150,195 250,395 400,265 C550,135 650,325 800,245" stroke="#38BDF8" strokeWidth="0.8" />
+            <path d="M0,310 C150,210 250,410 400,280 C550,150 650,340 800,260" stroke="#93C5FD" strokeWidth="1" />
+          </svg>
+
+          {/* Gran Ola Inferior Dinámica que abraza la base del Hero */}
+          <svg
+            className="absolute -bottom-2 left-0 right-0 w-full h-44 text-slate-50/40"
+            viewBox="0 0 1440 180"
+            preserveAspectRatio="none"
+            fill="none"
+          >
+            <path
+              d="M0,60 C320,160 680,20 1080,110 C1260,150 1380,130 1440,120 L1440,180 L0,180 Z"
+              fill="url(#wave-bottom-gradient)"
+            />
+            <path
+              d="M0,60 C320,160 680,20 1080,110 C1260,150 1380,130 1440,120"
+              stroke="#38BDF8"
+              strokeWidth="2"
+              strokeOpacity="0.3"
+            />
+            <defs>
+              <linearGradient id="wave-bottom-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#0B1F2E" stopOpacity="0.7" />
+                <stop offset="50%" stopColor="#0E334E" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#0284C7" stopOpacity="0.3" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          {/* Cruz Médica de Cristal en el fondo superior central */}
+          <div className="absolute top-[18%] left-[45%] -translate-x-1/2 opacity-15 pointer-events-none">
+            <svg className="w-36 h-36 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+              <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3z" />
+            </svg>
           </div>
 
+          {/* Halo de luz suave en el centro */}
+          <div className="absolute top-1/4 right-1/4 w-[480px] h-[480px] rounded-full bg-sky-400/20 blur-[130px]"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-20">
+
+          {/* Columna Izquierda: Titular y CTA (Staggered Children con resortes Emil Kowalski) */}
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.08, delayChildren: 0.05 }
+              }
+            }}
+            className="lg:col-span-7 space-y-6"
+          >
+
+            {/* Badge superior */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 12 },
+                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 320, damping: 26, mass: 0.8 } }
+              }}
+              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold uppercase tracking-widest text-sky-200 shadow-xs"
+            >
+              <span className="w-2 h-2 rounded-full bg-[#FF5A5F] animate-pulse"></span>
+              <span>Laboratorio Clínico Tacna · Perú</span>
+            </motion.div>
+
+            {/* Titular contundente con acento de punto y barrita de diseño */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 14 },
+                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 28, mass: 0.8 } }
+              }}
+            >
+              <h1 className="font-jakarta text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.12] tracking-tight">
+                <span className="block text-white">Tu Salud Es</span>
+                <span className="block text-white">
+                  Nuestra Prioridad<span className="text-[#FF5A5F]">.</span>
+                </span>
+              </h1>
+              {/* Barra corta de acento rojo coral */}
+              <span className="w-14 h-1 bg-[#FF5A5F] rounded-full mt-3 block"></span>
+            </motion.div>
+
+            {/* Bajada */}
+            <motion.p
+              variants={{
+                hidden: { opacity: 0, y: 12 },
+                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 28, mass: 0.8 } }
+              }}
+              className="text-sky-100/90 text-sm sm:text-base md:text-lg max-w-xl font-normal leading-relaxed"
+            >
+              Tecnología diagnóstica automatizada de alta precisión, calidez humana y entrega digital inmediata de tus análisis clínicos.
+            </motion.p>
+
+            {/* Botones de acción con respuesta táctil física instantánea (80ms tap) */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 12 },
+                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 320, damping: 26, mass: 0.8 } }
+              }}
+              className="flex flex-wrap items-center gap-4 pt-2"
+            >
+              <motion.button
+                onClick={() => setActiveTab('resultados')}
+                whileHover={{ scale: 1.025, transition: { duration: 0.15, ease: [0.16, 1, 0.3, 1] } }}
+                whileTap={{ scale: 0.97, transition: { duration: 0.08 } }}
+                className="group px-7 py-3.5 bg-[#FF5A5F] hover:bg-[#E84A4F] text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow-lg shadow-red-500/35 transition-colors cursor-pointer flex items-center gap-3"
+              >
+                <span>Consultar Resultados</span>
+                <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                  <IconArrowRight className="w-3.5 h-3.5 text-white" />
+                </span>
+              </motion.button>
+
+              <motion.a
+                href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20mayor%20informaci%C3%B3n%20sobre%20an%C3%A1lisis%20cl%C3%ADnicos"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.18)", transition: { duration: 0.15 } }}
+                whileTap={{ scale: 0.97, transition: { duration: 0.08 } }}
+                className="px-7 py-3.5 bg-white/10 text-white border border-white/25 font-bold text-xs uppercase tracking-wider rounded-full backdrop-blur-md flex items-center gap-2 cursor-pointer transition-colors"
+              >
+                <span>Escríbenos por WhatsApp</span>
+              </motion.a>
+            </motion.div>
+          </motion.div>
+
+          {/* Columna Derecha: Especialistas Médicos & Marco Squircle 3D */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0.12 }}
+            className="lg:col-span-5 relative flex justify-center lg:justify-end"
+          >
+
+            {/* Matriz de puntos decorativos detrás de los doctores */}
+            <div className="absolute -top-6 -right-6 w-32 h-32 opacity-25 grid grid-cols-6 gap-2 pointer-events-none">
+              {Array.from({ length: 36 }).map((_, i) => (
+                <span key={i} className="w-1.5 h-1.5 rounded-full bg-white block"></span>
+              ))}
+            </div>
+
+            {/* Imagen del especialista con marco squircle de cristal */}
+            <div className="relative z-10 rounded-[38px] p-2 bg-gradient-to-b from-white/30 via-white/10 to-white/5 border-2 border-white/35 shadow-2xl backdrop-blur-md max-w-sm sm:max-w-md w-full">
+              <div className="rounded-[30px] overflow-hidden bg-gradient-to-b from-sky-300/20 via-[#0E2C44]/40 to-[#091825]/90 flex items-end justify-center pt-4">
+                <img
+                  src="/home_chica.png"
+                  alt="Especialista UNIDOSLAB Tacna"
+                  className="w-full h-[370px] sm:h-[430px] object-contain object-bottom drop-shadow-2xl"
+                />
+              </div>
+            </div>
+
+            {/* Barra lateral flotante de redes sociales */}
+            <motion.div
+              initial={{ x: 20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.3, type: "spring", stiffness: 350, damping: 25 }}
+              className="hidden xl:flex absolute -right-6 top-1/2 -translate-y-1/2 flex-col gap-3 bg-[#FF5A5F] text-white p-2.5 rounded-2xl shadow-xl z-20"
+            >
+              <motion.a
+                whileHover={{ scale: 1.15, rotate: 2, transition: { type: "spring", stiffness: 400, damping: 15 } }}
+                whileTap={{ scale: 0.92 }}
+                href="https://facebook.com"
+                target="_blank"
+                rel="noreferrer"
+                className="w-8 h-8 rounded-xl hover:bg-white/20 flex items-center justify-center transition-colors text-xs font-bold"
+              >
+                f
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.15, rotate: 2, transition: { type: "spring", stiffness: 400, damping: 15 } }}
+                whileTap={{ scale: 0.92 }}
+                href="https://instagram.com"
+                target="_blank"
+                rel="noreferrer"
+                className="w-8 h-8 rounded-xl hover:bg-white/20 flex items-center justify-center transition-colors text-xs font-bold"
+              >
+                ig
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.15, rotate: 2, transition: { type: "spring", stiffness: 400, damping: 15 } }}
+                whileTap={{ scale: 0.92 }}
+                href="https://api.whatsapp.com/send/?phone=51952920616"
+                target="_blank"
+                rel="noreferrer"
+                className="w-8 h-8 rounded-xl hover:bg-white/20 flex items-center justify-center transition-colors text-xs font-bold"
+              >
+                wa
+              </motion.a>
+            </motion.div>
+
+          </motion.div>
+        </div>
+      </section>
+
+      {/* 2. BARRA FLOTANTE INFERIOR DE 3 DESTACADOS (Superpuesta en la base del Hero) */}
+      <section className="max-w-6xl mx-auto px-4 md:px-6 -mt-16 md:-mt-20 relative z-30">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, type: "spring", stiffness: 280, damping: 26 }}
+          className="bg-white rounded-3xl p-6 sm:p-8 shadow-2xl shadow-slate-900/10 border border-slate-100 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 divide-y md:divide-y-0 md:divide-x divide-slate-100"
+        >
+
+          {/* Destacado 1 */}
+          <motion.div
+            whileHover={{ y: -2, transition: { duration: 0.15 } }}
+            className="flex items-center gap-4 pt-4 md:pt-0 group cursor-default"
+          >
+            <motion.div
+              whileHover={{ scale: 1.08, transition: { type: "spring", stiffness: 400, damping: 15 } }}
+              className="w-14 h-14 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shadow-lg shadow-red-500/25 shrink-0"
+            >
+              <IconTestPipe className="w-7 h-7" />
+            </motion.div>
+            <div>
+              <h3 className="font-jakarta text-base font-bold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
+                Toma de Muestras
+              </h3>
+              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                Muestreo indoloro en sede o a domicilio con máxima bioseguridad.
+              </p>
+              <div className="w-8 h-0.5 bg-[#FF5A5F]/70 rounded-full mt-2"></div>
+            </div>
+          </motion.div>
+
+          {/* Destacado 2 */}
+          <motion.div
+            whileHover={{ y: -2, transition: { duration: 0.15 } }}
+            className="flex items-center gap-4 pt-4 md:pt-0 md:pl-6 group cursor-default"
+          >
+            <motion.div
+              whileHover={{ scale: 1.08, transition: { type: "spring", stiffness: 400, damping: 15 } }}
+              className="w-14 h-14 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shadow-lg shadow-red-500/25 shrink-0"
+            >
+              <IconFileCertificate className="w-7 h-7" />
+            </motion.div>
+            <div>
+              <h3 className="font-jakarta text-base font-bold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
+                Resultados en Línea
+              </h3>
+              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                Consulta y descarga rápida  desde cualquier dispositivo.
+              </p>
+              <div className="w-8 h-0.5 bg-[#FF5A5F]/70 rounded-full mt-2"></div>
+            </div>
+          </motion.div>
+
+          {/* Destacado 3 */}
+          <motion.div
+            whileHover={{ y: -2, transition: { duration: 0.15 } }}
+            className="flex items-center gap-4 pt-4 md:pt-0 md:pl-6 group cursor-default"
+          >
+            <motion.div
+              whileHover={{ scale: 1.08, transition: { type: "spring", stiffness: 400, damping: 15 } }}
+              className="w-14 h-14 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shadow-lg shadow-red-500/25 shrink-0"
+            >
+              <IconShieldCheck className="w-7 h-7" />
+            </motion.div>
+            <div>
+              <h3 className="font-jakarta text-base font-bold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
+                Doble Control de Calidad
+              </h3>
+              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                Certificación y validación por bioquímicos colegiados en Tacna.
+              </p>
+              <div className="w-8 h-0.5 bg-[#FF5A5F]/70 rounded-full mt-2"></div>
+            </div>
+          </motion.div>
+
+        </motion.div>
+      </section>
+
+      {/* 3. SECCIÓN: ¿POR QUÉ CONFIAR TU DIAGNÓSTICO EN UNIDOSLAB? (Diseño Esculpido Fiel a la Referencia) */}
+      <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24 relative z-10">
+        <div className="bg-gradient-to-br from-[#FFFFFF] via-[#F3F8FC] to-[#E5F0F8] border border-slate-200/80 rounded-[44px] p-6 sm:p-10 md:p-14 shadow-2xl shadow-slate-900/10 relative overflow-hidden">
+          
+          {/* CAPA DE ONDAS ESCULPIDAS Y DECORACIÓN DE FONDO */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+            
+            {/* Onda Azul Hielo Superior Derecha */}
+            <svg 
+              className="absolute -top-12 right-0 w-[620px] h-[520px] opacity-40" 
+              viewBox="0 0 600 500" 
+              fill="none"
+            >
+              <path 
+                d="M600,0 L180,0 C220,120 320,240 450,280 C540,310 580,380 600,420 Z" 
+                fill="url(#ice-wave-top)" 
+              />
+              <defs>
+                <linearGradient id="ice-wave-top" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#BAE6FD" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.2" />
+                </linearGradient>
+              </defs>
+            </svg>
+
+            {/* Gran Onda Azul Marino Inferior Derecha (Da contraste por detrás del marco fotográfico) */}
+            <svg 
+              className="absolute -bottom-6 -right-12 w-[680px] h-[480px] opacity-90" 
+              viewBox="0 0 650 450" 
+              fill="none"
+            >
+              <path 
+                d="M650,450 L200,450 C260,340 380,260 520,220 C600,190 640,120 650,80 Z" 
+                fill="url(#navy-wave-bottom)" 
+              />
+              <defs>
+                <linearGradient id="navy-wave-bottom" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#0B1E2D" stopOpacity="0.95" />
+                  <stop offset="60%" stopColor="#0E2C44" stopOpacity="0.9" />
+                  <stop offset="100%" stopColor="#163E5D" stopOpacity="0.8" />
+                </linearGradient>
+              </defs>
+            </svg>
+
+            {/* Cruz Médica de Contorno en Fondo Superior Derecho */}
+            <div className="absolute top-8 right-12 opacity-30 pointer-events-none">
+              <svg className="w-28 h-28 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+                <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3z" />
+              </svg>
+            </div>
+
+            {/* Retícula de Micropuntos en Fondo Derecho */}
+            <div className="absolute top-36 right-8 w-24 h-24 opacity-30 grid grid-cols-4 gap-2.5 pointer-events-none">
+              {Array.from({ length: 16 }).map((_, i) => (
+                <span key={i} className="w-1.5 h-1.5 rounded-full bg-sky-500 block"></span>
+              ))}
+            </div>
+
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10">
+            
+            {/* Columna Izquierda: Información, 3 Pilares & Estadísticas (7 Columnas) */}
+            <div className="lg:col-span-7 space-y-6">
+              
+              {/* Badge superior */}
+              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/90 border border-slate-200 text-[#1E3A4C] text-[11px] font-extrabold uppercase tracking-widest shadow-xs">
+                <span className="w-2 h-2 rounded-full bg-[#FF5A5F]"></span>
+                <span>Atención Clínica Certificada · Tacna, Perú</span>
+              </div>
+
+              {/* Titular contundente de 3 líneas */}
+              <div>
+                <h2 className="font-jakarta text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#1E3A4C] leading-[1.12] tracking-tight">
+                  ¿Por qué confiar tu<br />
+                  diagnóstico en<br />
+                  <span className="text-[#FF5A5F]">UNIDOSLAB</span>?
+                </h2>
+                <div className="w-12 h-1 bg-[#FF5A5F] rounded-full mt-3"></div>
+              </div>
+
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal max-w-xl">
+                Análisis clínicos especializados con tecnología automatizada de alta precisión y la calidez humana que tú y tu familia merecen.
+              </p>
+
+              {/* 3 Pilares de Confianza en Tonos Pastel Suaves */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1">
+                
+                {/* Pilar 1: Doble Validación */}
+                <motion.div 
+                  whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+                  whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
+                  className="bg-[#FFF5F5] border border-red-100/90 rounded-2xl p-4 flex flex-col justify-between shadow-xs cursor-default"
+                >
+                  <div className="w-9 h-9 rounded-xl bg-white text-[#FF5A5F] flex items-center justify-center mb-3 shadow-xs border border-red-50">
+                    <IconFlask className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-jakarta text-xs font-extrabold text-[#1E3A4C] leading-snug">
+                      Doble Validación
+                    </h4>
+                    <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                      Verificación estricta por bioquímicos colegiados.
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Pilar 2: Entrega Digital 24/7 */}
+                <motion.div 
+                  whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+                  whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
+                  className="bg-[#F0F7FF] border border-sky-100/90 rounded-2xl p-4 flex flex-col justify-between shadow-xs cursor-default"
+                >
+                  <div className="w-9 h-9 rounded-xl bg-white text-sky-600 flex items-center justify-center mb-3 shadow-xs border border-sky-50">
+                    <IconFileCertificate className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-jakarta text-xs font-extrabold text-[#1E3A4C] leading-snug">
+                      Entrega Digital 24/7
+                    </h4>
+                    <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                      Descarga tus análisis con tu DNI desde el celular.
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Pilar 3: Sedes & Domicilio */}
+                <motion.div 
+                  whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+                  whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
+                  className="bg-[#F0FDF4] border border-emerald-100/90 rounded-2xl p-4 flex flex-col justify-between shadow-xs cursor-default"
+                >
+                  <div className="w-9 h-9 rounded-xl bg-white text-emerald-600 flex items-center justify-center mb-3 shadow-xs border border-emerald-50">
+                    <IconMapPin className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-jakarta text-xs font-extrabold text-[#1E3A4C] leading-snug">
+                      Sedes & Domicilio
+                    </h4>
+                    <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                      2 sedes céntricas en Tacna o toma en tu hogar.
+                    </p>
+                  </div>
+                </motion.div>
+
+              </div>
+
+              {/* 2 Cápsulas de Estadísticas en Azul Marino Flotante */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
+                
+                {/* Cápsula 1: +6 Años de Trayectoria Clínica */}
+                <motion.div 
+                  whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+                  whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
+                  className="bg-[#1E3A4C] text-white p-4 sm:p-5 rounded-3xl shadow-xl shadow-slate-900/15 border border-slate-700/30 flex items-center gap-4 cursor-default"
+                >
+                  <div className="w-12 h-12 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/30">
+                    <IconAward className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <div className="flex items-baseline">
+                      <span className="text-[#FF5A5F] text-2xl font-extrabold mr-0.5">+</span>
+                      <span className="font-jakarta text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                        {yearsCount}
+                      </span>
+                    </div>
+                    <span className="text-[11px] font-bold text-slate-300 block leading-tight">
+                      Años de Trayectoria Clínica
+                    </span>
+                    <div className="w-8 h-0.5 bg-[#FF5A5F] rounded-full mt-1.5"></div>
+                  </div>
+                </motion.div>
+
+                {/* Cápsula 2: Pacientes atendidos */}
+                <motion.div 
+                  whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+                  whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
+                  className="bg-[#1E3A4C] text-white p-4 sm:p-5 rounded-3xl shadow-xl shadow-slate-900/15 border border-slate-700/30 flex items-center gap-4 cursor-default"
+                >
+                  <div className="w-12 h-12 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/30">
+                    <IconUsers className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <div className="flex items-baseline">
+                      <span className="font-jakarta text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                        {examsCount.toLocaleString('es-PE')}
+                      </span>
+                      <span className="text-[#FF5A5F] text-2xl font-extrabold ml-0.5">+</span>
+                    </div>
+                    <span className="text-[11px] font-bold text-slate-300 block leading-tight">
+                      Pacientes atendidos
+                    </span>
+                    <div className="w-8 h-0.5 bg-[#FF5A5F] rounded-full mt-1.5"></div>
+                  </div>
+                </motion.div>
+
+              </div>
+            </div>
+
+            {/* Columna Derecha: Marco Squircle con Borde Azul Marino Grueso & Badge Flotante (5 Columnas) */}
+            <div className="lg:col-span-5 relative flex justify-center">
+              
+              {/* Marco Squircle con Borde Marino Fuerte a juego con la referencia */}
+              <div className="relative rounded-[44px] p-2.5 bg-[#1E3A4C] border-4 border-[#16364D] shadow-2xl max-w-sm sm:max-w-md w-full">
+                <div className="rounded-[34px] overflow-hidden bg-slate-950 relative">
+                  <img
+                    src="https://images.pexels.com/photos/3735709/pexels-photo-3735709.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                    alt="Laboratorio de análisis clínicos y reactivos - UNIDOSLAB Tacna"
+                    className="w-full h-[380px] sm:h-[460px] object-cover object-center"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
+                </div>
+
+                {/* Badge Flotante de Garantía */}
+                <motion.div 
+                  initial={{ y: 8, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2, type: "spring", stiffness: 350, damping: 25 }}
+                  className="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white flex items-center gap-3.5 text-slate-800"
+                >
+                  <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 shadow-xs border border-emerald-100">
+                    <IconShieldCheck className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-extrabold text-[#1E3A4C]">Control de Calidad Acreditado</h4>
+                    <p className="text-[11px] font-medium text-slate-500 leading-snug">Validación continua de reactivos en Tacna para resultados confiables.</p>
+                  </div>
+                </motion.div>
+              </div>
+
+            </div>
+
+          </div>
         </div>
       </section>
 
       {/* 4. SECCIÓN: ¿CÓMO TRABAJAMOS? RECIBE TUS RESULTADOS EN 3 PASOS */}
-      <section className="relative py-24 border-y border-slate-200/60 overflow-hidden bg-white">
+      <section className="relative py-24 border-y border-slate-200/60 overflow-hidden bg-gradient-to-b from-white/60 via-slate-50/80 to-white/60 backdrop-blur-md">
         {/* Fondo de mapa con patrón de micropuntos clínicos */}
-        <div 
-          className="absolute inset-0 pointer-events-none opacity-50"
+        <div
+          className="absolute inset-0 pointer-events-none opacity-40"
           style={{
             backgroundImage: 'radial-gradient(#94a3b8 1.4px, transparent 1.4px)',
             backgroundSize: '24px 24px'
@@ -250,9 +746,9 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             {/* Paso 1 */}
             <div className="flex flex-col items-center text-center group">
               <div className="w-24 h-24 rounded-3xl bg-white shadow-lg shadow-slate-200/70 border border-slate-100 flex items-center justify-center p-4 mb-5 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl group-hover:border-[#E52320]/30">
-                <img 
-                  src="/step-1.svg" 
-                  alt="Análisis Clínico" 
+                <img
+                  src="/step-1.svg"
+                  alt="Análisis Clínico"
                   className="w-16 h-16 object-contain"
                 />
               </div>
@@ -267,9 +763,9 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             {/* Paso 2 */}
             <div className="flex flex-col items-center text-center group">
               <div className="w-24 h-24 rounded-3xl bg-white shadow-lg shadow-slate-200/70 border border-slate-100 flex items-center justify-center p-4 mb-5 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl group-hover:border-[#E52320]/30">
-                <img 
-                  src="/step-2.svg" 
-                  alt="Preparamos sus análisis" 
+                <img
+                  src="/step-2.svg"
+                  alt="Preparamos sus análisis"
                   className="w-16 h-16 object-contain"
                 />
               </div>
@@ -284,9 +780,9 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             {/* Paso 3 */}
             <div className="flex flex-col items-center text-center group">
               <div className="w-24 h-24 rounded-3xl bg-white shadow-lg shadow-slate-200/70 border border-slate-100 flex items-center justify-center p-4 mb-5 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl group-hover:border-[#E52320]/30">
-                <img 
-                  src="/step-3.svg" 
-                  alt="Enviamos tus resultados" 
+                <img
+                  src="/step-3.svg"
+                  alt="Enviamos tus resultados"
                   className="w-16 h-16 object-contain"
                 />
               </div>
@@ -301,147 +797,153 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
         </div>
       </section>
 
-      {/* 5. SECCIÓN: SEDES Y HORARIOS EN TACNA (Con Mapas Interactivos de Google Maps) */}
-      <section id="sedes" className="max-w-7xl mx-auto px-4 md:px-6 pt-16 pb-12 scroll-mt-24">
-        <div className="bg-slate-50/80 border border-slate-200/80 rounded-3xl p-6 md:p-10 shadow-sm">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 border-b border-slate-200/80 pb-6">
+      {/* 5. SECCIÓN: SEDES Y HORARIOS EN TACNA (2 Sedes a la izquierda, Gran Mapa Interactivo a la derecha) */}
+      <section id="sedes" className="max-w-7xl mx-auto px-4 md:px-6 pt-16 pb-12 scroll-mt-24 relative z-10">
+        <div className="bg-white/85 backdrop-blur-md border border-slate-200/80 rounded-3xl p-6 md:p-10 shadow-xl shadow-slate-200/40 relative overflow-hidden">
+          <div aria-hidden="true" className="pointer-events-none absolute -left-20 -top-20 w-80 h-80 rounded-full bg-slate-200/30 blur-[80px]"></div>
+
+          <div className="mb-8 border-b border-slate-200/80 pb-6 relative z-10">
             <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-[#E52320] block mb-1">
-                Atención Presencial en Tacna
-              </span>
+              <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-[#1E3A4C] mb-1">
+                <span className="w-2 h-2 rounded-full bg-[#E52320]"></span>
+                <span>Atención Presencial en Tacna</span>
+              </div>
               <h3 className="font-jakarta text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#1E3A4C]">
                 Nuestras Sedes & Mapas de Ubicación
               </h3>
               <p className="text-slate-500 text-xs md:text-sm mt-1 font-medium">
-                Encuentra la sede más cercana a ti con mapa interactivo y rutas en vivo.
+                Selecciona una sede a la izquierda para enfocar el mapa interactivo y trazar tu ruta en tiempo real.
               </p>
             </div>
-
-            <button 
-              onClick={() => setActiveTab('sedes')}
-              className="px-6 py-3 bg-white border border-slate-200 hover:border-[#E52320] text-[#1E3A4C] hover:text-[#E52320] text-xs font-extrabold uppercase tracking-wider rounded-full shadow-xs transition-all flex items-center gap-2 w-fit cursor-pointer group"
-            >
-              <span>Ver detalle completo de sedes</span>
-              <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </button>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Sede 01: Av. Leguía */}
-            <div className="bg-white rounded-3xl border border-slate-200 shadow-lg overflow-hidden flex flex-col justify-between">
-              <div className="p-6 md:p-8 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold text-[#E52320] uppercase tracking-widest">
-                    Sede 01 · Tacna
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    Abierto Lunes a Sábado
-                  </span>
-                </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative z-10">
 
-                <h4 className="font-jakarta text-xl font-extrabold text-[#1E3A4C]">
-                  Avenida Leguía
-                </h4>
+            {/* Columna Izquierda: 2 Tarjetas de Sedes (5 columnas) */}
+            <div className="lg:col-span-5 flex flex-col gap-4">
+              {sedesData.map((sede, idx) => {
+                const isSelected = selectedSedeIndex === idx;
+                return (
+                  <motion.div
+                    key={sede.id}
+                    onClick={() => setSelectedSedeIndex(idx)}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                    className={`p-6 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between relative overflow-hidden ${isSelected
+                        ? 'bg-white border-[#1E3A4C] shadow-xl shadow-slate-300/40 ring-4 ring-slate-100'
+                        : 'bg-slate-50/70 hover:bg-white border-slate-200/80 hover:border-slate-300 shadow-xs'
+                      }`}
+                  >
+                    {isSelected && (
+                      <div className="absolute top-0 right-0 bg-[#1E3A4C] text-white text-[10px] font-extrabold px-3 py-1 rounded-bl-xl uppercase tracking-wider flex items-center gap-1.5 shadow-xs">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#E52320] animate-ping"></span>
+                        <span>Sede Activa</span>
+                      </div>
+                    )}
 
-                <p className="text-xs text-slate-600 font-medium flex items-center gap-1.5">
-                  <IconMapPin className="w-4 h-4 text-[#E52320] shrink-0" />
-                  <span>Av. Leguía, Tacna (Frente a consultorios médicos)</span>
-                </p>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className={`text-xs font-extrabold uppercase tracking-widest ${isSelected ? 'text-[#1E3A4C]' : 'text-slate-500'}`}>
+                          Sede {sede.number} · Tacna
+                        </span>
+                        {!isSelected && (
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            Abierto
+                          </span>
+                        )}
+                      </div>
 
-                <div className="pt-2 space-y-2 text-xs text-slate-600 border-t border-slate-100">
-                  <div className="flex justify-between items-center py-1">
-                    <span className="font-semibold text-slate-700 flex items-center gap-1.5">
-                      <IconClock className="w-3.5 h-3.5 text-slate-400" />
-                      Horario General:
-                    </span>
-                    <span className="font-extrabold text-[#1E3A4C]">7:00 AM – 7:00 PM</span>
-                  </div>
-                  <div className="flex justify-between items-center py-1">
-                    <span className="font-semibold text-slate-700">Toma de Muestras:</span>
-                    <span className="text-slate-500">7:00 AM – 1:00 PM</span>
-                  </div>
-                </div>
-              </div>
+                      <h4 className="font-jakarta text-xl font-extrabold text-[#1E3A4C]">
+                        {sede.name}
+                      </h4>
 
-              {/* Mapa de Google Maps Interactivo en vivo */}
-              <div className="relative h-60 w-full bg-slate-100 border-t border-slate-100">
-                <iframe 
-                  title="Mapa Sede Av. Leguía Tacna"
-                  src="https://maps.google.com/maps?q=Av.%20Legu%C3%ADa%2C%20Tacna%2C%20Per%C3%BA&t=m&z=15&output=embed"
-                  className="w-full h-full border-0"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-                <a 
-                  href="https://maps.app.goo.gl/HUAqRFnH5PYh8r1q6" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="absolute bottom-3 right-3 bg-white/95 hover:bg-white text-[#E52320] px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-md backdrop-blur-xs flex items-center gap-1.5 transition-transform hover:scale-105"
+                      <p className="text-xs text-slate-600 font-medium flex items-center gap-1.5">
+                        <IconMapPin className={`w-4 h-4 shrink-0 ${isSelected ? 'text-[#1E3A4C]' : 'text-slate-400'}`} />
+                        <span>{sede.address}</span>
+                      </p>
+
+                      <div className="pt-2 text-xs text-slate-600 border-t border-slate-100 flex justify-between items-center">
+                        <span className="font-semibold text-slate-600 flex items-center gap-1.5">
+                          <IconClock className="w-3.5 h-3.5 text-slate-400" />
+                          Horario General:
+                        </span>
+                        <span className="font-extrabold text-[#1E3A4C]">{sede.schedule}</span>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 pt-3 border-t border-slate-100/80 flex items-center justify-between">
+                      <span className={`text-xs font-bold ${isSelected ? 'text-[#1E3A4C]' : 'text-slate-500'}`}>
+                        {isSelected ? '✓ Enfocado en el mapa' : 'Click para enfocar'}
+                      </span>
+                      <a
+                        href={sede.mapsExternalUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-[11px] font-extrabold text-[#1E3A4C] hover:text-[#0284C7] uppercase tracking-wider flex items-center gap-1 transition-colors"
+                      >
+                        <span>Cómo llegar</span>
+                        <span>↗</span>
+                      </a>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Columna Derecha: Gran Mapa Interactivo con Pin Personalizado (7 columnas) */}
+            <div className="lg:col-span-7 bg-slate-100 rounded-3xl overflow-hidden shadow-xl border-2 border-white relative min-h-[440px] lg:min-h-[500px] flex flex-col">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={sedesData[selectedSedeIndex].id}
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  className="w-full h-full absolute inset-0"
                 >
-                  <span>Ver en Google Maps</span>
+                  <iframe
+                    title={`Mapa de ${sedesData[selectedSedeIndex].name}`}
+                    src={sedesData[selectedSedeIndex].mapsEmbedUrl}
+                    className="w-full h-full border-0"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Pin Flotante decorativo en esquina superior izquierda */}
+              <motion.div
+                key={`pin-${selectedSedeIndex}`}
+                initial={{ y: -10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                className="absolute top-4 left-4 z-20 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-lg border border-slate-200/80 flex items-center gap-3 pointer-events-none"
+              >
+                <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-[#1E3A4C]">
+                  <span className="absolute w-full h-full rounded-full bg-[#E52320]/20 animate-ping"></span>
+                  <IconMapPin className="w-5 h-5 relative z-10 text-[#1E3A4C]" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">Sede Activa</span>
+                  <span className="text-xs font-extrabold text-[#1E3A4C] block">{sedesData[selectedSedeIndex].name}</span>
+                </div>
+              </motion.div>
+
+              {/* Botón flotante inferior para abrir Google Maps */}
+              <div className="absolute bottom-4 right-4 z-20">
+                <a
+                  href={sedesData[selectedSedeIndex].mapsExternalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#1E3A4C] hover:bg-[#122531] text-white px-5 py-2.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-xl border border-transparent backdrop-blur-md flex items-center gap-2 transition-all transform hover:scale-105"
+                >
+                  <span>Abrir en Google Maps / Trazar Ruta</span>
                   <span>↗</span>
                 </a>
               </div>
             </div>
 
-            {/* Sede 02: Patricio Meléndez */}
-            <div className="bg-white rounded-3xl border border-slate-200 shadow-lg overflow-hidden flex flex-col justify-between">
-              <div className="p-6 md:p-8 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold text-[#E52320] uppercase tracking-widest">
-                    Sede 02 · Tacna
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    Abierto Lunes a Sábado
-                  </span>
-                </div>
-
-                <h4 className="font-jakarta text-xl font-extrabold text-[#1E3A4C]">
-                  Calle Patricio Meléndez
-                </h4>
-
-                <p className="text-xs text-slate-600 font-medium flex items-center gap-1.5">
-                  <IconMapPin className="w-4 h-4 text-[#E52320] shrink-0" />
-                  <span>Calle Patricio Meléndez, Tacna Centro</span>
-                </p>
-
-                <div className="pt-2 space-y-2 text-xs text-slate-600 border-t border-slate-100">
-                  <div className="flex justify-between items-center py-1">
-                    <span className="font-semibold text-slate-700 flex items-center gap-1.5">
-                      <IconClock className="w-3.5 h-3.5 text-slate-400" />
-                      Horario General:
-                    </span>
-                    <span className="font-extrabold text-[#1E3A4C]">7:00 AM – 7:00 PM</span>
-                  </div>
-                  <div className="flex justify-between items-center py-1">
-                    <span className="font-semibold text-slate-700">Ecografías & Informes:</span>
-                    <span className="text-slate-500">8:00 AM – 6:00 PM</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Mapa de Google Maps Interactivo en vivo */}
-              <div className="relative h-60 w-full bg-slate-100 border-t border-slate-100">
-                <iframe 
-                  title="Mapa Sede Patricio Meléndez Tacna"
-                  src="https://maps.google.com/maps?q=Calle%20Patricio%20Mel%C3%A9ndez%2C%20Tacna%2C%20Per%C3%BA&t=m&z=15&output=embed"
-                  className="w-full h-full border-0"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-                <a 
-                  href="https://maps.app.goo.gl/YY4MkEoko7847tmb9" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="absolute bottom-3 right-3 bg-white/95 hover:bg-white text-[#E52320] px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-md backdrop-blur-xs flex items-center gap-1.5 transition-transform hover:scale-105"
-                >
-                  <span>Ver en Google Maps</span>
-                  <span>↗</span>
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       </section>

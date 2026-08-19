@@ -12,6 +12,19 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = React.useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = React.useState(false);
+  const [isScrolled, setIsScrolled] = React.useState(false);
+
+  const isHome = activeTab === 'inicio';
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const servicesSubitems = [
     'Exámenes',
@@ -46,21 +59,26 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
     setMobileMenuOpen(false);
   };
 
+  const headerContainerClass = 'fixed top-0 left-0 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/70 shadow-xs z-50 transition-all duration-300 pointer-events-auto';
+
   return (
-    <header className="w-full bg-white border-b border-slate-100 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between gap-6">
+    <header className={headerContainerClass}>
+      <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between gap-6 h-20 transition-all duration-300">
         
-        {/* Brand Logo */}
-        <div className="flex items-center gap-2 cursor-pointer shrink-0" onClick={() => handleNavClick('inicio')}>
+        {/* Brand Logo (100% nítido sobre fondo blanco limpio) */}
+        <div 
+          className="flex items-center gap-2 cursor-pointer shrink-0 pointer-events-auto" 
+          onClick={() => handleNavClick('inicio')}
+        >
           <img 
             src="/logo-unidoslab.webp" 
             alt="UNIDOSLAB - Unidos por tu Salud" 
-            className="h-10 md:h-12 w-auto object-contain" 
+            className="h-11 md:h-13 w-auto object-contain" 
           />
         </div>
 
-        {/* Navigation Menu - Desktop */}
-        <nav className="hidden md:block">
+        {/* Navigation Menu - Desktop (Siempre visible y accesible) */}
+        <nav className="hidden md:block transition-all duration-300">
           <ul className="flex items-center gap-8">
             {menuItems.map((item) => {
               const isActive = activeTab === item.id;
@@ -73,7 +91,6 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                     onMouseEnter={() => setServicesDropdownOpen(true)}
                     onMouseLeave={() => setServicesDropdownOpen(false)}
                   >
-                    {/* Al hacer clic en Servicios solo abre/cierra el desplegable de arriba y no cambia la vista de la página */}
                     <button
                       type="button"
                       onClick={(e) => {
@@ -82,14 +99,14 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                       }}
                       className={`font-jakarta relative py-2 text-xs font-extrabold uppercase tracking-wider transition-colors duration-300 cursor-pointer flex items-center gap-1.5 ${
                         isActive 
-                          ? 'text-[#E52320]' 
-                          : 'text-[#1E3A4C] hover:text-[#E52320]'
+                          ? 'text-[#FF5A5F]' 
+                          : 'text-[#1E3A4C] hover:text-[#FF5A5F]'
                       }`}
                     >
                       {item.label}
-                      <span className={`text-[9px] transition-transform duration-200 ${servicesDropdownOpen ? 'rotate-180 text-[#E52320]' : ''}`}>▼</span>
+                      <span className={`text-[9px] transition-transform duration-200 ${servicesDropdownOpen ? 'rotate-180 text-[#FF5A5F]' : ''}`}>▼</span>
                       {isActive && (
-                        <span className="absolute -bottom-1 left-0 right-0 h-[2.5px] bg-[#E52320] rounded-t-full transition-all duration-300"></span>
+                        <span className="absolute -bottom-1 left-0 right-0 h-[2.5px] bg-[#FF5A5F] rounded-t-full transition-all duration-300"></span>
                       )}
                     </button>
 
@@ -104,9 +121,9 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                               setActiveTab('servicios');
                               setServicesDropdownOpen(false);
                             }}
-                            className="font-jakarta w-full text-left px-4 py-2 text-xs font-bold text-slate-700 hover:text-[#E52320] hover:bg-red-50/50 transition-colors flex items-center gap-2 cursor-pointer"
+                            className="font-jakarta w-full text-left px-4 py-2 text-xs font-bold text-slate-700 hover:text-[#FF5A5F] hover:bg-red-50/50 transition-colors flex items-center gap-2 cursor-pointer"
                           >
-                            <span className="text-[#E52320] font-bold">•</span>
+                            <span className="text-[#FF5A5F] font-bold">•</span>
                             <span>{sub}</span>
                           </button>
                         ))}
@@ -123,13 +140,13 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                     onClick={() => handleNavClick(item.id)}
                     className={`font-jakarta relative py-2 text-xs font-extrabold uppercase tracking-wider transition-colors duration-300 cursor-pointer ${
                       isActive 
-                        ? 'text-[#E52320]' 
-                        : 'text-[#1E3A4C] hover:text-[#E52320]'
+                        ? 'text-[#FF5A5F]' 
+                        : 'text-[#1E3A4C] hover:text-[#FF5A5F]'
                     }`}
                   >
                     {item.label}
                     {isActive && (
-                      <span className="absolute -bottom-1 left-0 right-0 h-[2.5px] bg-[#E52320] rounded-t-full transition-all duration-300"></span>
+                      <span className="absolute -bottom-1 left-0 right-0 h-[2.5px] bg-[#FF5A5F] rounded-t-full transition-all duration-300"></span>
                     )}
                   </button>
                 </li>
@@ -138,12 +155,21 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
           </ul>
         </nav>
 
-        {/* Mobile Menu Trigger */}
-        <div className="flex items-center md:hidden">
+        {/* Right CTA Button & Mobile Menu Trigger */}
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => handleNavClick('resultados')}
+            className="hidden lg:inline-flex items-center gap-2 px-6 py-2.5 bg-[#FF5A5F] hover:bg-[#E84A4F] text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow-md shadow-red-500/20 transition-all transform hover:scale-105 cursor-pointer"
+          >
+            <span>Consultar Resultados</span>
+            <span className="font-bold">›</span>
+          </button>
+
           <button 
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg cursor-pointer"
+            className="p-2 text-slate-700 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors md:hidden"
           >
             <IconMenu className="w-6 h-6" />
           </button>
