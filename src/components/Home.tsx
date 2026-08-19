@@ -22,6 +22,17 @@ import {
 import gsap from 'gsap';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import dynamic from 'next/dynamic';
+
+const SedesMap = dynamic(() => import('./SedesMap'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full min-h-[440px] lg:min-h-[500px] bg-slate-100 rounded-3xl flex items-center justify-center text-slate-400 font-bold text-xs uppercase tracking-wider">
+      Cargando Mapa Interactivo...
+    </div>
+  )
+});
+
 interface HomeProps {
   setActiveTab: (tab: string) => void;
 }
@@ -40,21 +51,23 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
     {
       id: 'leguia',
       number: '01',
-      name: 'Avenida Leguía',
+      name: 'Sede Av. Leguía',
       address: 'Av. Leguía, Tacna (Frente a consultorios médicos)',
       badge: 'Abierto Lunes a Sábado',
       schedule: '7:00 AM – 7:00 PM',
-      mapsEmbedUrl: 'https://maps.google.com/maps?q=Av.%20Legu%C3%ADa%2C%20Tacna%2C%20Per%C3%BA&t=m&z=16&output=embed',
-      mapsExternalUrl: 'https://maps.app.goo.gl/HUAqRFnH5PYh8r1q6'
+      lat: -18.008048,
+      lng: -70.249415,
+      mapsExternalUrl: 'https://maps.app.goo.gl/Xy6PZvvMXs5e2469A'
     },
     {
       id: 'melendez',
       number: '02',
-      name: 'Calle Patricio Meléndez',
+      name: 'Sede Patricio Meléndez',
       address: 'Calle Patricio Meléndez, Tacna Centro',
       badge: 'Abierto Lunes a Sábado',
       schedule: '7:00 AM – 7:00 PM',
-      mapsEmbedUrl: 'https://maps.google.com/maps?q=Calle%20Patricio%20Mel%C3%A9ndez%2C%20Tacna%2C%20Per%C3%BA&t=m&z=16&output=embed',
+      lat: -18.0125,
+      lng: -70.2520,
       mapsExternalUrl: 'https://maps.app.goo.gl/YY4MkEoko7847tmb9'
     }
   ];
@@ -263,15 +276,15 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             className="lg:col-span-7 space-y-6"
           >
 
-            {/* Badge superior */}
+            {/* Badge superior (Color Sólido de Alto Contraste - Cero Translucidez) */}
             <motion.div
               variants={{
                 hidden: { opacity: 0, y: 12 },
-                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 320, damping: 26, mass: 0.8 } }
+                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 25, mass: 0.7 } }
               }}
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold uppercase tracking-widest text-sky-200 shadow-xs"
+              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white text-[#1E3A4C] text-[11px] sm:text-xs font-extrabold uppercase tracking-widest shadow-md shadow-slate-950/25 border border-white"
             >
-              <span className="w-2 h-2 rounded-full bg-[#FF5A5F] animate-pulse"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FF5A5F] shrink-0"></span>
               <span>Laboratorio Clínico Tacna · Perú</span>
             </motion.div>
 
@@ -486,19 +499,19 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
       {/* 3. SECCIÓN: ¿POR QUÉ CONFIAR TU DIAGNÓSTICO EN UNIDOSLAB? (Diseño Esculpido Fiel a la Referencia) */}
       <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24 relative z-10">
         <div className="bg-gradient-to-br from-[#FFFFFF] via-[#F3F8FC] to-[#E5F0F8] border border-slate-200/80 rounded-[44px] p-6 sm:p-10 md:p-14 shadow-2xl shadow-slate-900/10 relative overflow-hidden">
-          
+
           {/* CAPA DE ONDAS ESCULPIDAS Y DECORACIÓN DE FONDO */}
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-            
+
             {/* Onda Azul Hielo Superior Derecha */}
-            <svg 
-              className="absolute -top-12 right-0 w-[620px] h-[520px] opacity-40" 
-              viewBox="0 0 600 500" 
+            <svg
+              className="absolute -top-12 right-0 w-[620px] h-[520px] opacity-40"
+              viewBox="0 0 600 500"
               fill="none"
             >
-              <path 
-                d="M600,0 L180,0 C220,120 320,240 450,280 C540,310 580,380 600,420 Z" 
-                fill="url(#ice-wave-top)" 
+              <path
+                d="M600,0 L180,0 C220,120 320,240 450,280 C540,310 580,380 600,420 Z"
+                fill="url(#ice-wave-top)"
               />
               <defs>
                 <linearGradient id="ice-wave-top" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -509,14 +522,14 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             </svg>
 
             {/* Gran Onda Azul Marino Inferior Derecha (Da contraste por detrás del marco fotográfico) */}
-            <svg 
-              className="absolute -bottom-6 -right-12 w-[680px] h-[480px] opacity-90" 
-              viewBox="0 0 650 450" 
+            <svg
+              className="absolute -bottom-6 -right-12 w-[680px] h-[480px] opacity-90"
+              viewBox="0 0 650 450"
               fill="none"
             >
-              <path 
-                d="M650,450 L200,450 C260,340 380,260 520,220 C600,190 640,120 650,80 Z" 
-                fill="url(#navy-wave-bottom)" 
+              <path
+                d="M650,450 L200,450 C260,340 380,260 520,220 C600,190 640,120 650,80 Z"
+                fill="url(#navy-wave-bottom)"
               />
               <defs>
                 <linearGradient id="navy-wave-bottom" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -544,97 +557,79 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10">
-            
-            {/* Columna Izquierda: Información, 3 Pilares & Estadísticas (7 Columnas) */}
-            <div className="lg:col-span-7 space-y-6">
-              
-              {/* Badge superior */}
-              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/90 border border-slate-200 text-[#1E3A4C] text-[11px] font-extrabold uppercase tracking-widest shadow-xs">
-                <span className="w-2 h-2 rounded-full bg-[#FF5A5F]"></span>
-                <span>Atención Clínica Certificada · Tacna, Perú</span>
-              </div>
 
-              {/* Titular contundente de 3 líneas */}
+            {/* Columna Izquierda: Información, Checklist Clínico & Estadísticas (7 Columnas) */}
+            <div className="lg:col-span-7 space-y-6">
+
+              {/* Titular contundente */}
               <div>
                 <h2 className="font-jakarta text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#1E3A4C] leading-[1.12] tracking-tight">
                   ¿Por qué confiar tu<br />
                   diagnóstico en<br />
                   <span className="text-[#FF5A5F]">UNIDOSLAB</span>?
                 </h2>
-                <div className="w-12 h-1 bg-[#FF5A5F] rounded-full mt-3"></div>
+                <div className="w-14 h-1 bg-[#FF5A5F] rounded-full mt-3"></div>
               </div>
 
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal max-w-xl">
                 Análisis clínicos especializados con tecnología automatizada de alta precisión y la calidez humana que tú y tu familia merecen.
               </p>
 
-              {/* 3 Pilares de Confianza en Tonos Pastel Suaves */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1">
-                
-                {/* Pilar 1: Doble Validación */}
-                <motion.div 
-                  whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
-                  whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
-                  className="bg-[#FFF5F5] border border-red-100/90 rounded-2xl p-4 flex flex-col justify-between shadow-xs cursor-default"
-                >
-                  <div className="w-9 h-9 rounded-xl bg-white text-[#FF5A5F] flex items-center justify-center mb-3 shadow-xs border border-red-50">
-                    <IconFlask className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-jakarta text-xs font-extrabold text-[#1E3A4C] leading-snug">
-                      Doble Validación
-                    </h4>
-                    <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-                      Verificación estricta por bioquímicos colegiados.
-                    </p>
-                  </div>
-                </motion.div>
+              {/* Checklist de Beneficios Clínicos de Alta Confianza */}
+              <div className="space-y-3.5 pt-1">
 
-                {/* Pilar 2: Entrega Digital 24/7 */}
-                <motion.div 
-                  whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
-                  whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
-                  className="bg-[#F0F7FF] border border-sky-100/90 rounded-2xl p-4 flex flex-col justify-between shadow-xs cursor-default"
-                >
-                  <div className="w-9 h-9 rounded-xl bg-white text-sky-600 flex items-center justify-center mb-3 shadow-xs border border-sky-50">
-                    <IconFileCertificate className="w-5 h-5" />
+                {/* Beneficio 1 */}
+                <div className="flex items-start gap-3.5">
+                  <div className="w-7 h-7 rounded-lg bg-red-500/10 text-[#FF5A5F] flex items-center justify-center shrink-0 mt-0.5 shadow-xs border border-red-500/20">
+                    <IconCheck className="w-4 h-4 stroke-[3]" />
                   </div>
                   <div>
-                    <h4 className="font-jakarta text-xs font-extrabold text-[#1E3A4C] leading-snug">
-                      Entrega Digital 24/7
+                    <h4 className="font-jakarta text-sm font-bold text-[#1E3A4C]">
+                      Doble Validación & Control de Calidad Estricto
                     </h4>
-                    <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-                      Descarga tus análisis con tu DNI desde el celular.
+                    <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                      Cada análisis es procesado en equipos automatizados y certificado por bioquímicos colegiados.
                     </p>
                   </div>
-                </motion.div>
+                </div>
 
-                {/* Pilar 3: Sedes & Domicilio */}
-                <motion.div 
-                  whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
-                  whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
-                  className="bg-[#F0FDF4] border border-emerald-100/90 rounded-2xl p-4 flex flex-col justify-between shadow-xs cursor-default"
-                >
-                  <div className="w-9 h-9 rounded-xl bg-white text-emerald-600 flex items-center justify-center mb-3 shadow-xs border border-emerald-50">
-                    <IconMapPin className="w-5 h-5" />
+                {/* Beneficio 2 */}
+                <div className="flex items-start gap-3.5">
+                  <div className="w-7 h-7 rounded-lg bg-sky-500/10 text-sky-600 flex items-center justify-center shrink-0 mt-0.5 shadow-xs border border-sky-500/20">
+                    <IconCheck className="w-4 h-4 stroke-[3]" />
                   </div>
                   <div>
-                    <h4 className="font-jakarta text-xs font-extrabold text-[#1E3A4C] leading-snug">
-                      Sedes & Domicilio
+                    <h4 className="font-jakarta text-sm font-bold text-[#1E3A4C]">
+                      Entrega Digital Inmediata 24/7
                     </h4>
-                    <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-                      2 sedes céntricas en Tacna o toma en tu hogar.
+                    <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                      Consulta y descarga tus resultados en tiempo real ingresando tu DNI desde cualquier dispositivo.
                     </p>
                   </div>
-                </motion.div>
+                </div>
+
+                {/* Beneficio 3 */}
+                <div className="flex items-start gap-3.5">
+                  <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5 shadow-xs border border-emerald-500/20">
+                    <IconCheck className="w-4 h-4 stroke-[3]" />
+                  </div>
+                  <div>
+                    <h4 className="font-jakarta text-sm font-bold text-[#1E3A4C]">
+                      2 Sedes Céntricas en Tacna & Atención a Domicilio
+                    </h4>
+                    <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                      Atención ágil en Av. Leguía y Patricio Meléndez, o toma de muestras en la comodidad de tu hogar.
+                    </p>
+                  </div>
+                </div>
 
               </div>
 
               {/* 2 Cápsulas de Estadísticas en Azul Marino Flotante */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
-                
+
                 {/* Cápsula 1: +6 Años de Trayectoria Clínica */}
-                <motion.div 
+                <motion.div
                   whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
                   whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
                   className="bg-[#1E3A4C] text-white p-4 sm:p-5 rounded-3xl shadow-xl shadow-slate-900/15 border border-slate-700/30 flex items-center gap-4 cursor-default"
@@ -657,7 +652,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                 </motion.div>
 
                 {/* Cápsula 2: Pacientes atendidos */}
-                <motion.div 
+                <motion.div
                   whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
                   whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
                   className="bg-[#1E3A4C] text-white p-4 sm:p-5 rounded-3xl shadow-xl shadow-slate-900/15 border border-slate-700/30 flex items-center gap-4 cursor-default"
@@ -684,7 +679,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
 
             {/* Columna Derecha: Marco Squircle con Borde Azul Marino Grueso & Badge Flotante (5 Columnas) */}
             <div className="lg:col-span-5 relative flex justify-center">
-              
+
               {/* Marco Squircle con Borde Marino Fuerte a juego con la referencia */}
               <div className="relative rounded-[44px] p-2.5 bg-[#1E3A4C] border-4 border-[#16364D] shadow-2xl max-w-sm sm:max-w-md w-full">
                 <div className="rounded-[34px] overflow-hidden bg-slate-950 relative">
@@ -697,7 +692,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                 </div>
 
                 {/* Badge Flotante de Garantía */}
-                <motion.div 
+                <motion.div
                   initial={{ y: 8, opacity: 0 }}
                   whileInView={{ y: 0, opacity: 1 }}
                   viewport={{ once: true }}
@@ -809,18 +804,18 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                 <span>Atención Presencial en Tacna</span>
               </div>
               <h3 className="font-jakarta text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#1E3A4C]">
-                Nuestras Sedes & Mapas de Ubicación
+                Nuestras Sedes
               </h3>
               <p className="text-slate-500 text-xs md:text-sm mt-1 font-medium">
-                Selecciona una sede a la izquierda para enfocar el mapa interactivo y trazar tu ruta en tiempo real.
+                Selecciona una sede a la izquierda para enfocarlo en el mapa.
               </p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative z-10">
 
-            {/* Columna Izquierda: 2 Tarjetas de Sedes (5 columnas) */}
-            <div className="lg:col-span-5 flex flex-col gap-4">
+            {/* Columna Izquierda: 2 Tarjetas de Sedes Compactas (5 columnas) */}
+            <div className="lg:col-span-5 flex flex-col gap-3.5">
               {sedesData.map((sede, idx) => {
                 const isSelected = selectedSedeIndex === idx;
                 return (
@@ -829,37 +824,35 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                     onClick={() => setSelectedSedeIndex(idx)}
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
-                    className={`p-6 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between relative overflow-hidden ${isSelected
-                        ? 'bg-white border-[#1E3A4C] shadow-xl shadow-slate-300/40 ring-4 ring-slate-100'
-                        : 'bg-slate-50/70 hover:bg-white border-slate-200/80 hover:border-slate-300 shadow-xs'
+                    className={`p-4.5 sm:p-5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between relative overflow-hidden ${isSelected
+                      ? 'bg-white border-[#1E3A4C] shadow-lg shadow-slate-300/40 ring-4 ring-slate-100'
+                      : 'bg-slate-50/70 hover:bg-white border-slate-200/80 hover:border-slate-300 shadow-xs'
                       }`}
                   >
-                    {isSelected && (
-                      <div className="absolute top-0 right-0 bg-[#1E3A4C] text-white text-[10px] font-extrabold px-3 py-1 rounded-bl-xl uppercase tracking-wider flex items-center gap-1.5 shadow-xs">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#E52320] animate-ping"></span>
-                        <span>Sede Activa</span>
-                      </div>
-                    )}
-
-                    <div className="space-y-3">
+                    <div className="space-y-2.5">
                       <div className="flex items-center justify-between">
-                        <span className={`text-xs font-extrabold uppercase tracking-widest ${isSelected ? 'text-[#1E3A4C]' : 'text-slate-500'}`}>
-                          Sede {sede.number} · Tacna
-                        </span>
-                        {!isSelected && (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                            Abierto
-                          </span>
-                        )}
-                      </div>
+                        <h4 className="font-jakarta text-lg sm:text-xl font-extrabold text-[#1E3A4C]">
+                          {sede.name}
+                        </h4>
 
-                      <h4 className="font-jakarta text-xl font-extrabold text-[#1E3A4C]">
-                        {sede.name}
-                      </h4>
+                        <a
+                          href={sede.mapsExternalUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          title="Abrir en Google Maps"
+                          className="w-8 h-8 rounded-xl bg-white hover:bg-slate-100 shadow-sm border border-slate-200/80 flex items-center justify-center transition-all hover:scale-110 p-1 shrink-0"
+                        >
+                          <img 
+                            src="/icon_google_maps.png" 
+                            alt="Google Maps" 
+                            className="w-5 h-5 object-contain" 
+                          />
+                        </a>
+                      </div>
 
                       <p className="text-xs text-slate-600 font-medium flex items-center gap-1.5">
-                        <IconMapPin className={`w-4 h-4 shrink-0 ${isSelected ? 'text-[#1E3A4C]' : 'text-slate-400'}`} />
+                        <IconMapPin className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-[#1E3A4C]' : 'text-slate-400'}`} />
                         <span>{sede.address}</span>
                       </p>
 
@@ -871,77 +864,18 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                         <span className="font-extrabold text-[#1E3A4C]">{sede.schedule}</span>
                       </div>
                     </div>
-
-                    <div className="mt-4 pt-3 border-t border-slate-100/80 flex items-center justify-between">
-                      <span className={`text-xs font-bold ${isSelected ? 'text-[#1E3A4C]' : 'text-slate-500'}`}>
-                        {isSelected ? '✓ Enfocado en el mapa' : 'Click para enfocar'}
-                      </span>
-                      <a
-                        href={sede.mapsExternalUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="text-[11px] font-extrabold text-[#1E3A4C] hover:text-[#0284C7] uppercase tracking-wider flex items-center gap-1 transition-colors"
-                      >
-                        <span>Cómo llegar</span>
-                        <span>↗</span>
-                      </a>
-                    </div>
                   </motion.div>
                 );
               })}
             </div>
 
-            {/* Columna Derecha: Gran Mapa Interactivo con Pin Personalizado (7 columnas) */}
-            <div className="lg:col-span-7 bg-slate-100 rounded-3xl overflow-hidden shadow-xl border-2 border-white relative min-h-[440px] lg:min-h-[500px] flex flex-col">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={sedesData[selectedSedeIndex].id}
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.35, ease: 'easeOut' }}
-                  className="w-full h-full absolute inset-0"
-                >
-                  <iframe
-                    title={`Mapa de ${sedesData[selectedSedeIndex].name}`}
-                    src={sedesData[selectedSedeIndex].mapsEmbedUrl}
-                    className="w-full h-full border-0"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Pin Flotante decorativo en esquina superior izquierda */}
-              <motion.div
-                key={`pin-${selectedSedeIndex}`}
-                initial={{ y: -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                className="absolute top-4 left-4 z-20 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-lg border border-slate-200/80 flex items-center gap-3 pointer-events-none"
-              >
-                <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-[#1E3A4C]">
-                  <span className="absolute w-full h-full rounded-full bg-[#E52320]/20 animate-ping"></span>
-                  <IconMapPin className="w-5 h-5 relative z-10 text-[#1E3A4C]" />
-                </div>
-                <div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">Sede Activa</span>
-                  <span className="text-xs font-extrabold text-[#1E3A4C] block">{sedesData[selectedSedeIndex].name}</span>
-                </div>
-              </motion.div>
-
-              {/* Botón flotante inferior para abrir Google Maps */}
-              <div className="absolute bottom-4 right-4 z-20">
-                <a
-                  href={sedesData[selectedSedeIndex].mapsExternalUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-[#1E3A4C] hover:bg-[#122531] text-white px-5 py-2.5 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-xl border border-transparent backdrop-blur-md flex items-center gap-2 transition-all transform hover:scale-105"
-                >
-                  <span>Abrir en Google Maps / Trazar Ruta</span>
-                  <span>↗</span>
-                </a>
-              </div>
+            {/* Columna Derecha: Mapa Interactivo con Pines Personalizados 1 y 2 (7 columnas) */}
+            <div className="lg:col-span-7 h-[440px] lg:h-[500px]">
+              <SedesMap
+                sedes={sedesData}
+                selectedSedeIndex={selectedSedeIndex}
+                onSelectSede={setSelectedSedeIndex}
+              />
             </div>
 
           </div>
