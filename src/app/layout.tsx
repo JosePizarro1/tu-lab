@@ -1,6 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  themeColor: "#FF5A5F",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://tu-lab.vercel.app"),
@@ -68,7 +72,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  themeColor: "#FF5A5F",
 };
 
 export default function RootLayout({
