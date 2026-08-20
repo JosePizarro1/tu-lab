@@ -307,8 +307,12 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             <div className="relative z-10 rounded-[38px] p-2.5 bg-white/80 border-2 border-white shadow-2xl shadow-slate-200/60 backdrop-blur-md max-w-sm sm:max-w-md w-full">
               <div className="rounded-[30px] overflow-hidden bg-gradient-to-b from-slate-100/80 via-slate-50 to-slate-100/60 flex items-end justify-center pt-4">
                 <img
-                  src="/home_chica.png"
-                  alt="Especialista UNIDOSLAB Tacna"
+                  src="/home_chica.webp"
+                  alt="Especialista en análisis clínicos y diagnóstico UNIDOSLAB Tacna"
+                  width={400}
+                  height={500}
+                  loading="eager"
+                  fetchPriority="high"
                   className="w-full h-[370px] sm:h-[430px] object-contain object-bottom drop-shadow-xl"
                 />
               </div>
@@ -787,8 +791,11 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                   {/* Imagen 3D */}
                   <div className="my-1 sm:my-0 flex items-center justify-center h-10 sm:h-9 w-auto shrink-0">
                     <img 
-                      src="/catedral_3d_tacna.png" 
-                      alt="Catedral de Tacna" 
+                      src="/catedral_3d_tacna.webp" 
+                      alt="Referencia de ubicación Catedral de Tacna" 
+                      width={48}
+                      height={48}
+                      loading="lazy"
                       className="h-full w-auto max-w-[48px] sm:max-w-[36px] object-contain drop-shadow-sm" 
                     />
                   </div>
@@ -812,8 +819,11 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                   {/* Imagen 3D */}
                   <div className="my-1 sm:my-0 flex items-center justify-center h-10 sm:h-9 w-auto shrink-0">
                     <img 
-                      src="/2_de_mayo.png" 
-                      alt="Mercado 2 de Mayo" 
+                      src="/2_de_mayo.webp" 
+                      alt="Referencia Mercado 2 de Mayo" 
+                      width={48}
+                      height={48}
+                      loading="lazy"
                       className="h-full w-auto max-w-[48px] sm:max-w-[36px] object-contain drop-shadow-sm" 
                     />
                   </div>
@@ -837,8 +847,11 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                   {/* Imagen 3D */}
                   <div className="my-1 sm:my-0 flex items-center justify-center h-10 sm:h-9 w-auto shrink-0">
                     <img 
-                      src="/catedral_3d_tacna.png" 
-                      alt="Plaza Zela" 
+                      src="/catedral_3d_tacna.webp" 
+                      alt="Referencia céntrica Plaza Zela" 
+                      width={48}
+                      height={48}
+                      loading="lazy"
                       className="h-full w-auto max-w-[48px] sm:max-w-[36px] object-contain opacity-85 drop-shadow-sm" 
                     />
                   </div>
@@ -891,8 +904,11 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                           isSelected ? 'bg-red-50/70 border border-red-100' : 'bg-slate-50 border border-slate-100'
                         }`}>
                           <img 
-                            src="/pin_sedes.png" 
-                            alt={sede.name} 
+                            src="/pin_sedes.webp" 
+                            alt={`Pin de ubicación de la ${sede.name}`} 
+                            width={40}
+                            height={40}
+                            loading="lazy"
                             className="w-10 h-10 object-contain drop-shadow-sm"
                           />
                         </div>

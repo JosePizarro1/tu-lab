@@ -183,6 +183,8 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
 
           <button 
             type="button"
+            aria-label="Abrir menú de navegación"
+            title="Menú de navegación"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 text-slate-700 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors md:hidden"
           >

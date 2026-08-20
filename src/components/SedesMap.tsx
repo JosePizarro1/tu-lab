@@ -103,8 +103,8 @@ const SedesMap: React.FC<SedesMapProps> = ({ sedes, selectedSedeIndex, onSelectS
     sedes.forEach((sede, idx) => {
       const isSelected = selectedSedeIndex === idx;
       const sedeImage = sede.id === 'leguia' || sede.number === '01' 
-        ? '/letrero_leguia.png' 
-        : '/letrero_melendez.png';
+        ? '/letrero_leguia.webp' 
+        : '/letrero_melendez.webp';
 
       const pinHtml = `
         <div class="dynamic-sede-marker" style="width: 100px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; cursor: pointer; transform: scale(${currentScale}); transform-origin: bottom center; transition: transform 0.25s ease-out; z-index: ${isSelected ? 50 : 20};">
@@ -143,14 +143,14 @@ const SedesMap: React.FC<SedesMapProps> = ({ sedes, selectedSedeIndex, onSelectS
         name: 'Catedral de Tacna',
         lat: -18.0150,
         lng: -70.2522,
-        image: '/catedral_3d_tacna.png'
+        image: '/catedral_3d_tacna.webp'
       },
       {
         id: 'mercado_2_de_mayo',
         name: 'Mercado 2 de Mayo',
         lat: -18.0093013,
         lng: -70.2488438,
-        image: '/2_de_mayo.png'
+        image: '/2_de_mayo.webp'
       }
     ];
 
