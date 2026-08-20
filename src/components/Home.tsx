@@ -610,79 +610,136 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
         </div>
       </section>
 
-      {/* 4. SECCIÓN: ¿CÓMO TRABAJAMOS? RECIBE TUS RESULTADOS EN 3 PASOS */}
-      <section className="relative py-24 border-y border-slate-200/60 overflow-hidden bg-gradient-to-b from-white/60 via-slate-50/80 to-white/60 backdrop-blur-md">
-        {/* Fondo de mapa con patrón de micropuntos clínicos */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-40"
-          style={{
-            backgroundImage: 'radial-gradient(#94a3b8 1.4px, transparent 1.4px)',
-            backgroundSize: '24px 24px'
-          }}
-        ></div>
+      {/* 4. SECCIÓN: ¿CÓMO FUNCIONA? TU ATENCIÓN EN 3 SIMPLES PASOS (Diseño Fiel al Mockup) */}
+      <section className="relative py-20 lg:py-24 overflow-hidden">
+        {/* Decoración de cruces médicas suaves y micropuntos */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          <div className="absolute top-12 left-10 opacity-20">
+            <svg className="w-24 h-24 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+              <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3z" />
+            </svg>
+          </div>
+          <div className="absolute top-16 right-10 opacity-20">
+            <svg className="w-24 h-24 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+              <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3z" />
+            </svg>
+          </div>
+          <div className="absolute top-36 left-12 w-20 h-20 opacity-20 grid grid-cols-4 gap-2">
+            {Array.from({ length: 16 }).map((_, i) => (
+              <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-400 block"></span>
+            ))}
+          </div>
+          <div className="absolute top-40 right-16 w-20 h-20 opacity-20 grid grid-cols-4 gap-2">
+            {Array.from({ length: 16 }).map((_, i) => (
+              <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-400 block"></span>
+            ))}
+          </div>
+        </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-          <span className="text-xs font-bold text-[#E52320] uppercase tracking-widest block mb-2">
-            ¿Cómo trabajamos?
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 text-center">
+          {/* Cabecera */}
+          <span className="text-[11px] font-extrabold text-[#FF5A5F] uppercase tracking-[0.2em] block mb-2">
+            ¿CÓMO FUNCIONA?
           </span>
           <h2 className="font-jakarta text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#1E3A4C] tracking-tight">
-            Recibe Tus Resultados En 3 Simples Pasos.
+            Tu atención en 3 simples pasos<span className="text-[#FF5A5F]">.</span>
           </h2>
-          <p className="text-xs text-slate-400 mt-2 font-medium tracking-wider uppercase">
-            Laboratorio Análisis Clínico Tacna - Perú
+          <p className="text-slate-500 text-xs sm:text-sm mt-3 max-w-xl mx-auto font-normal leading-relaxed">
+            Elige el servicio que necesitas, recibe atención profesional y continúa cuidando tu salud con nosotros.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-16 max-w-5xl mx-auto">
-            {/* Paso 1 */}
-            <div className="flex flex-col items-center text-center group">
-              <div className="w-24 h-24 rounded-3xl bg-white shadow-lg shadow-slate-200/70 border border-slate-100 flex items-center justify-center p-4 mb-5 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl group-hover:border-[#E52320]/30">
-                <img
-                  src="/step-1.svg"
-                  alt="Análisis Clínico"
-                  className="w-16 h-16 object-contain"
-                />
-              </div>
-              <h3 className="font-jakarta text-xl font-extrabold text-[#1E3A4C] tracking-tight mb-2 group-hover:text-[#E52320] transition-colors">
-                Análisis
-              </h3>
-              <p className="text-xs text-slate-500 max-w-xs leading-relaxed font-medium">
-                Toma de muestra en cualquiera de nuestras sedes o servicio a domicilio seguro.
-              </p>
-            </div>
+          {/* 3 Tarjetas con Conector Lineal */}
+          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-14 max-w-5xl mx-auto items-stretch">
+            
+            {/* Línea conectora entre tarjetas (Solo Desktop) */}
+            <div className="hidden md:block absolute top-1/2 left-[15%] right-[15%] h-[1.5px] bg-[#FF5A5F]/30 -translate-y-6 z-0"></div>
 
-            {/* Paso 2 */}
-            <div className="flex flex-col items-center text-center group">
-              <div className="w-24 h-24 rounded-3xl bg-white shadow-lg shadow-slate-200/70 border border-slate-100 flex items-center justify-center p-4 mb-5 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl group-hover:border-[#E52320]/30">
-                <img
-                  src="/step-2.svg"
-                  alt="Preparamos sus análisis"
-                  className="w-16 h-16 object-contain"
-                />
+            {/* Paso 1: Elige tu servicio */}
+            <motion.div
+              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+              className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xl shadow-slate-200/40 relative z-10 flex flex-col items-center text-center transition-all group"
+            >
+              {/* Badge Número */}
+              <div className="absolute top-4 left-4 w-7 h-7 rounded-full bg-red-50 border border-red-100 flex items-center justify-center text-[#FF5A5F] text-xs font-extrabold">
+                01
               </div>
-              <h3 className="font-jakarta text-xl font-extrabold text-[#1E3A4C] tracking-tight mb-2 group-hover:text-[#E52320] transition-colors">
-                Preparamos sus análisis
-              </h3>
-              <p className="text-xs text-slate-500 max-w-xs leading-relaxed font-medium">
-                Procesamiento automatizado con doble verificación y altos estándares de calidad.
-              </p>
-            </div>
 
-            {/* Paso 3 */}
-            <div className="flex flex-col items-center text-center group">
-              <div className="w-24 h-24 rounded-3xl bg-white shadow-lg shadow-slate-200/70 border border-slate-100 flex items-center justify-center p-4 mb-5 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl group-hover:border-[#E52320]/30">
-                <img
-                  src="/step-3.svg"
-                  alt="Enviamos tus resultados"
-                  className="w-16 h-16 object-contain"
-                />
+              {/* Icono Circular Line-art */}
+              <div className="w-20 h-20 rounded-full bg-red-50/70 border border-red-100 flex items-center justify-center p-4 mb-5 group-hover:scale-105 group-hover:bg-red-100/60 transition-all">
+                <svg className="w-10 h-10 text-[#FF5A5F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+                  <rect x="9" y="3" width="6" height="4" rx="1" />
+                  <path d="M9 12h6" />
+                  <path d="M9 16h6" />
+                  <path d="M9 9h6" />
+                </svg>
               </div>
-              <h3 className="font-jakarta text-xl font-extrabold text-[#1E3A4C] tracking-tight mb-2 group-hover:text-[#E52320] transition-colors">
-                Enviamos tus resultados
+
+              <h3 className="font-jakarta text-lg font-extrabold text-[#1E3A4C] tracking-tight mb-2 group-hover:text-[#FF5A5F] transition-colors">
+                Elige tu servicio
               </h3>
-              <p className="text-xs text-slate-500 max-w-xs leading-relaxed font-medium">
-                Consulta y descarga rápida de tus resultados en línea mediante tu documento.
+              <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                Selecciona análisis clínicos, ecografías o consultas médicas.
               </p>
-            </div>
+            </motion.div>
+
+            {/* Paso 2: Atiéndete en sede o domicilio */}
+            <motion.div
+              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+              className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xl shadow-slate-200/40 relative z-10 flex flex-col items-center text-center transition-all group"
+            >
+              {/* Badge Número */}
+              <div className="absolute top-4 left-4 w-7 h-7 rounded-full bg-red-50 border border-red-100 flex items-center justify-center text-[#FF5A5F] text-xs font-extrabold">
+                02
+              </div>
+
+              {/* Icono Circular Line-art */}
+              <div className="w-20 h-20 rounded-full bg-red-50/70 border border-red-100 flex items-center justify-center p-4 mb-5 group-hover:scale-105 group-hover:bg-red-100/60 transition-all">
+                <svg className="w-10 h-10 text-[#FF5A5F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 21h18" />
+                  <path d="M5 21V9l7-5 7 5v12" />
+                  <path d="M12 9v6" />
+                  <path d="M9 12h6" />
+                </svg>
+              </div>
+
+              <h3 className="font-jakarta text-lg font-extrabold text-[#1E3A4C] tracking-tight mb-2 group-hover:text-[#FF5A5F] transition-colors">
+                Atiéndete en sede o domicilio
+              </h3>
+              <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                Visítanos en nuestras sedes o solicita la toma de muestras en casa.
+              </p>
+            </motion.div>
+
+            {/* Paso 3: Recibe tus resultados */}
+            <motion.div
+              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+              className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xl shadow-slate-200/40 relative z-10 flex flex-col items-center text-center transition-all group"
+            >
+              {/* Badge Número */}
+              <div className="absolute top-4 left-4 w-7 h-7 rounded-full bg-red-50 border border-red-100 flex items-center justify-center text-[#FF5A5F] text-xs font-extrabold">
+                03
+              </div>
+
+              {/* Icono Circular Line-art */}
+              <div className="w-20 h-20 rounded-full bg-red-50/70 border border-red-100 flex items-center justify-center p-4 mb-5 group-hover:scale-105 group-hover:bg-red-100/60 transition-all">
+                <svg className="w-10 h-10 text-[#FF5A5F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2" />
+                  <path d="M8 21h8" />
+                  <path d="M12 17v4" />
+                  <path d="M12 7v4" />
+                  <path d="M10 9h4" />
+                </svg>
+              </div>
+
+              <h3 className="font-jakarta text-lg font-extrabold text-[#1E3A4C] tracking-tight mb-2 group-hover:text-[#FF5A5F] transition-colors">
+                Recibe tus resultados
+              </h3>
+              <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                Consulta tus resultados en línea y continúa tu atención.
+              </p>
+            </motion.div>
+
           </div>
         </div>
       </section>
@@ -810,20 +867,20 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                   <div
                     key={sede.id}
                     onClick={() => setSelectedSedeIndex(idx)}
-                    className={`rounded-2xl p-5 border-2 transition-all duration-300 cursor-pointer flex flex-col justify-between ${
+                    className={`rounded-3xl p-5 sm:p-6 border-2 transition-all duration-300 cursor-pointer flex flex-col justify-between ${
                       isSelected
-                        ? 'bg-[#0F1F2C] text-white border-[#0F1F2C] shadow-xl shadow-slate-900/15'
+                        ? 'bg-white text-slate-800 border-red-200/90 shadow-xl shadow-red-500/10 ring-4 ring-red-50/60'
                         : 'bg-white text-slate-700 border-slate-200/80 hover:border-slate-300 hover:shadow-md'
                     }`}
                   >
                     <div>
                       {/* Badge Superior */}
                       {isSelected ? (
-                        <div className="inline-block mb-3 px-2.5 py-0.5 rounded-full bg-[#E52320] text-[9px] font-extrabold uppercase tracking-widest text-white">
+                        <div className="inline-block mb-3 px-3 py-0.5 rounded-full bg-[#FF5A5F] text-[9.5px] font-extrabold uppercase tracking-widest text-white shadow-xs">
                           SEDE ACTIVA
                         </div>
                       ) : (
-                        <div className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-2">
+                        <div className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-2.5">
                           SEDE
                         </div>
                       )}
@@ -831,38 +888,32 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                       <div className="flex items-start gap-4 mb-3">
                         {/* Pin 3D Container */}
                         <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 p-1.5 ${
-                          isSelected ? 'bg-white/10' : 'bg-slate-50 border border-slate-100'
+                          isSelected ? 'bg-red-50/70 border border-red-100' : 'bg-slate-50 border border-slate-100'
                         }`}>
                           <img 
                             src="/pin_sedes.png" 
                             alt={sede.name} 
-                            className="w-10 h-10 object-contain drop-shadow-md"
+                            className="w-10 h-10 object-contain drop-shadow-sm"
                           />
                         </div>
 
                         {/* Info de la sede */}
                         <div className="flex-1 min-w-0">
-                          <h4 className={`font-jakarta text-lg sm:text-xl font-extrabold leading-snug ${
-                            isSelected ? 'text-white' : 'text-[#1E3A4C]'
-                          }`}>
+                          <h4 className="font-jakarta text-lg sm:text-xl font-extrabold leading-snug text-[#1E3A4C]">
                             {sede.name.replace('Sede ', '')}
                           </h4>
                           
-                          <p className={`text-xs mt-1.5 flex items-center gap-1.5 ${
-                            isSelected ? 'text-slate-300' : 'text-slate-500'
-                          }`}>
-                            <IconMapPin className="w-3.5 h-3.5 shrink-0 opacity-70" />
+                          <p className="text-xs mt-1.5 flex items-center gap-1.5 text-slate-500">
+                            <IconMapPin className="w-3.5 h-3.5 shrink-0 opacity-70 text-slate-400" />
                             <span className="truncate">{sede.address}</span>
                           </p>
 
-                          <div className={`mt-2 pt-2 border-t flex items-center justify-between text-xs ${
-                            isSelected ? 'border-white/10 text-slate-300' : 'border-slate-100 text-slate-600'
-                          }`}>
-                            <span className="flex items-center gap-1 font-medium">
+                          <div className="mt-2.5 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
+                            <span className="flex items-center gap-1 font-medium text-slate-500">
                               <IconClock className="w-3.5 h-3.5 opacity-70" />
                               Horario General:
                             </span>
-                            <span className={`font-bold ${isSelected ? 'text-white' : 'text-[#1E3A4C]'}`}>
+                            <span className="font-extrabold text-[#1E3A4C]">
                               {sede.schedule}
                             </span>
                           </div>
@@ -871,7 +922,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                     </div>
 
                     {/* Botones de acción inferiores */}
-                    <div className="flex items-center gap-3 mt-3 pt-3 border-t border-dashed border-slate-200/30">
+                    <div className="flex items-center gap-3 mt-3 pt-3 border-t border-slate-100">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -879,12 +930,12 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                         }}
                         className={`flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                           isSelected
-                            ? 'bg-white text-[#0F1F2C] hover:bg-slate-100 shadow-sm'
+                            ? 'bg-white text-[#1E3A4C] border border-slate-200/90 hover:bg-slate-50 shadow-xs'
                             : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                         }`}
                       >
                         <span>Ver en mapa</span>
-                        <IconMapPin className="w-3.5 h-3.5" />
+                        <IconMapPin className="w-3.5 h-3.5 text-slate-500" />
                       </button>
 
                       <a
@@ -892,14 +943,10 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className={`flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                          isSelected
-                            ? 'text-red-400 hover:text-red-300'
-                            : 'text-[#E52320] hover:text-red-700'
-                        }`}
+                        className="flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer text-[#FF5A5F] hover:text-red-700"
                       >
                         <span>Cómo llegar</span>
-                        <IconNavigation className="w-3.5 h-3.5" />
+                        <IconNavigation className="w-3.5 h-3.5 text-[#FF5A5F]" />
                       </a>
                     </div>
                   </div>
