@@ -865,102 +865,118 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
           {/* Grid Principal: Tarjetas de Sedes y Mapa */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mb-8">
 
-            {/* Columna Izquierda: Tarjetas de Sedes (5 columnas) */}
-            <div className="lg:col-span-5 flex flex-col gap-4">
-              {sedesData.map((sede, idx) => {
-                const isSelected = selectedSedeIndex === idx;
-                return (
-                  <div
-                    key={sede.id}
-                    onClick={() => setSelectedSedeIndex(idx)}
-                    className={`rounded-3xl p-5 sm:p-6 border-2 transition-all duration-300 cursor-pointer flex flex-col justify-between ${
-                      isSelected
-                        ? 'bg-white text-slate-800 border-red-200/90 shadow-xl shadow-red-500/10 ring-4 ring-red-50/60'
-                        : 'bg-white text-slate-700 border-slate-200/80 hover:border-slate-300 hover:shadow-md'
-                    }`}
-                  >
-                    <div>
-                      {/* Badge Superior */}
-                      {isSelected ? (
-                        <div className="inline-block mb-3 px-3 py-0.5 rounded-full bg-[#FF5A5F] text-[9.5px] font-extrabold uppercase tracking-widest text-white shadow-xs">
-                          SEDE ACTIVA
-                        </div>
-                      ) : (
-                        <div className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-2.5">
-                          SEDE
-                        </div>
-                      )}
+            {/* Columna Izquierda: Carrusel Snap en Mobile / Lista Vertical en Desktop */}
+            <div className="lg:col-span-5 flex flex-col gap-3">
+              <div className="flex flex-row lg:flex-col gap-4 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 snap-x snap-mandatory scrollbar-none -mx-2 px-2 sm:mx-0 sm:px-0">
+                {sedesData.map((sede, idx) => {
+                  const isSelected = selectedSedeIndex === idx;
+                  return (
+                    <div
+                      key={sede.id}
+                      onClick={() => setSelectedSedeIndex(idx)}
+                      className={`min-w-[85vw] sm:min-w-[340px] lg:min-w-0 snap-center rounded-3xl p-5 sm:p-6 border-2 transition-all duration-300 cursor-pointer flex flex-col justify-between shrink-0 ${
+                        isSelected
+                          ? 'bg-white text-slate-800 border-red-200/90 shadow-xl shadow-red-500/10 ring-4 ring-red-50/60'
+                          : 'bg-white text-slate-700 border-slate-200/80 hover:border-slate-300 hover:shadow-md'
+                      }`}
+                    >
+                      <div>
+                        {/* Badge Superior */}
+                        {isSelected ? (
+                          <div className="inline-block mb-3 px-3 py-0.5 rounded-full bg-[#FF5A5F] text-[9.5px] font-extrabold uppercase tracking-widest text-white shadow-xs">
+                            SEDE ACTIVA
+                          </div>
+                        ) : (
+                          <div className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-2.5">
+                            SEDE
+                          </div>
+                        )}
 
-                      <div className="flex items-start gap-4 mb-3">
-                        {/* Pin 3D Container */}
-                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 p-1.5 ${
-                          isSelected ? 'bg-red-50/70 border border-red-100' : 'bg-slate-50 border border-slate-100'
-                        }`}>
-                          <img 
-                            src="/pin_sedes.webp" 
-                            alt={`Pin de ubicación de la ${sede.name}`} 
-                            width={40}
-                            height={40}
-                            loading="lazy"
-                            className="w-10 h-10 object-contain drop-shadow-sm"
-                          />
-                        </div>
+                        <div className="flex items-start gap-4 mb-3">
+                          {/* Pin 3D Container */}
+                          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 p-1.5 ${
+                            isSelected ? 'bg-red-50/70 border border-red-100' : 'bg-slate-50 border border-slate-100'
+                          }`}>
+                            <img 
+                              src="/pin_sedes.webp" 
+                              alt={`Pin de ubicación de la ${sede.name}`} 
+                              width={40}
+                              height={40}
+                              loading="lazy"
+                              className="w-10 h-10 object-contain drop-shadow-sm"
+                            />
+                          </div>
 
-                        {/* Info de la sede */}
-                        <div className="flex-1 min-w-0">
-                          <h4 className="font-jakarta text-lg sm:text-xl font-extrabold leading-snug text-[#1E3A4C]">
-                            {sede.name.replace('Sede ', '')}
-                          </h4>
-                          
-                          <p className="text-xs mt-1.5 flex items-center gap-1.5 text-slate-500">
-                            <IconMapPin className="w-3.5 h-3.5 shrink-0 opacity-70 text-slate-400" />
-                            <span className="truncate">{sede.address}</span>
-                          </p>
+                          {/* Info de la sede */}
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-jakarta text-lg sm:text-xl font-extrabold leading-snug text-[#1E3A4C]">
+                              {sede.name.replace('Sede ', '')}
+                            </h4>
+                            
+                            <p className="text-xs mt-1.5 flex items-center gap-1.5 text-slate-500">
+                              <IconMapPin className="w-3.5 h-3.5 shrink-0 opacity-70 text-slate-400" />
+                              <span className="truncate">{sede.address}</span>
+                            </p>
 
-                          <div className="mt-2.5 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
-                            <span className="flex items-center gap-1 font-medium text-slate-500">
-                              <IconClock className="w-3.5 h-3.5 opacity-70" />
-                              Horario General:
-                            </span>
-                            <span className="font-extrabold text-[#1E3A4C]">
-                              {sede.schedule}
-                            </span>
+                            <div className="mt-2.5 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
+                              <span className="flex items-center gap-1 font-medium text-slate-500">
+                                <IconClock className="w-3.5 h-3.5 opacity-70" />
+                                Horario General:
+                              </span>
+                              <span className="font-extrabold text-[#1E3A4C]">
+                                {sede.schedule}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Botones de acción inferiores */}
-                    <div className="flex items-center gap-3 mt-3 pt-3 border-t border-slate-100">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedSedeIndex(idx);
-                        }}
-                        className={`flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                          isSelected
-                            ? 'bg-white text-[#1E3A4C] border border-slate-200/90 hover:bg-slate-50 shadow-xs'
-                            : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                        }`}
-                      >
-                        <span>Ver en mapa</span>
-                        <IconMapPin className="w-3.5 h-3.5 text-slate-500" />
-                      </button>
+                      {/* Botones de acción inferiores */}
+                      <div className="flex items-center gap-3 mt-3 pt-3 border-t border-slate-100">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedSedeIndex(idx);
+                          }}
+                          className={`flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                            isSelected
+                              ? 'bg-white text-[#1E3A4C] border border-slate-200/90 hover:bg-slate-50 shadow-xs'
+                              : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                          }`}
+                        >
+                          <span>Ver en mapa</span>
+                          <IconMapPin className="w-3.5 h-3.5 text-slate-500" />
+                        </button>
 
-                      <a
-                        href={sede.mapsExternalUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer text-[#FF5A5F] hover:text-red-700"
-                      >
-                        <span>Cómo llegar</span>
-                        <IconNavigation className="w-3.5 h-3.5 text-[#FF5A5F]" />
-                      </a>
+                        <a
+                          href={sede.mapsExternalUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer text-[#FF5A5F] hover:text-red-700"
+                        >
+                          <span>Cómo llegar</span>
+                          <IconNavigation className="w-3.5 h-3.5 text-[#FF5A5F]" />
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+
+              {/* Indicadores de Puntos de Navegación para Mobile */}
+              <div className="lg:hidden flex items-center justify-center gap-2 w-full py-1">
+                {sedesData.map((_, dotIdx) => (
+                  <button
+                    key={dotIdx}
+                    onClick={() => setSelectedSedeIndex(dotIdx)}
+                    aria-label={`Ver información de la sede ${dotIdx + 1}`}
+                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                      selectedSedeIndex === dotIdx ? 'w-6 bg-[#FF5A5F]' : 'w-2 bg-slate-300'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Columna Derecha: Mapa Interactivo (7 columnas) */}
