@@ -239,8 +239,11 @@ const SedesMap: React.FC<SedesMapProps> = ({ sedes, selectedSedeIndex, onSelectS
           className="w-12 h-12 rounded-2xl bg-white/95 hover:bg-white shadow-xl shadow-slate-900/15 border border-slate-200 flex items-center justify-center transition-all duration-200 hover:scale-105 group cursor-pointer p-2 backdrop-blur-sm"
         >
           <img
-            src="/icon_google_maps.png"
+            src="/icon_google_maps.webp"
             alt="Google Maps"
+            width={28}
+            height={28}
+            loading="lazy"
             className="w-7 h-7 object-contain transition-transform group-hover:scale-110"
           />
         </a>

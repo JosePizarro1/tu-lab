@@ -78,6 +78,9 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
           <img 
             src="/logo-unidoslab.webp" 
             alt="UNIDOSLAB - Unidos por tu Salud" 
+            width={195}
+            height={50}
+            fetchPriority="high"
             className="h-11 md:h-13 w-auto object-contain" 
           />
         </div>

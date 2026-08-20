@@ -356,8 +356,8 @@ export default function Page() {
       
       {/* Loader Clínico Inicial Elegante de UNIDOSLAB */}
       <div 
-        className={`fixed inset-0 z-50 bg-white flex flex-col items-center justify-center transition-all duration-500 pointer-events-none ${
-          isPageReady ? 'opacity-0 -translate-y-2 invisible' : 'opacity-100'
+        className={`fixed inset-0 z-50 bg-white flex flex-col items-center justify-center transition-opacity duration-300 pointer-events-none ${
+          isPageReady ? 'opacity-0 invisible' : 'opacity-100'
         }`}
       >
         <div className="flex flex-col items-center gap-5">
@@ -366,8 +366,10 @@ export default function Page() {
             <div className="absolute w-28 h-28 rounded-full bg-red-100/70 animate-ping"></div>
             <div className="w-24 h-24 rounded-3xl bg-white shadow-xl shadow-red-500/10 border border-slate-100 flex items-center justify-center p-3 relative z-10">
               <img 
-                src="/icon-unidoslab.png" 
+                src="/icon-unidoslab.webp" 
                 alt="UNIDOSLAB" 
+                width={56}
+                height={56}
                 className="w-14 h-14 object-contain animate-pulse"
               />
             </div>
@@ -414,6 +416,9 @@ export default function Page() {
               <img 
                 src="/logo-unidoslab.webp" 
                 alt="UNIDOSLAB - Unidos por tu Salud" 
+                width={180}
+                height={45}
+                loading="lazy"
                 className="h-11 w-auto object-contain cursor-pointer"
                 onClick={() => setActiveTab('inicio')}
               />
