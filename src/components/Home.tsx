@@ -19,7 +19,10 @@ import {
   IconUsers,
   IconAward,
   IconNavigation,
-  IconCar
+  IconCar,
+  IconStethoscope,
+  IconDeviceDesktopAnalytics,
+  IconHome
 } from '@tabler/icons-react';
 import gsap from 'gsap';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -354,148 +357,151 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
         </div>
       </section>
 
-      {/* 2. BARRA FLOTANTE INFERIOR DE 3 DESTACADOS (Superpuesta en la base del Hero) */}
-      <section className="max-w-6xl mx-auto px-4 md:px-6 -mt-16 md:-mt-20 relative z-30">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, type: "spring", stiffness: 280, damping: 26 }}
-          className="bg-white rounded-3xl p-6 sm:p-8 shadow-2xl shadow-slate-900/10 border border-slate-100 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 divide-y md:divide-y-0 md:divide-x divide-slate-100"
-        >
-
-          {/* Destacado 1 */}
-          <motion.div
-            whileHover={{ y: -2, transition: { duration: 0.15 } }}
-            className="flex items-center gap-4 pt-4 md:pt-0 group cursor-default"
-          >
-            <motion.div
-              whileHover={{ scale: 1.08, transition: { type: "spring", stiffness: 400, damping: 15 } }}
-              className="w-14 h-14 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shadow-lg shadow-red-500/25 shrink-0"
-            >
-              <IconTestPipe className="w-7 h-7" />
-            </motion.div>
+      {/* 2. SECCIÓN: SERVICIOS PARA CUIDAR TU SALUD (Diseño Limpio Fiel al Mockup) */}
+      <section className="max-w-7xl mx-auto px-4 md:px-6 -mt-10 md:-mt-14 relative z-30 mb-8">
+        <div className="bg-white/90 backdrop-blur-md rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl shadow-slate-900/5 border border-slate-200/80">
+          
+          {/* Cabecera de la Sección de Servicios */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
-              <h3 className="font-jakarta text-base font-bold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
-                Toma de Muestras
+              <h3 className="font-jakarta text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#1E3A4C] tracking-tight">
+                Servicios para cuidar tu salud
               </h3>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                Muestreo indoloro en sede o a domicilio con máxima bioseguridad.
+              <p className="text-slate-500 text-xs sm:text-sm mt-1 font-medium">
+                Atención profesional, resultados confiables y soluciones cerca de ti.
               </p>
-              <div className="w-8 h-0.5 bg-[#FF5A5F]/70 rounded-full mt-2"></div>
             </div>
-          </motion.div>
 
-          {/* Destacado 2 */}
-          <motion.div
-            whileHover={{ y: -2, transition: { duration: 0.15 } }}
-            className="flex items-center gap-4 pt-4 md:pt-0 md:pl-6 group cursor-default"
-          >
-            <motion.div
-              whileHover={{ scale: 1.08, transition: { type: "spring", stiffness: 400, damping: 15 } }}
-              className="w-14 h-14 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shadow-lg shadow-red-500/25 shrink-0"
+            <motion.button
+              onClick={() => setActiveTab('servicios')}
+              whileHover={{ scale: 1.03, transition: { duration: 0.15 } }}
+              whileTap={{ scale: 0.97 }}
+              className="self-start sm:self-auto px-6 py-2.5 bg-[#FF5A5F] hover:bg-[#E84A4F] text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow-md shadow-red-500/20 flex items-center gap-1.5 transition-all cursor-pointer shrink-0"
             >
-              <IconFileCertificate className="w-7 h-7" />
-            </motion.div>
-            <div>
-              <h3 className="font-jakarta text-base font-bold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
-                Resultados en Línea
-              </h3>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                Consulta y descarga rápida  desde cualquier dispositivo.
-              </p>
-              <div className="w-8 h-0.5 bg-[#FF5A5F]/70 rounded-full mt-2"></div>
-            </div>
-          </motion.div>
+              <span>VER SERVICIOS</span>
+              <span className="font-bold text-sm">›</span>
+            </motion.button>
+          </div>
 
-          {/* Destacado 3 */}
-          <motion.div
-            whileHover={{ y: -2, transition: { duration: 0.15 } }}
-            className="flex items-center gap-4 pt-4 md:pt-0 md:pl-6 group cursor-default"
-          >
+          {/* 3 Tarjetas Blancas de Servicios Principales */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+            
+            {/* Tarjeta 1: Exámenes y análisis clínicos */}
             <motion.div
-              whileHover={{ scale: 1.08, transition: { type: "spring", stiffness: 400, damping: 15 } }}
-              className="w-14 h-14 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shadow-lg shadow-red-500/25 shrink-0"
+              whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setActiveTab('servicios')}
+              className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/90 shadow-md shadow-slate-200/40 hover:shadow-xl hover:border-slate-300 transition-all flex items-start gap-4 cursor-pointer group"
             >
-              <IconShieldCheck className="w-7 h-7" />
+              <div className="w-14 h-14 rounded-full bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 border border-red-100 group-hover:scale-105 group-hover:bg-red-100/60 transition-all">
+                <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M7 3h10" />
+                  <path d="M9 3v13a4 4 0 0 0 8 0v-13" />
+                  <path d="M6 8h4" />
+                  <path d="M14 8h4" />
+                  <path d="M9 13h6" />
+                </svg>
+              </div>
+              <div className="min-w-0">
+                <h4 className="font-jakarta text-base font-extrabold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
+                  Exámenes y análisis clínicos
+                </h4>
+                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
+                  Pruebas de laboratorio confiables en sede o a domicilio.
+                </p>
+              </div>
             </motion.div>
-            <div>
-              <h3 className="font-jakarta text-base font-bold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
-                Doble Control de Calidad
-              </h3>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                Certificación y validación por bioquímicos colegiados en Tacna.
-              </p>
-              <div className="w-8 h-0.5 bg-[#FF5A5F]/70 rounded-full mt-2"></div>
-            </div>
-          </motion.div>
 
-        </motion.div>
+            {/* Tarjeta 2: Ecografías */}
+            <motion.div
+              whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setActiveTab('servicios')}
+              className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/90 shadow-md shadow-slate-200/40 hover:shadow-xl hover:border-slate-300 transition-all flex items-start gap-4 cursor-pointer group"
+            >
+              <div className="w-14 h-14 rounded-full bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 border border-red-100 group-hover:scale-105 group-hover:bg-red-100/60 transition-all">
+                <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="4" width="18" height="12" rx="2" />
+                  <path d="M7 11c2-3 4 3 6 0 1-1.5 2-1.5 4 0" />
+                  <path d="M12 16v4" />
+                  <path d="M8 20h8" />
+                </svg>
+              </div>
+              <div className="min-w-0">
+                <h4 className="font-jakarta text-base font-extrabold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
+                  Ecografías
+                </h4>
+                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
+                  Estudios ecográficos con atención profesional y precisa.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Tarjeta 3: Consultas médicas */}
+            <motion.div
+              whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setActiveTab('servicios')}
+              className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/90 shadow-md shadow-slate-200/40 hover:shadow-xl hover:border-slate-300 transition-all flex items-start gap-4 cursor-pointer group"
+            >
+              <div className="w-14 h-14 rounded-full bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 border border-red-100 group-hover:scale-105 group-hover:bg-red-100/60 transition-all">
+                <IconStethoscope className="w-7 h-7" />
+              </div>
+              <div className="min-w-0">
+                <h4 className="font-jakarta text-base font-extrabold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
+                  Consultas médicas
+                </h4>
+                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
+                  Atención médica personalizada y oportuna.
+                </p>
+              </div>
+            </motion.div>
+
+          </div>
+
+          {/* Banner Inferior: Atención a Domicilio */}
+          <div className="bg-red-50/50 border border-red-100/80 rounded-2xl py-3 px-4 sm:px-6 flex items-center justify-center gap-3 text-center">
+            <IconHome className="w-5 h-5 text-[#FF5A5F] shrink-0" />
+            <p className="text-xs sm:text-sm font-bold text-[#1E3A4C]">
+              También atendemos a domicilio: <span className="font-medium text-slate-600">toma de muestras en la comodidad de tu hogar.</span>
+            </p>
+          </div>
+
+        </div>
       </section>
 
-      {/* 3. SECCIÓN: ¿POR QUÉ CONFIAR TU DIAGNÓSTICO EN UNIDOSLAB? (Diseño Esculpido Fiel a la Referencia) */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24 relative z-10">
-        <div className="bg-gradient-to-br from-[#FFFFFF] via-[#F3F8FC] to-[#E5F0F8] border border-slate-200/80 rounded-[44px] p-6 sm:p-10 md:p-14 shadow-2xl shadow-slate-900/10 relative overflow-hidden">
-
-          {/* CAPA DE ONDAS ESCULPIDAS Y DECORACIÓN DE FONDO */}
+      {/* 3. SECCIÓN: ¿POR QUÉ CONFIAR TU DIAGNÓSTICO EN UNIDOSLAB? (Diseño Limpio, Blanco y Moderno) */}
+      <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 sm:py-20 relative z-20">
+        <div className="relative rounded-[36px] bg-white p-8 sm:p-12 lg:p-14 shadow-2xl shadow-slate-900/5 border border-slate-200/80 overflow-hidden">
+          
+          {/* Fondo sutil con Cruz Médica y Micropuntos */}
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-
-            {/* Onda Azul Hielo Superior Derecha */}
-            <svg
-              className="absolute -top-12 right-0 w-[620px] h-[520px] opacity-40"
-              viewBox="0 0 600 500"
-              fill="none"
-            >
-              <path
-                d="M600,0 L180,0 C220,120 320,240 450,280 C540,310 580,380 600,420 Z"
-                fill="url(#ice-wave-top)"
-              />
-              <defs>
-                <linearGradient id="ice-wave-top" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#BAE6FD" stopOpacity="0.7" />
-                  <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.2" />
-                </linearGradient>
-              </defs>
-            </svg>
-
-            {/* Gran Onda Azul Marino Inferior Derecha (Da contraste por detrás del marco fotográfico) */}
-            <svg
-              className="absolute -bottom-6 -right-12 w-[680px] h-[480px] opacity-90"
-              viewBox="0 0 650 450"
-              fill="none"
-            >
-              <path
-                d="M650,450 L200,450 C260,340 380,260 520,220 C600,190 640,120 650,80 Z"
-                fill="url(#navy-wave-bottom)"
-              />
-              <defs>
-                <linearGradient id="navy-wave-bottom" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#0B1E2D" stopOpacity="0.95" />
-                  <stop offset="60%" stopColor="#0E2C44" stopOpacity="0.9" />
-                  <stop offset="100%" stopColor="#163E5D" stopOpacity="0.8" />
-                </linearGradient>
-              </defs>
-            </svg>
-
-            {/* Cruz Médica de Contorno en Fondo Superior Derecho */}
-            <div className="absolute top-8 right-12 opacity-30 pointer-events-none">
-              <svg className="w-28 h-28 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+            {/* Cruz Médica suave en el centro */}
+            <div className="absolute top-8 left-[45%] -translate-x-1/2 opacity-25">
+              <svg className="w-44 h-44 text-slate-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
                 <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3z" />
               </svg>
             </div>
 
             {/* Retícula de Micropuntos en Fondo Derecho */}
-            <div className="absolute top-36 right-8 w-24 h-24 opacity-30 grid grid-cols-4 gap-2.5 pointer-events-none">
-              {Array.from({ length: 16 }).map((_, i) => (
-                <span key={i} className="w-1.5 h-1.5 rounded-full bg-sky-500 block"></span>
+            <div className="absolute top-12 right-12 w-28 h-28 opacity-25 grid grid-cols-5 gap-2.5">
+              {Array.from({ length: 25 }).map((_, i) => (
+                <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-400 block"></span>
               ))}
             </div>
 
+            {/* Retícula de Micropuntos en Fondo Inferior Izquierdo */}
+            <div className="absolute bottom-10 left-10 w-24 h-24 opacity-25 grid grid-cols-4 gap-2.5">
+              {Array.from({ length: 16 }).map((_, i) => (
+                <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-400 block"></span>
+              ))}
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center relative z-10">
 
             {/* Columna Izquierda: Información de Confianza & Estadísticas (7 Columnas) */}
-            <div className="lg:col-span-7 space-y-8">
+            <div className="lg:col-span-7 space-y-6">
 
               {/* Titular contundente */}
               <div>
@@ -511,74 +517,73 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                 <div className="w-14 h-1 bg-[#FF5A5F] rounded-full mt-3"></div>
               </div>
 
-              <p className="text-slate-600 text-sm sm:text-base md:text-lg leading-relaxed font-normal max-w-xl">
+              <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-normal max-w-xl">
                 Más de 6 años brindando resultados certeros, diagnóstico oportuno y atención médica personalizada a las familias e instituciones de Tacna.
               </p>
 
-              {/* 2 Grandes Cápsulas de Estadísticas en Azul Marino */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+              {/* 2 Grandes Cápsulas de Estadísticas en Blanco con Sombra y Acento Coral */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
 
                 {/* Cápsula 1: +6 Años de Trayectoria Clínica */}
                 <motion.div
-                  whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+                  whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
                   whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
-                  className="bg-[#1E3A4C] text-white p-6 rounded-3xl shadow-xl shadow-slate-900/15 border border-slate-700/30 flex items-center gap-4.5 cursor-default transition-all"
+                  className="bg-white p-5 sm:p-6 rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-200/80 flex items-center gap-4 cursor-default transition-all"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-lg shadow-red-500/30">
+                  <div className="w-13 h-13 rounded-2xl bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/25">
                     <IconAward className="w-7 h-7" />
                   </div>
                   <div>
                     <div className="flex items-baseline">
                       <span className="text-[#FF5A5F] text-2xl font-extrabold mr-0.5">+</span>
-                      <span className="font-jakarta text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                      <span className="font-jakarta text-3xl sm:text-4xl font-extrabold text-[#1E3A4C] tracking-tight">
                         {yearsCount}
                       </span>
                     </div>
-                    <span className="text-xs font-bold text-slate-300 block leading-tight mt-0.5">
+                    <span className="text-xs font-bold text-slate-500 block leading-tight mt-0.5">
                       Años de Trayectoria Clínica
                     </span>
-                    <div className="w-10 h-0.5 bg-[#FF5A5F] rounded-full mt-2"></div>
+                    <div className="w-8 h-0.5 bg-[#FF5A5F] rounded-full mt-2"></div>
                   </div>
                 </motion.div>
 
                 {/* Cápsula 2: Pacientes atendidos */}
                 <motion.div
-                  whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+                  whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
                   whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
-                  className="bg-[#1E3A4C] text-white p-6 rounded-3xl shadow-xl shadow-slate-900/15 border border-slate-700/30 flex items-center gap-4.5 cursor-default transition-all"
+                  className="bg-white p-5 sm:p-6 rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-200/80 flex items-center gap-4 cursor-default transition-all"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-lg shadow-red-500/30">
+                  <div className="w-13 h-13 rounded-2xl bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/25">
                     <IconUsers className="w-7 h-7" />
                   </div>
                   <div>
                     <div className="flex items-baseline">
-                      <span className="font-jakarta text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                      <span className="font-jakarta text-3xl sm:text-4xl font-extrabold text-[#1E3A4C] tracking-tight">
                         {examsCount.toLocaleString('es-PE')}
                       </span>
                       <span className="text-[#FF5A5F] text-2xl font-extrabold ml-0.5">+</span>
                     </div>
-                    <span className="text-xs font-bold text-slate-300 block leading-tight mt-0.5">
+                    <span className="text-xs font-bold text-slate-500 block leading-tight mt-0.5">
                       Pacientes atendidos en Tacna
                     </span>
-                    <div className="w-10 h-0.5 bg-[#FF5A5F] rounded-full mt-2"></div>
+                    <div className="w-8 h-0.5 bg-[#FF5A5F] rounded-full mt-2"></div>
                   </div>
                 </motion.div>
 
               </div>
             </div>
 
-            {/* Columna Derecha: Marco Squircle con Borde Azul Marino Grueso & Badge Flotante (5 Columnas) */}
+            {/* Columna Derecha: Marco Squircle Blanco Limpio & Badge Flotante (5 Columnas) */}
             <div className="lg:col-span-5 relative flex justify-center">
 
-              {/* Marco Squircle con Borde Marino Fuerte a juego con la referencia */}
-              <div className="relative rounded-[44px] p-2.5 bg-[#1E3A4C] border-4 border-[#16364D] shadow-2xl max-w-sm sm:max-w-md w-full">
-                <div className="rounded-[34px] overflow-hidden bg-slate-950 relative">
+              {/* Marco Squircle Blanco */}
+              <div className="relative rounded-[40px] p-2 bg-slate-100/80 border-2 border-slate-200/80 shadow-xl max-w-sm sm:max-w-md w-full">
+                <div className="rounded-[32px] overflow-hidden bg-slate-100 relative">
                   <img
                     src="https://images.pexels.com/photos/3735709/pexels-photo-3735709.jpeg?auto=compress&cs=tinysrgb&w=1200"
                     alt="Laboratorio de análisis clínicos y reactivos - UNIDOSLAB Tacna"
-                    className="w-full h-[380px] sm:h-[460px] object-cover object-center"
+                    className="w-full h-[360px] sm:h-[430px] object-cover object-center"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
                 </div>
 
                 {/* Badge Flotante de Garantía */}
@@ -587,10 +592,10 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                   whileInView={{ y: 0, opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2, type: "spring", stiffness: 350, damping: 25 }}
-                  className="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white flex items-center gap-3.5 text-slate-800"
+                  className="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl shadow-slate-900/10 border border-slate-200/70 flex items-center gap-3.5 text-slate-800"
                 >
-                  <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 shadow-xs border border-emerald-100">
-                    <IconShieldCheck className="w-6 h-6" />
+                  <div className="w-10 h-10 rounded-xl bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 shadow-xs border border-red-100">
+                    <IconShieldCheck className="w-5 h-5" />
                   </div>
                   <div>
                     <h4 className="text-xs font-extrabold text-[#1E3A4C]">Control de Calidad Acreditado</h4>
