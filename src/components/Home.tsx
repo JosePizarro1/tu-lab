@@ -46,10 +46,12 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
   const heroRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const sedesSectionRef = useRef<HTMLElement>(null);
 
   const [yearsCount, setYearsCount] = React.useState(0);
   const [examsCount, setExamsCount] = React.useState(0);
   const [showCards, setShowCards] = React.useState(false);
+  const [mapVisible, setMapVisible] = React.useState(false);
   const [selectedSedeIndex, setSelectedSedeIndex] = React.useState<number>(0);
 
   const sedesData = [
@@ -86,6 +88,21 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     if (window.scrollY > 30) setShowCards(true);
+
+    // Observer para cargar Leaflet solo cuando el usuario se acerca a la sección Sedes
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setMapVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '300px' }
+    );
+
+    if (sedesSectionRef.current) {
+      observer.observe(sedesSectionRef.current);
+    }
 
     // Animación de conteo desde 0 para Años (5) y Exámenes (5,125)
     const duration = 1800; // ms
@@ -201,38 +218,16 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-20">
 
           {/* Columna Izquierda: Titular y CTA */}
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: { staggerChildren: 0.08, delayChildren: 0.05 }
-              }
-            }}
-            className="lg:col-span-7 space-y-6"
-          >
+          <div className="lg:col-span-7 space-y-6">
 
             {/* Badge superior */}
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: 12 },
-                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 25, mass: 0.7 } }
-              }}
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white text-[#1E3A4C] text-[11px] sm:text-xs font-extrabold uppercase tracking-widest shadow-sm border border-slate-200/90"
-            >
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white text-[#1E3A4C] text-[11px] sm:text-xs font-extrabold uppercase tracking-widest shadow-sm border border-slate-200/90">
               <span className="w-2.5 h-2.5 rounded-full bg-[#FF5A5F] shrink-0"></span>
               <span>Laboratorio Clínico Tacna · Perú</span>
-            </motion.div>
+            </div>
 
             {/* Titular contundente */}
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: 14 },
-                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 28, mass: 0.8 } }
-              }}
-            >
+            <div>
               <h1 className="font-jakarta text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.12] tracking-tight">
                 <span className="block text-[#1E3A4C]">Tu Salud Es</span>
                 <span className="block text-[#1E3A4C]">
@@ -241,18 +236,12 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
               </h1>
               {/* Barra corta de acento rojo coral */}
               <span className="w-14 h-1 bg-[#FF5A5F] rounded-full mt-3 block"></span>
-            </motion.div>
+            </div>
 
             {/* Bajada */}
-            <motion.p
-              variants={{
-                hidden: { opacity: 0, y: 12 },
-                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 28, mass: 0.8 } }
-              }}
-              className="text-slate-500 text-sm sm:text-base md:text-lg max-w-xl font-normal leading-relaxed"
-            >
+            <p className="text-slate-500 text-sm sm:text-base md:text-lg max-w-xl font-normal leading-relaxed">
               Tecnología diagnóstica automatizada de alta precisión, calidez humana y entrega digital inmediata de tus análisis clínicos.
-            </motion.p>
+            </p>
 
             {/* Botones de acción */}
             <motion.div
@@ -286,7 +275,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                 <span>Escríbenos por WhatsApp</span>
               </motion.a>
             </motion.div>
-          </motion.div>
+          </div>
 
           {/* Columna Derecha: Especialistas Médicos & Marco Squircle Limpio */}
           <motion.div
@@ -749,7 +738,11 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
       </section>
 
       {/* 5. SECCIÓN: SEDES Y HORARIOS EN TACNA (Diseño fiel al mockup) */}
-      <section id="sedes" className="max-w-7xl mx-auto px-4 md:px-6 pt-16 pb-16 scroll-mt-24 relative z-10 font-plex">
+      <section 
+        ref={sedesSectionRef}
+        id="sedes" 
+        className="max-w-7xl mx-auto px-4 md:px-6 pt-16 pb-16 scroll-mt-24 relative z-10 font-plex"
+      >
         <div className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl shadow-slate-900/5 border border-slate-200/80 relative overflow-hidden">
           
           {/* Header Superior y Barra de Referencias */}
@@ -972,11 +965,17 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
 
             {/* Columna Derecha: Mapa Interactivo (7 columnas) */}
             <div className="lg:col-span-7 h-[440px] lg:h-auto min-h-[440px]">
-              <SedesMap
-                sedes={sedesData}
-                selectedSedeIndex={selectedSedeIndex}
-                onSelectSede={setSelectedSedeIndex}
-              />
+              {mapVisible ? (
+                <SedesMap
+                  sedes={sedesData}
+                  selectedSedeIndex={selectedSedeIndex}
+                  onSelectSede={setSelectedSedeIndex}
+                />
+              ) : (
+                <div className="w-full h-full min-h-[440px] bg-slate-100/70 border border-slate-200/80 rounded-3xl flex items-center justify-center text-slate-400 font-bold text-xs uppercase tracking-wider">
+                  <span>Cargando Mapa...</span>
+                </div>
+              )}
             </div>
 
           </div>
