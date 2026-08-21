@@ -22,7 +22,10 @@ import {
   IconCar,
   IconStethoscope,
   IconDeviceDesktopAnalytics,
-  IconHome
+  IconHome,
+  IconBrandFacebook,
+  IconBrandInstagram,
+  IconBrandWhatsapp
 } from '@tabler/icons-react';
 import gsap from 'gsap';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -58,10 +61,12 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
     {
       id: 'leguia',
       number: '01',
-      name: 'Sede Av. Leguía',
-      address: 'Av. Leguía, Tacna (Frente a consultorios médicos)',
-      badge: 'Abierto Lunes a Sábado',
-      schedule: '7:00 AM – 7:00 PM',
+      name: 'Sede Central (Av. Leguía)',
+      address: 'AV. Leguía N° 778-C, Tacna',
+      reference: 'Cerca a Esquina de Movimiento',
+      badge: 'Atención desde 7:45 AM',
+      schedule: '7:45 AM - 1:00 PM · 3:00 PM - 8:00 PM',
+      scheduleFull: 'Lunes a Sábado: 7:45 AM – 1:00 PM | 3:00 PM – 8:00 PM',
       lat: -18.008048,
       lng: -70.249415,
       mapsExternalUrl: 'https://maps.app.goo.gl/Xy6PZvvMXs5e2469A'
@@ -69,13 +74,15 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
     {
       id: 'melendez',
       number: '02',
-      name: 'Sede Patricio Meléndez',
-      address: 'Calle Patricio Meléndez, Tacna Centro',
-      badge: 'Abierto Lunes a Sábado',
-      schedule: '7:00 AM – 7:00 PM',
-      lat: -18.0125,
-      lng: -70.2520,
-      mapsExternalUrl: 'https://maps.app.goo.gl/YY4MkEoko7847tmb9'
+      name: 'Sucursal Patricio Meléndez',
+      address: 'Av. Patricio Meléndez N° 382, Edificio María Auxiliadora Of. 303',
+      reference: 'Edificio María Auxiliadora / Oficina 303 (Centro de Tacna)',
+      badge: 'Atención desde 8:00 AM',
+      schedule: '8:00 AM - 1:00 PM · 3:00 PM - 8:00 PM',
+      scheduleFull: 'Lunes a Sábado: 8:00 AM – 1:00 PM | 3:00 PM – 8:00 PM',
+      lat: -18.0093833,
+      lng: -70.2483362,
+      mapsExternalUrl: 'https://maps.app.goo.gl/NRSWec9rQhypSx9t9'
     }
   ];
 
@@ -198,11 +205,11 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
       {/* 1. HERO SECTION PRINCIPAL (Diseño Limpio, Luminoso y Moderno en Blanco/Slate) */}
       <section
         ref={heroRef}
-        className="relative min-h-[620px] lg:min-h-[700px] w-full bg-gradient-to-b from-slate-50/90 via-white to-slate-50/50 overflow-hidden pt-28 sm:pt-36 pb-28 md:pb-36 px-4 md:px-8 text-slate-800 relative z-10"
+        className="relative w-full bg-gradient-to-b from-slate-50/90 via-white to-slate-50/50 overflow-hidden pt-20 sm:pt-28 lg:pt-36 pb-16 sm:pb-24 lg:pb-36 px-4 md:px-8 text-slate-800 z-10"
       >
         {/* CAPA DE FONDO: Detalles sutiles y Cruz Médica de cristal */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-          
+
           {/* Halos de luz y gradientes de fondo limpios */}
           <div className="absolute top-1/4 -left-32 w-[520px] h-[520px] rounded-full bg-gradient-to-tr from-red-500/5 via-rose-300/4 to-transparent blur-[140px]"></div>
           <div className="absolute top-1/3 -right-32 w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-sky-400/8 via-slate-200/20 to-transparent blur-[150px]"></div>
@@ -215,31 +222,31 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-20">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center relative z-20">
 
           {/* Columna Izquierda: Titular y CTA */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-center lg:text-left flex flex-col items-center lg:items-start">
 
             {/* Badge superior */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white text-[#1E3A4C] text-[11px] sm:text-xs font-extrabold uppercase tracking-widest shadow-sm border border-slate-200/90">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#FF5A5F] shrink-0"></span>
+            <div className="inline-flex items-center gap-2.5 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white text-[#1E3A4C] text-[10.5px] sm:text-xs font-extrabold uppercase tracking-widest shadow-xs border border-slate-200/90">
+              <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#FF5A5F] shrink-0"></span>
               <span>Laboratorio Clínico Tacna · Perú</span>
             </div>
 
             {/* Titular contundente */}
             <div>
-              <h1 className="font-jakarta text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.12] tracking-tight">
+              <h1 className="font-jakarta text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.14] tracking-tight">
                 <span className="block text-[#1E3A4C]">Tu Salud Es</span>
                 <span className="block text-[#1E3A4C]">
                   Nuestra Prioridad<span className="text-[#FF5A5F]">.</span>
                 </span>
               </h1>
               {/* Barra corta de acento rojo coral */}
-              <span className="w-14 h-1 bg-[#FF5A5F] rounded-full mt-3 block"></span>
+              <span className="w-12 sm:w-14 h-1 bg-[#FF5A5F] rounded-full mt-2.5 sm:mt-3 mx-auto lg:mx-0 block"></span>
             </div>
 
             {/* Bajada */}
-            <p className="text-slate-500 text-sm sm:text-base md:text-lg max-w-xl font-normal leading-relaxed">
+            <p className="text-slate-500 text-xs sm:text-base md:text-lg max-w-xl font-normal leading-relaxed">
               Tecnología diagnóstica automatizada de alta precisión, calidez humana y entrega digital inmediata de tus análisis clínicos.
             </p>
 
@@ -249,17 +256,17 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                 hidden: { opacity: 0, y: 12 },
                 visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 320, damping: 26, mass: 0.8 } }
               }}
-              className="flex flex-wrap items-center gap-4 pt-2"
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-1 sm:pt-2 w-full sm:w-auto"
             >
               <motion.button
                 onClick={() => setActiveTab('servicios')}
                 whileHover={{ scale: 1.025, transition: { duration: 0.15, ease: [0.16, 1, 0.3, 1] } }}
                 whileTap={{ scale: 0.97, transition: { duration: 0.08 } }}
-                className="group px-7 py-3.5 bg-[#FF5A5F] hover:bg-[#E84A4F] text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow-lg shadow-red-500/25 transition-colors cursor-pointer flex items-center gap-3"
+                className="group px-6 sm:px-7 py-3 sm:py-3.5 bg-[#FF5A5F] hover:bg-[#E84A4F] text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow-lg shadow-red-500/25 transition-colors cursor-pointer flex items-center justify-center gap-3"
               >
                 <span>Ver Servicios</span>
-                <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                  <IconArrowRight className="w-3.5 h-3.5 text-white" />
+                <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                  <IconArrowRight className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-white" />
                 </span>
               </motion.button>
 
@@ -269,7 +276,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 1)", transition: { duration: 0.15 } }}
                 whileTap={{ scale: 0.97, transition: { duration: 0.08 } }}
-                className="px-7 py-3.5 bg-white text-[#1E3A4C] hover:text-[#25D366] border border-slate-200/90 font-bold text-xs uppercase tracking-wider rounded-full shadow-xs flex items-center gap-2 cursor-pointer transition-all"
+                className="px-6 sm:px-7 py-3 sm:py-3.5 bg-white text-[#1E3A4C] hover:text-[#25D366] border border-slate-200/90 font-bold text-xs uppercase tracking-wider rounded-full shadow-xs flex items-center justify-center gap-2 cursor-pointer transition-all"
               >
                 <IconSend className="w-4 h-4 text-[#25D366]" />
                 <span>Escríbenos por WhatsApp</span>
@@ -282,19 +289,19 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             initial={{ opacity: 0, scale: 0.96, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0.12 }}
-            className="lg:col-span-5 relative flex justify-center lg:justify-end"
+            className="lg:col-span-5 relative flex justify-center lg:justify-end mt-4 lg:mt-0"
           >
 
             {/* Matriz de puntos decorativos detrás de los doctores */}
-            <div className="absolute -top-6 -right-6 w-32 h-32 opacity-20 grid grid-cols-6 gap-2 pointer-events-none">
+            <div className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 w-24 sm:w-32 h-24 sm:h-32 opacity-20 grid grid-cols-6 gap-2 pointer-events-none">
               {Array.from({ length: 36 }).map((_, i) => (
                 <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-400 block"></span>
               ))}
             </div>
 
             {/* Imagen del especialista con marco squircle blanco suave */}
-            <div className="relative z-10 rounded-[38px] p-2.5 bg-white/80 border-2 border-white shadow-2xl shadow-slate-200/60 backdrop-blur-md max-w-sm sm:max-w-md w-full">
-              <div className="rounded-[30px] overflow-hidden bg-gradient-to-b from-slate-100/80 via-slate-50 to-slate-100/60 flex items-end justify-center pt-4">
+            <div className="relative z-10 rounded-[28px] sm:rounded-[38px] p-2 sm:p-2.5 bg-white/80 border-2 border-white shadow-xl shadow-slate-200/60 backdrop-blur-md max-w-[280px] sm:max-w-sm lg:max-w-md w-full">
+              <div className="rounded-[22px] sm:rounded-[30px] overflow-hidden bg-gradient-to-b from-slate-100/80 via-slate-50 to-slate-100/60 flex items-end justify-center pt-3 sm:pt-4">
                 <img
                   src="/home_chica.webp"
                   alt="Especialista en análisis clínicos y diagnóstico UNIDOSLAB Tacna"
@@ -302,7 +309,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                   height={500}
                   loading="eager"
                   fetchPriority="high"
-                  className="w-full h-[370px] sm:h-[430px] object-contain object-bottom drop-shadow-xl"
+                  className="w-full h-[260px] sm:h-[340px] lg:h-[430px] object-contain object-bottom drop-shadow-xl"
                 />
               </div>
             </div>
@@ -312,37 +319,43 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.3, type: "spring", stiffness: 350, damping: 25 }}
-              className="hidden xl:flex absolute -right-5 top-1/2 -translate-y-1/2 flex-col gap-3.5 bg-white text-slate-600 p-2.5 rounded-2xl shadow-xl shadow-slate-300/40 border border-slate-100 z-20"
+              className="hidden xl:flex absolute -right-5 top-1/2 -translate-y-1/2 flex-col gap-3 bg-white p-2 rounded-2xl shadow-xl shadow-slate-300/40 border border-slate-100 z-20"
             >
               <motion.a
                 whileHover={{ scale: 1.15, transition: { type: "spring", stiffness: 400, damping: 15 } }}
                 whileTap={{ scale: 0.92 }}
-                href="https://facebook.com"
+                href="https://www.facebook.com/UNIIDOSLAB.Laboratorio.Clinico/"
                 target="_blank"
-                rel="noreferrer"
-                className="w-7 h-7 rounded-xl hover:bg-red-50 text-[#FF5A5F] flex items-center justify-center transition-colors text-xs font-bold"
+                rel="noopener noreferrer"
+                title="Facebook UNIDOSLAB"
+                aria-label="Facebook UNIDOSLAB"
+                className="w-8 h-8 rounded-xl hover:bg-blue-50 text-slate-600 hover:text-[#1877F2] flex items-center justify-center transition-colors shadow-2xs"
               >
-                f
+                <IconBrandFacebook className="w-4.5 h-4.5" />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.15, transition: { type: "spring", stiffness: 400, damping: 15 } }}
                 whileTap={{ scale: 0.92 }}
-                href="https://instagram.com"
+                href="https://www.instagram.com/uniilab_laboratorio_clinico"
                 target="_blank"
-                rel="noreferrer"
-                className="w-7 h-7 rounded-xl hover:bg-red-50 text-[#FF5A5F] flex items-center justify-center transition-colors text-xs font-bold"
+                rel="noopener noreferrer"
+                title="Instagram UNIDOSLAB"
+                aria-label="Instagram UNIDOSLAB"
+                className="w-8 h-8 rounded-xl hover:bg-rose-50 text-slate-600 hover:text-[#E4405F] flex items-center justify-center transition-colors shadow-2xs"
               >
-                ig
+                <IconBrandInstagram className="w-4.5 h-4.5" />
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.15, transition: { type: "spring", stiffness: 400, damping: 15 } }}
                 whileTap={{ scale: 0.92 }}
-                href="https://api.whatsapp.com/send/?phone=51952920616"
+                href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20mayor%20informaci%C3%B3n%20sobre%20sus%20servicios"
                 target="_blank"
-                rel="noreferrer"
-                className="w-7 h-7 rounded-xl hover:bg-emerald-50 text-[#25D366] flex items-center justify-center transition-colors text-xs font-bold"
+                rel="noopener noreferrer"
+                title="WhatsApp UNIDOSLAB"
+                aria-label="WhatsApp UNIDOSLAB"
+                className="w-8 h-8 rounded-xl hover:bg-emerald-50 text-slate-600 hover:text-[#25D366] flex items-center justify-center transition-colors shadow-2xs"
               >
-                wa
+                <IconBrandWhatsapp className="w-4.5 h-4.5" />
               </motion.a>
             </motion.div>
 
@@ -353,7 +366,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
       {/* 2. SECCIÓN: SERVICIOS PARA CUIDAR TU SALUD (Diseño Limpio Fiel al Mockup) */}
       <section className="max-w-7xl mx-auto px-4 md:px-6 -mt-10 md:-mt-14 relative z-30 mb-8">
         <div className="bg-white/90 backdrop-blur-md rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl shadow-slate-900/5 border border-slate-200/80">
-          
+
           {/* Cabecera de la Sección de Servicios */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
@@ -378,7 +391,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
 
           {/* 3 Tarjetas Blancas de Servicios Principales */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
-            
+
             {/* Tarjeta 1: Exámenes y análisis clínicos */}
             <motion.div
               whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 20 } }}
@@ -466,7 +479,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
       {/* 3. SECCIÓN: ¿POR QUÉ CONFIAR TU DIAGNÓSTICO EN UNIDOSLAB? (Diseño Limpio, Blanco y Moderno) */}
       <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 sm:py-20 relative z-20">
         <div className="relative rounded-[36px] bg-white p-8 sm:p-12 lg:p-14 shadow-2xl shadow-slate-900/5 border border-slate-200/80 overflow-hidden">
-          
+
           {/* Fondo sutil con Cruz Médica y Micropuntos */}
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
             {/* Cruz Médica suave en el centro */}
@@ -643,7 +656,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
 
           {/* 3 Tarjetas con Conector Lineal */}
           <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-14 max-w-5xl mx-auto items-stretch">
-            
+
             {/* Línea conectora entre tarjetas (Solo Desktop) */}
             <div className="hidden md:block absolute top-1/2 left-[15%] right-[15%] h-[1.5px] bg-[#FF5A5F]/30 -translate-y-6 z-0"></div>
 
@@ -738,13 +751,13 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
       </section>
 
       {/* 5. SECCIÓN: SEDES Y HORARIOS EN TACNA (Diseño fiel al mockup) */}
-      <section 
+      <section
         ref={sedesSectionRef}
-        id="sedes" 
+        id="sedes"
         className="max-w-7xl mx-auto px-4 md:px-6 pt-16 pb-16 scroll-mt-24 relative z-10 font-plex"
       >
         <div className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl shadow-slate-900/5 border border-slate-200/80 relative overflow-hidden">
-          
+
           {/* Header Superior y Barra de Referencias */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-8 pb-6 border-b border-slate-100">
             {/* Título y subtítulo */}
@@ -774,7 +787,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
               </div>
 
               {/* Cards de Referencias 3D: Responsive (Vertical en Mobile, Horizontal en Desktop) */}
-              <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3">
                 {/* Catedral */}
                 <div className="flex flex-col sm:flex-row items-center justify-between sm:justify-start gap-1 sm:gap-2.5 bg-white rounded-xl p-2 sm:p-2.5 border border-slate-200/90 shadow-xs hover:border-slate-300 transition-all text-center sm:text-left">
                   {/* Nombre en Mobile */}
@@ -783,13 +796,13 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                   </p>
                   {/* Imagen 3D */}
                   <div className="my-1 sm:my-0 flex items-center justify-center h-10 sm:h-9 w-auto shrink-0">
-                    <img 
-                      src="/catedral_3d_tacna.webp" 
-                      alt="Referencia de ubicación Catedral de Tacna" 
+                    <img
+                      src="/catedral_3d_tacna.webp"
+                      alt="Referencia de ubicación Catedral de Tacna"
                       width={48}
                       height={48}
                       loading="lazy"
-                      className="h-full w-auto max-w-[48px] sm:max-w-[36px] object-contain drop-shadow-sm" 
+                      className="h-full w-auto max-w-[48px] sm:max-w-[36px] object-contain drop-shadow-sm"
                     />
                   </div>
                   {/* Info Desktop (Horizontal) */}
@@ -807,17 +820,17 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                 <div className="flex flex-col sm:flex-row items-center justify-between sm:justify-start gap-1 sm:gap-2.5 bg-white rounded-xl p-2 sm:p-2.5 border border-slate-200/90 shadow-xs hover:border-slate-300 transition-all text-center sm:text-left">
                   {/* Nombre en Mobile */}
                   <p className="sm:hidden text-[10px] font-bold text-[#1E3A4C] leading-tight line-clamp-1 w-full">
-                    Mercado
+                    Mercado 2 de Mayo
                   </p>
                   {/* Imagen 3D */}
                   <div className="my-1 sm:my-0 flex items-center justify-center h-10 sm:h-9 w-auto shrink-0">
-                    <img 
-                      src="/2_de_mayo.webp" 
-                      alt="Referencia Mercado 2 de Mayo" 
+                    <img
+                      src="/2_de_mayo.webp"
+                      alt="Referencia Mercado 2 de Mayo"
                       width={48}
                       height={48}
                       loading="lazy"
-                      className="h-full w-auto max-w-[48px] sm:max-w-[36px] object-contain drop-shadow-sm" 
+                      className="h-full w-auto max-w-[48px] sm:max-w-[36px] object-contain drop-shadow-sm"
                     />
                   </div>
                   {/* Info Desktop (Horizontal) */}
@@ -828,34 +841,6 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                   {/* Minutos Mobile */}
                   <span className="sm:hidden inline-block text-[9.5px] text-slate-400 font-semibold bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100">
                     A 4 min
-                  </span>
-                </div>
-
-                {/* Plaza Zela */}
-                <div className="flex flex-col sm:flex-row items-center justify-between sm:justify-start gap-1 sm:gap-2.5 bg-white rounded-xl p-2 sm:p-2.5 border border-slate-200/90 shadow-xs hover:border-slate-300 transition-all text-center sm:text-left">
-                  {/* Nombre en Mobile */}
-                  <p className="sm:hidden text-[10px] font-bold text-[#1E3A4C] leading-tight line-clamp-1 w-full">
-                    Plaza Zela
-                  </p>
-                  {/* Imagen 3D */}
-                  <div className="my-1 sm:my-0 flex items-center justify-center h-10 sm:h-9 w-auto shrink-0">
-                    <img 
-                      src="/catedral_3d_tacna.webp" 
-                      alt="Referencia céntrica Plaza Zela" 
-                      width={48}
-                      height={48}
-                      loading="lazy"
-                      className="h-full w-auto max-w-[48px] sm:max-w-[36px] object-contain opacity-85 drop-shadow-sm" 
-                    />
-                  </div>
-                  {/* Info Desktop (Horizontal) */}
-                  <div className="hidden sm:block min-w-0 flex-1">
-                    <p className="text-[11px] font-bold text-[#1E3A4C] truncate">Plaza Zela</p>
-                    <p className="text-[10px] text-slate-400 font-medium">A 8 min</p>
-                  </div>
-                  {/* Minutos Mobile */}
-                  <span className="sm:hidden inline-block text-[9.5px] text-slate-400 font-semibold bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100">
-                    A 8 min
                   </span>
                 </div>
               </div>
@@ -876,11 +861,10 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                       onClick={() => setSelectedSedeIndex(idx)}
                       whileHover={{ scale: 1.01, transition: { duration: 0.15 } }}
                       whileTap={{ scale: 0.985, transition: { duration: 0.1 } }}
-                      className={`w-[88vw] max-w-[340px] sm:w-auto sm:min-w-[340px] lg:w-full lg:max-w-none lg:min-w-0 snap-center rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-6 border-2 transition-all duration-200 cursor-pointer flex flex-col justify-between shrink-0 select-none flex-1 ${
-                        isSelected
-                          ? 'bg-white text-slate-800 border-[#FF5A5F]/80 shadow-xl shadow-red-500/10 ring-4 ring-red-50/70'
-                          : 'bg-white text-slate-700 border-slate-200/80 hover:border-slate-300 hover:shadow-md'
-                      }`}
+                      className={`w-[88vw] max-w-[340px] sm:w-auto sm:min-w-[340px] lg:w-full lg:max-w-none lg:min-w-0 snap-center rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-6 border-2 transition-all duration-200 cursor-pointer flex flex-col justify-between shrink-0 select-none flex-1 ${isSelected
+                        ? 'bg-white text-slate-800 border-[#FF5A5F]/80 shadow-xl shadow-red-500/10 ring-4 ring-red-50/70'
+                        : 'bg-white text-slate-700 border-slate-200/80 hover:border-slate-300 hover:shadow-md'
+                        }`}
                     >
                       <div>
                         {/* Badge Superior */}
@@ -902,12 +886,11 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
 
                         <div className="flex items-start gap-3.5 sm:gap-4 mb-3">
                           {/* Pin 3D Container */}
-                          <div className={`w-13 h-13 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center shrink-0 p-1.5 transition-colors ${
-                            isSelected ? 'bg-red-50/80 border border-red-100' : 'bg-slate-50 border border-slate-100'
-                          }`}>
-                            <img 
-                              src="/pin_sedes.webp" 
-                              alt={`Pin de ubicación de la ${sede.name}`} 
+                          <div className={`w-13 h-13 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center shrink-0 p-1.5 transition-colors ${isSelected ? 'bg-red-50/80 border border-red-100' : 'bg-slate-50 border border-slate-100'
+                            }`}>
+                            <img
+                              src="/pin_sedes.webp"
+                              alt={`Pin de ubicación de la ${sede.name}`}
                               width={40}
                               height={40}
                               loading="lazy"
@@ -920,18 +903,22 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                             <h4 className="font-jakarta text-base sm:text-lg lg:text-xl font-extrabold leading-snug text-[#1E3A4C]">
                               {sede.name.replace('Sede ', '')}
                             </h4>
-                            
-                            <p className="text-[11.5px] sm:text-xs mt-1 flex items-center gap-1.5 text-slate-500">
-                              <IconMapPin className="w-3.5 h-3.5 shrink-0 opacity-70 text-slate-400" />
-                              <span className="truncate lg:whitespace-normal">{sede.address}</span>
+
+                            <p className="text-[11.5px] sm:text-xs mt-1 flex items-start gap-1.5 text-slate-600 font-medium">
+                              <IconMapPin className="w-3.5 h-3.5 shrink-0 text-[#FF5A5F] mt-0.5" />
+                              <span className="leading-snug">{sede.address}</span>
                             </p>
 
-                            <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
+                            <p className="text-[11px] text-slate-400 mt-1 pl-5">
+                              <span className="font-semibold text-slate-500">Ref:</span> {sede.reference}
+                            </p>
+
+                            <div className="mt-3 pt-2.5 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-1">
                               <span className="flex items-center gap-1 font-medium text-slate-500">
-                                <IconClock className="w-3.5 h-3.5 opacity-70" />
-                                Horario General:
+                                <IconClock className="w-3.5 h-3.5 text-[#FF5A5F]" />
+                                <span>Horario:</span>
                               </span>
-                              <span className="font-extrabold text-[#1E3A4C]">
+                              <span className="font-extrabold text-[#1E3A4C] text-[11px] sm:text-xs">
                                 {sede.schedule}
                               </span>
                             </div>
@@ -948,11 +935,10 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                             e.stopPropagation();
                             setSelectedSedeIndex(idx);
                           }}
-                          className={`flex-1 py-2.5 px-3.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                            isSelected
-                              ? 'bg-slate-900 text-white shadow-xs'
-                              : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                          }`}
+                          className={`flex-1 py-2.5 px-3.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${isSelected
+                            ? 'bg-slate-900 text-white shadow-xs'
+                            : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                            }`}
                         >
                           <span>Ver en mapa</span>
                           <IconMapPin className="w-3.5 h-3.5 text-current opacity-70" />
@@ -987,9 +973,8 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                       aria-label={`Ver ${sede.name}`}
                       className="relative py-2 px-1 flex items-center justify-center cursor-pointer"
                     >
-                      <span className={`block h-2 rounded-full transition-all duration-200 ${
-                        isActive ? 'w-7 bg-[#FF5A5F]' : 'w-2 bg-slate-200 hover:bg-slate-300'
-                      }`} />
+                      <span className={`block h-2 rounded-full transition-all duration-200 ${isActive ? 'w-7 bg-[#FF5A5F]' : 'w-2 bg-slate-200 hover:bg-slate-300'
+                        }`} />
                     </button>
                   );
                 })}
@@ -1013,40 +998,59 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
 
           </div>
 
-          {/* Fila Inferior: 3 Badges de Resumen */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-slate-100">
-            {/* Item 1 */}
-            <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/60 border border-slate-100">
-              <div className="w-11 h-11 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/25">
-                <IconMapPin className="w-5 h-5" />
+          {/* Fila Inferior: Horarios, Canales WhatsApp Oficiales y Servicio a Domicilio */}
+          <div className="bg-slate-50/80 rounded-2xl p-4 sm:p-6 border border-slate-200/80 grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+
+            {/* Horarios Generales */}
+            <div className="md:col-span-4 space-y-1">
+              <div className="flex items-center gap-2 text-[#FF5A5F] text-xs font-extrabold uppercase tracking-wider">
+                <IconClock className="w-4 h-4" />
+                <span>Horarios de Atención</span>
               </div>
-              <div>
-                <h5 className="text-xs font-bold text-[#1E3A4C]">2 sedes en Tacna</h5>
-                <p className="text-[11px] text-slate-500 font-medium leading-tight">Ubicaciones estratégicas para estar más cerca de ti.</p>
-              </div>
+              <p className="text-xs font-bold text-[#1E3A4C]">
+                Lunes a Sábado: 8:00 AM – 1:00 PM · 3:00 PM – 8:00 PM
+              </p>
+              <p className="text-[11px] text-slate-500 font-medium">
+                *(En Sede Leguía atención desde las 7:45 AM)*
+              </p>
+              <span className="inline-flex items-center gap-1 mt-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                🚗 Servicio a domicilio en todo Tacna
+              </span>
             </div>
 
-            {/* Item 2 */}
-            <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/60 border border-slate-100">
-              <div className="w-11 h-11 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/25">
-                <IconUsers className="w-5 h-5" />
-              </div>
-              <div>
-                <h5 className="text-xs font-bold text-[#1E3A4C]">Atención presencial</h5>
-                <p className="text-[11px] text-slate-500 font-medium leading-tight">Te atendemos con calidez, tecnología y bioseguridad.</p>
-              </div>
+            {/* WhatsApp Canales */}
+            <div className="md:col-span-8 flex flex-col sm:flex-row items-center justify-end gap-3">
+              <span className="text-xs font-bold text-[#1E3A4C] self-start sm:self-auto">
+                Escríbenos directamente:
+              </span>
+
+              {/* WhatsApp 1 (24 horas) */}
+              <motion.a
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                href="https://wa.me/51952920616"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto py-2.5 px-4 bg-[#25D366] hover:bg-[#20ba5a] text-white font-extrabold text-xs rounded-xl shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer transition-all"
+              >
+                <IconBrandWhatsapp className="w-4 h-4" />
+                <span>952 920 616 (24 Horas)</span>
+              </motion.a>
+
+              {/* WhatsApp 2 (Atención y Citas) */}
+              <motion.a
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                href="https://wa.me/51969940249"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto py-2.5 px-4 bg-white hover:bg-emerald-50 border-2 border-[#25D366] text-[#25D366] font-extrabold text-xs rounded-xl shadow-xs flex items-center justify-center gap-2 cursor-pointer transition-all"
+              >
+                <IconBrandWhatsapp className="w-4 h-4 text-[#25D366]" />
+                <span>969 940 249 </span>
+              </motion.a>
             </div>
 
-            {/* Item 3 */}
-            <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/60 border border-slate-100">
-              <div className="w-11 h-11 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/25">
-                <IconCar className="w-5 h-5" />
-              </div>
-              <div>
-                <h5 className="text-xs font-bold text-[#1E3A4C]">Rutas rápidas</h5>
-                <p className="text-[11px] text-slate-500 font-medium leading-tight">Encuentra la mejor ruta desde tu ubicación con un solo clic.</p>
-              </div>
-            </div>
           </div>
 
         </div>

@@ -10,11 +10,11 @@ import Services from '../components/Services';
 import Sedes from '../components/Sedes';
 import Terminos from '../components/Terminos';
 import Privacidad from '../components/Privacidad';
-import { 
-  IconMapPin, 
-  IconClock, 
-  IconPhone, 
-  IconShieldCheck, 
+import {
+  IconMapPin,
+  IconClock,
+  IconPhone,
+  IconShieldCheck,
   IconMicroscope,
   IconBrandFacebook,
   IconBrandInstagram,
@@ -48,20 +48,20 @@ export default function Page() {
   const handleDownloadPDF = () => {
     const { jsPDF } = require('jspdf');
     const doc = new jsPDF();
-    
+
     // Encabezado del reporte
     doc.setFont("helvetica", "bold");
     doc.setFontSize(22);
     doc.setTextColor(229, 35, 32); // UNIDOSLAB Red
     doc.text("UNIDOSLAB", 20, 20);
-    
+
     doc.setFontSize(8);
     doc.setTextColor(30, 58, 76); // UNIDOSLAB Navy
     doc.text("UNIDOS POR TU SALUD", 20, 25);
-    
+
     doc.setDrawColor(226, 232, 240);
     doc.line(20, 28, 190, 28);
-    
+
     // Información del Paciente
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
@@ -70,23 +70,23 @@ export default function Page() {
     doc.text(`Codigo de Orden: ${orderCode || 'ORD-2026-8871'}`, 20, 50);
     doc.text(`Fecha de Emision: 03/07/2026`, 130, 38);
     doc.text(`Estado: Completado`, 130, 44);
-    
+
     doc.line(20, 55, 190, 55);
-    
+
     // Tabla de Exámenes
     doc.setFont("helvetica", "bold");
     doc.setFontSize(12);
     doc.setTextColor(15, 23, 42);
     doc.text("Resultados de Analisis Clinico", 20, 65);
-    
+
     doc.setFontSize(10);
     doc.text("Examen", 20, 75);
     doc.text("Resultado", 80, 75);
     doc.text("Unidades", 120, 75);
     doc.text("Valores de Referencia", 150, 75);
-    
+
     doc.line(20, 78, 190, 78);
-    
+
     doc.setFont("helvetica", "normal");
     // Fila 1
     doc.text("Hemoglobina", 20, 86);
@@ -95,7 +95,7 @@ export default function Page() {
     doc.setFont("helvetica", "normal");
     doc.text("g/dL", 120, 86);
     doc.text("13.8 - 17.2", 150, 86);
-    
+
     // Fila 2
     doc.text("Glucosa en Ayunas", 20, 94);
     doc.setFont("helvetica", "bold");
@@ -103,7 +103,7 @@ export default function Page() {
     doc.setFont("helvetica", "normal");
     doc.text("mg/dL", 120, 94);
     doc.text("70 - 100", 150, 94);
-    
+
     // Fila 3
     doc.text("Colesterol Total", 20, 102);
     doc.setFont("helvetica", "bold");
@@ -111,7 +111,7 @@ export default function Page() {
     doc.setFont("helvetica", "normal");
     doc.text("mg/dL", 120, 102);
     doc.text("< 200", 150, 102);
-    
+
     // Fila 4
     doc.text("Trigliceridos", 20, 110);
     doc.setFont("helvetica", "bold");
@@ -119,15 +119,15 @@ export default function Page() {
     doc.setFont("helvetica", "normal");
     doc.text("mg/dL", 120, 110);
     doc.text("< 150", 150, 110);
-    
+
     doc.line(20, 115, 190, 115);
-    
+
     // Nota de personalización solicitada
     doc.setFont("helvetica", "oblique");
     doc.setFontSize(8);
     doc.setTextColor(148, 163, 184);
     doc.text("Nota: Este reporte es un modelo demo de UNIDOSLAB. El diseno y contenido de este documento PDF es 100% personalizable.", 20, 125);
-    
+
     doc.save(`reporte-${orderCode || 'ORD-8871'}.pdf`);
   };
 
@@ -135,13 +135,13 @@ export default function Page() {
     switch (activeTab) {
       case 'inicio':
         return <Home setActiveTab={setActiveTab} />;
-      
+
       case 'soy_medico':
         return <Login onLoginSuccess={() => {
           sessionStorage.setItem('isLoggedIn', 'true');
           router.push('/dashboard');
         }} />;
-      
+
       case 'servicios':
         return <Services />;
 
@@ -156,20 +156,20 @@ export default function Page() {
 
       case 'resultados':
         return (
-          <main className="relative overflow-hidden px-5 py-8 sm:px-8 sm:py-12 lg:min-h-[calc(100vh-132px)] lg:py-14 font-plex select-none" id="resultados">
+          <main className="relative overflow-hidden px-4 sm:px-8 pt-28 sm:pt-32 pb-16 min-h-[calc(100vh-80px)] font-plex select-none" id="resultados">
             <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(circle at 80% 8%, rgba(229, 35, 32, 0.06), transparent 24rem)' }}></div>
-            
+
             <div className="relative mx-auto grid w-full max-w-[1180px] items-stretch gap-6 lg:min-h-[560px] lg:grid-cols-[1.04fr_.96fr] lg:gap-8">
               {/* Panel Izquierdo: Imagen Clínica Redondeada */}
               <section className="relative min-h-[360px] overflow-hidden rounded-3xl bg-slate-900 shadow-xl lg:min-h-0 border border-slate-100">
-                <img 
-                  src="https://images.pexels.com/photos/8442574/pexels-photo-8442574.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80" 
-                  alt="Técnica de laboratorio trabajando en microscopio" 
-                  className="absolute inset-0 h-full w-full object-cover" 
+                <img
+                  src="https://images.pexels.com/photos/8442574/pexels-photo-8442574.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80"
+                  alt="Técnica de laboratorio trabajando en microscopio"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
                 <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-900/40"></div>
                 <div aria-hidden="true" className="absolute inset-0 opacity-20" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.12) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.12) 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
-                
+
                 <div className="relative flex h-full min-h-[360px] flex-col justify-between p-8 text-white sm:p-10 lg:min-h-0">
                   <div className="flex items-center justify-between gap-4">
                     <div className="inline-flex items-center gap-2 border border-white/20 bg-white/10 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-white/90 backdrop-blur-md">
@@ -228,21 +228,21 @@ export default function Page() {
                         Número de Documento (DNI / C.E.)
                       </label>
                       <div className="relative">
-                        <input 
+                        <input
                           id="document-number"
-                          type="text" 
-                          required 
-                          value={dni} 
-                          onChange={(e) => setDni(e.target.value)} 
-                          placeholder="Ingrese DNI..." 
+                          type="text"
+                          required
+                          value={dni}
+                          onChange={(e) => setDni(e.target.value)}
+                          placeholder="Ingrese DNI..."
                           className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-bold text-sm focus:outline-none focus:border-[#E52320] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition-all duration-300"
                         />
                       </div>
                     </div>
 
                     <div className="pt-2">
-                      <button 
-                        type="submit" 
+                      <button
+                        type="submit"
                         className="w-full bg-[#E52320] hover:bg-red-700 text-white py-4.5 px-8 rounded-full font-extrabold uppercase tracking-[0.2em] text-xs shadow-lg shadow-red-500/20 flex items-center justify-center gap-3 cursor-pointer group transition-all duration-300 transform hover:scale-[1.02]"
                       >
                         Buscar Resultados
@@ -263,8 +263,8 @@ export default function Page() {
                       <div className="inline-flex items-center gap-2 border border-red-100 bg-red-50 px-3.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#E52320]">
                         <IconFileCheck className="text-xs" /> Informe Clínico
                       </div>
-                      <button 
-                        onClick={() => { setShowResults(false); setDni(''); }} 
+                      <button
+                        onClick={() => { setShowResults(false); setDni(''); }}
                         className="inline-flex items-center gap-1.5 px-4 py-2 border border-slate-200 hover:border-[#E52320] hover:text-[#E52320] rounded-full text-slate-600 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
                       >
                         <IconRefresh className="w-3.5 h-3.5" />
@@ -330,8 +330,8 @@ export default function Page() {
                   </div>
 
                   <div className="pt-2">
-                    <button 
-                      onClick={handleDownloadPDF} 
+                    <button
+                      onClick={handleDownloadPDF}
                       className="w-full bg-[#E52320] hover:bg-red-700 text-white py-4.5 px-8 rounded-full font-extrabold uppercase tracking-[0.2em] text-xs shadow-lg shadow-red-500/20 flex items-center justify-center gap-3 cursor-pointer transition-all duration-300 transform hover:scale-[1.02]"
                     >
                       <IconFileDownload className="w-5 h-5" />
@@ -353,21 +353,20 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-slate-50/30 flex flex-col justify-between relative">
-      
+
       {/* Loader Clínico Inicial Elegante de UNIDOSLAB */}
-      <div 
-        className={`fixed inset-0 z-50 bg-white flex flex-col items-center justify-center transition-opacity duration-300 pointer-events-none ${
-          isPageReady ? 'opacity-0 invisible' : 'opacity-100'
-        }`}
+      <div
+        className={`fixed inset-0 z-50 bg-white flex flex-col items-center justify-center transition-opacity duration-300 pointer-events-none ${isPageReady ? 'opacity-0 invisible' : 'opacity-100'
+          }`}
       >
         <div className="flex flex-col items-center gap-5">
           <div className="relative flex items-center justify-center">
             {/* Anillo de pulso médico coral */}
             <div className="absolute w-28 h-28 rounded-full bg-red-100/70 animate-ping"></div>
             <div className="w-24 h-24 rounded-3xl bg-white shadow-xl shadow-red-500/10 border border-slate-100 flex items-center justify-center p-3 relative z-10">
-              <img 
-                src="/icon-unidoslab.webp" 
-                alt="UNIDOSLAB" 
+              <img
+                src="/icon-unidoslab.webp"
+                alt="UNIDOSLAB"
                 width={56}
                 height={56}
                 className="w-14 h-14 object-contain animate-pulse"
@@ -409,13 +408,13 @@ export default function Page() {
       {/* Footer - Diseño Limpio Fiel a la Referencia */}
       <footer className="w-full bg-white text-slate-600 pt-16 pb-10 border-t-2 border-[#FF5A5F]/20 font-plex relative z-20">
         <div className="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 mb-14">
-          
+
           {/* Columna 1: Branding & Info (4 Cols) */}
           <div className="lg:col-span-4 flex flex-col items-center sm:items-start gap-4">
             <div className="flex items-center gap-3">
-              <img 
-                src="/logo-unidoslab.webp" 
-                alt="UNIDOSLAB - Unidos por tu Salud" 
+              <img
+                src="/logo-unidoslab.webp"
+                alt="UNIDOSLAB - Unidos por tu Salud"
                 width={180}
                 height={45}
                 loading="lazy"
@@ -437,8 +436,8 @@ export default function Page() {
             <h4 className="text-xs font-extrabold uppercase tracking-widest text-[#1E3A4C] mb-5">EXPLORAR</h4>
             <ul className="space-y-3 text-xs w-full">
               <li>
-                <button 
-                  onClick={() => { setActiveTab('inicio'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+                <button
+                  onClick={() => { setActiveTab('inicio'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
                 >
                   <span>Inicio</span>
@@ -446,8 +445,8 @@ export default function Page() {
                 </button>
               </li>
               <li>
-                <button 
-                  onClick={() => { setActiveTab('servicios'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+                <button
+                  onClick={() => { setActiveTab('servicios'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
                 >
                   <span>Servicios</span>
@@ -455,7 +454,7 @@ export default function Page() {
                 </button>
               </li>
               <li>
-                <button 
+                <button
                   onClick={() => {
                     if (activeTab !== 'inicio') {
                       setActiveTab('inicio');
@@ -465,7 +464,7 @@ export default function Page() {
                     } else {
                       window.scrollTo({ top: 900, behavior: 'smooth' });
                     }
-                  }} 
+                  }}
                   className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
                 >
                   <span>¿Cómo funciona?</span>
@@ -473,7 +472,7 @@ export default function Page() {
                 </button>
               </li>
               <li>
-                <button 
+                <button
                   onClick={() => {
                     if (activeTab !== 'inicio') {
                       setActiveTab('inicio');
@@ -485,7 +484,7 @@ export default function Page() {
                       const el = document.getElementById('sedes');
                       if (el) el.scrollIntoView({ behavior: 'smooth' });
                     }
-                  }} 
+                  }}
                   className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
                 >
                   <span>Nuestras sedes</span>
@@ -493,9 +492,9 @@ export default function Page() {
                 </button>
               </li>
               <li>
-                <a 
-                  href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20contactarme" 
-                  target="_blank" 
+                <a
+                  href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20contactarme"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
                 >
@@ -511,8 +510,8 @@ export default function Page() {
             <h4 className="text-xs font-extrabold uppercase tracking-widest text-[#1E3A4C] mb-5">ATENCIÓN</h4>
             <ul className="space-y-3 text-xs w-full">
               <li>
-                <button 
-                  onClick={() => { setActiveTab('resultados'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+                <button
+                  onClick={() => { setActiveTab('resultados'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
                 >
                   <span>Resultados en línea</span>
@@ -520,8 +519,8 @@ export default function Page() {
                 </button>
               </li>
               <li>
-                <button 
-                  onClick={() => { setActiveTab('soy_medico'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+                <button
+                  onClick={() => { setActiveTab('soy_medico'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
                 >
                   <span>Soy Médico</span>
@@ -529,9 +528,9 @@ export default function Page() {
                 </button>
               </li>
               <li>
-                <a 
-                  href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20solicitar%20toma%20de%20muestras%20a%20domicilio" 
-                  target="_blank" 
+                <a
+                  href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20solicitar%20toma%20de%20muestras%20a%20domicilio"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
                 >
@@ -540,9 +539,9 @@ export default function Page() {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20agendar%20una%20atenci%C3%B3n" 
-                  target="_blank" 
+                <a
+                  href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20agendar%20una%20atenci%C3%B3n"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
                 >
@@ -553,57 +552,73 @@ export default function Page() {
             </ul>
           </div>
 
-          {/* Columna 4: CONTACTO & REDES (3 Cols) */}
-          <div className="lg:col-span-3 flex flex-col items-center sm:items-start gap-3.5">
+          {/* Columna 4: CONTACTO & REDES (3.5 Cols) */}
+          <div className="lg:col-span-3 flex flex-col items-center sm:items-start gap-3">
             <h4 className="text-xs font-extrabold uppercase tracking-widest text-[#1E3A4C] mb-1">CONTACTO</h4>
-            
+
             {/* Correo Electrónico */}
-            <a 
-              href="mailto:uniilab.laboratorioclinico@outlook.es" 
+            <a
+              href="mailto:uniilab.laboratorioclinico@outlook.es"
               className="flex items-center gap-2 text-xs text-slate-600 hover:text-[#FF5A5F] transition-colors"
             >
               <div className="w-6 h-6 rounded-lg bg-red-50 border border-red-100 flex items-center justify-center text-[#FF5A5F] shrink-0">
                 <IconMail className="w-3.5 h-3.5" />
               </div>
-              <span className="truncate">uniilab.laboratorioclinico@outlook.es</span>
+              <span className="truncate text-[11.5px]">uniilab.laboratorioclinico@outlook.es</span>
             </a>
 
-            {/* Botón WhatsApp Oficial con Color Verde Fuerte */}
-            <a 
-              href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20mayor%20informaci%C3%B3n" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="w-full max-w-[260px] py-2.5 px-4 bg-white hover:bg-[#25D366]/5 border-2 border-[#25D366] text-[#25D366] hover:text-[#1EBE5D] font-extrabold text-xs rounded-2xl transition-all shadow-md shadow-emerald-500/10 flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <IconBrandWhatsapp className="w-5 h-5 text-[#25D366]" />
-              <span>Escríbenos por WhatsApp</span>
-            </a>
+            {/* Canales WhatsApp */}
+            <div className="w-full space-y-2 pt-1">
+              <a
+                href="https://wa.me/51952920616"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2 px-3 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/40 text-[#1EBE5D] font-extrabold text-[11.5px] rounded-xl transition-all flex items-center justify-center sm:justify-start gap-2 cursor-pointer"
+              >
+                <IconBrandWhatsapp className="w-4 h-4 text-[#25D366]" />
+                <span>952 920 616 (24 Horas)</span>
+              </a>
 
-            {/* Ubicación Tacna */}
-            <div className="flex items-center gap-2 text-xs text-slate-600 pt-1">
-              <IconMapPin className="w-4 h-4 text-[#FF5A5F] shrink-0" />
-              <span>Tacna, Perú</span>
+              <a
+                href="https://wa.me/51969940249"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#25D366] font-extrabold text-[11.5px] rounded-xl transition-all flex items-center justify-center sm:justify-start gap-2 cursor-pointer shadow-2xs"
+              >
+                <IconBrandWhatsapp className="w-4 h-4 text-[#25D366]" />
+                <span>969 940 249 </span>
+              </a>
+            </div>
+
+            {/* Ubicación y Sedes */}
+            <div className="text-[11px] text-slate-500 space-y-1 pt-1 text-center sm:text-left">
+              <p className="font-bold text-[#1E3A4C] flex items-center gap-1.5 justify-center sm:justify-start">
+                <IconMapPin className="w-3.5 h-3.5 text-[#FF5A5F] shrink-0" />
+                <span>Tacna, Perú:</span>
+              </p>
+              <p>• AV. Leguía N° 778-C (Desde 7:45 AM)</p>
+              <p>• Patricio Meléndez N° 382 Of. 303</p>
             </div>
 
             {/* Redes Sociales Cuadradas Blancas con Borde */}
-            <div className="flex items-center gap-3 pt-1">
-              <a 
-                href="https://www.facebook.com/UNIIDOSLAB.Laboratorio.Clinico/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+            <div className="flex items-center gap-2.5 pt-1">
+              <a
+                href="https://www.facebook.com/UNIIDOSLAB.Laboratorio.Clinico/"
+                target="_blank"
+                rel="noopener noreferrer"
                 title="Facebook UNIDOSLAB"
-                className="w-10 h-10 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#1877F2] rounded-2xl flex items-center justify-center transition-all shadow-xs"
+                className="w-9 h-9 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#1877F2] rounded-xl flex items-center justify-center transition-all shadow-2xs"
               >
-                <IconBrandFacebook className="w-5 h-5" />
+                <IconBrandFacebook className="w-4.5 h-4.5" />
               </a>
-              <a 
-                href="https://www.instagram.com/uniilab_laboratorio_clinico" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://www.instagram.com/uniilab_laboratorio_clinico"
+                target="_blank"
+                rel="noopener noreferrer"
                 title="Instagram UNIDOSLAB"
-                className="w-10 h-10 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#E4405F] rounded-2xl flex items-center justify-center transition-all shadow-xs"
+                className="w-9 h-9 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#E4405F] rounded-xl flex items-center justify-center transition-all shadow-2xs"
               >
-                <IconBrandInstagram className="w-5 h-5" />
+                <IconBrandInstagram className="w-4.5 h-4.5" />
               </a>
             </div>
           </div>
@@ -612,17 +627,17 @@ export default function Page() {
 
         {/* Línea Divisoria Inferior y Derechos */}
         <div className="max-w-7xl mx-auto px-4 md:px-6 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400 font-medium text-center sm:text-left">
-          <span>&copy; {new Date().getFullYear()} UNIDOSLAB. Todos los derechos reservados.</span>
+          <span suppressHydrationWarning>&copy; {new Date().getFullYear()} UNIDOSLAB. Todos los derechos reservados.</span>
           <div className="flex justify-center sm:justify-start gap-6">
-            <button 
-              onClick={() => { setActiveTab('terminos'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+            <button
+              onClick={() => { setActiveTab('terminos'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
               className="hover:text-[#FF5A5F] transition-colors cursor-pointer"
             >
               Términos de servicio
             </button>
             <span className="text-slate-300">|</span>
-            <button 
-              onClick={() => { setActiveTab('privacidad'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+            <button
+              onClick={() => { setActiveTab('privacidad'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
               className="hover:text-[#FF5A5F] transition-colors cursor-pointer"
             >
               Política de privacidad

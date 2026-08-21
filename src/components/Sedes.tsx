@@ -34,36 +34,25 @@ const Sedes: React.FC = () => {
     {
       id: 'leguia',
       code: 'SEDE 01',
-      name: 'Avenida Leguía (Principal)',
-      address: 'Av. Leguía N° 1230, Tacna',
-      reference: 'A 2 cuadras del Óvalo Túpac Amaru',
-      phone: '+51 (052) 24-8890 / 952 920 616',
-      mapsUrl: 'https://maps.app.goo.gl/HUAqRFnH5PYh8r1q6',
-      queryLocation: 'Av. Leguía 1230, Tacna, Perú',
-      schedule: 'Lunes a Sábado: 7:00 AM - 7:00 PM | Domingos: 8:00 AM - 1:00 PM',
+      name: 'Sede Central (Av. Leguía)',
+      address: 'AV. Leguía N° 778-C, Tacna',
+      reference: 'Cerca a Esquina de Movimiento',
+      phone: '+51 952 920 616 / +51 969 940 249',
+      mapsUrl: 'https://maps.app.goo.gl/Xy6PZvvMXs5e2469A',
+      queryLocation: 'AV. Leguía 778-C, Tacna, Perú',
+      schedule: 'Lunes a Sábado: 7:45 AM - 1:00 PM | 3:00 PM - 8:00 PM',
       isMain: true,
     },
     {
       id: 'melendez',
       code: 'SEDE 02',
-      name: 'Patricio Meléndez',
-      address: 'Calle Patricio Meléndez N° 845, Tacna',
-      reference: 'Frente al Mercado Central de Tacna',
-      phone: '+51 (052) 24-1120 / 952 920 616',
-      mapsUrl: 'https://maps.app.goo.gl/YY4MkEoko7847tmb9',
-      queryLocation: 'Calle Patricio Meléndez 845, Tacna, Perú',
-      schedule: 'Lunes a Sábado: 7:00 AM - 7:00 PM',
-    },
-    {
-      id: 'bolognesi',
-      code: 'SEDE 03',
-      name: 'Avenida Bolognesi',
-      address: 'Av. Francisco Bolognesi N° 620, Tacna',
-      reference: 'Cerca al Puesto de Salud Bolognesi',
-      phone: '+51 (052) 41-3350 / 952 920 616',
-      mapsUrl: 'https://maps.google.com/maps?q=Av.+Bolognesi+620%2C+Tacna%2C+Per%C3%BA',
-      queryLocation: 'Av. Francisco Bolognesi 620, Tacna, Perú',
-      schedule: 'Lunes a Sábado: 7:00 AM - 8:00 PM',
+      name: 'Sucursal Patricio Meléndez',
+      address: 'Av. Patricio Meléndez N° 382, Edificio María Auxiliadora Of. 303',
+      reference: 'Edificio María Auxiliadora / Oficina 303 (Centro de Tacna)',
+      phone: '+51 952 920 616 / +51 969 940 249',
+      mapsUrl: 'https://maps.app.goo.gl/NRSWec9rQhypSx9t9',
+      queryLocation: 'Clínica María Auxiliadora, Av. Patricio Meléndez 382, Tacna, Perú',
+      schedule: 'Lunes a Sábado: 8:00 AM - 1:00 PM | 3:00 PM - 8:00 PM',
     },
   ];
 
@@ -87,7 +76,7 @@ const Sedes: React.FC = () => {
         <header className="mb-10 text-center">
           <div className="mb-3 inline-flex items-center gap-2 border border-red-100 bg-red-50/80 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-[#E52320]">
             <span className="w-2 h-2 bg-[#E52320] rounded-full animate-ping"></span>
-            Ubicación Interactiva & Red de Atención en Tacna
+            Ubicación Interactiva y Red de Atención en Tacna
           </div>
           <h2 className="font-jakarta text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#1E3A4C]">
             Nuestras Sedes en Tacna

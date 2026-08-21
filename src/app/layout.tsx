@@ -48,11 +48,14 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/icon-unidoslab.png", type: "image/png" },
-      { url: "/favicon.svg", type: "image/svg+xml" }
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.png", type: "image/png", sizes: "32x32" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" }
     ],
-    shortcut: "/icon-unidoslab.png",
-    apple: "/icon-unidoslab.png",
+    shortcut: "/favicon.ico",
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }
+    ],
   },
   openGraph: {
     title: "UNIDOSLAB | Laboratorio Clínico y Análisis en Tacna",
@@ -95,9 +98,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`h-full ${plusJakarta.variable} ${ibmPlex.variable}`}>
+    <html lang="es" suppressHydrationWarning className={`h-full ${plusJakarta.variable} ${ibmPlex.variable}`}>
       <head />
-      <body className="min-h-full flex flex-col antialiased">
+      <body suppressHydrationWarning className="min-h-full flex flex-col antialiased">
         {children}
         <Analytics />
       </body>

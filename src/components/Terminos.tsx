@@ -35,7 +35,7 @@ const Terminos: React.FC<TerminosProps> = ({ onBack }) => {
               Términos y Condiciones de Servicio
             </h1>
             <p className="text-xs text-slate-400 font-medium mt-2">
-              Última actualización: {new Date().toLocaleDateString('es-PE', { month: 'long', year: 'numeric' })} · UNIDOSLAB Tacna, Perú
+              Última actualización: 2026 · UNIDOSLAB Tacna, Perú
             </p>
           </header>
 
