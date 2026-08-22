@@ -364,7 +364,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
       </section>
 
       {/* 2. SECCIÓN: SERVICIOS PARA CUIDAR TU SALUD (Fiel al Mockup: Fondo Canvas Amplio + Elementos 3D en Márgenes) */}
-      <section className="w-full max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-10 -mt-10 md:-mt-14 relative z-30 mb-12">
+      <section className="w-full max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-10 -mt-10 md:-mt-14 relative z-30 mb-4 sm:mb-6">
 
         {/* CAPA DE FONDO: ELEMENTOS 3D EN LOS MÁRGENES (Solo visibles en Desktop/Laptop para no sobrecargar Mobile) */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-visible select-none">
@@ -740,8 +740,8 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
       </section>
 
       {/* 3. SECCIÓN: ¿POR QUÉ CONFIAR TU DIAGNÓSTICO EN UNIDOSLAB? (Diseño Limpio, Blanco y Moderno) */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 sm:py-20 relative z-20">
-        <div className="relative rounded-[36px] bg-white p-8 sm:p-12 lg:p-14 shadow-2xl shadow-slate-900/5 border border-slate-200/80 overflow-hidden">
+      <section className="max-w-7xl mx-auto px-4 md:px-6 py-4 sm:py-8 relative z-20">
+        <div className="relative rounded-[36px] bg-white p-6 sm:p-10 lg:p-14 shadow-2xl shadow-slate-900/5 border border-slate-200/80 overflow-hidden">
 
           {/* Fondo sutil con Cruz Médica y Micropuntos */}
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
