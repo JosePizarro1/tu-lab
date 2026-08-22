@@ -363,13 +363,158 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
         </div>
       </section>
 
-      {/* 2. SECCIÓN: SERVICIOS PARA CUIDAR TU SALUD (Diseño Limpio Fiel al Mockup) */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 -mt-10 md:-mt-14 relative z-30 mb-8">
-        <div className="bg-white/90 backdrop-blur-md rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl shadow-slate-900/5 border border-slate-200/80">
+      {/* 2. SECCIÓN: SERVICIOS PARA CUIDAR TU SALUD (Fiel al Mockup: Fondo Canvas Amplio + Elementos 3D en Márgenes) */}
+      <section className="w-full max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-10 -mt-10 md:-mt-14 relative z-30 mb-12">
+
+        {/* CAPA DE FONDO: ELEMENTOS 3D EN LOS MÁRGENES (Solo visibles en Desktop/Laptop para no sobrecargar Mobile) */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-visible select-none">
+
+          {/* Margen Izquierdo: ADN 3D, Escudo 3D y Matraz 3D */}
+          <div className="hidden lg:block absolute -left-10 xl:-left-16 top-2 w-48 xl:w-56 h-80 opacity-70 drop-shadow-[0_15px_30px_rgba(0,0,0,0.06)]">
+            <svg viewBox="0 0 200 350" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+              <defs>
+                <linearGradient id="dnaG1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFFFFF" />
+                  <stop offset="50%" stopColor="#F1F5F9" />
+                  <stop offset="100%" stopColor="#E2E8F0" />
+                </linearGradient>
+                <linearGradient id="dnaG2" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#FFFFFF" />
+                  <stop offset="60%" stopColor="#F8FAFC" />
+                  <stop offset="100%" stopColor="#CBD5E1" />
+                </linearGradient>
+                <linearGradient id="dnaRed" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFE4E6" />
+                  <stop offset="100%" stopColor="#FECDD3" />
+                </linearGradient>
+              </defs>
+              <path d="M40 50 Q100 65 160 80" stroke="url(#dnaG1)" strokeWidth="10" strokeLinecap="round" />
+              <path d="M50 110 Q100 120 150 130" stroke="url(#dnaG2)" strokeWidth="9" strokeLinecap="round" />
+              <path d="M60 170 Q100 175 140 180" stroke="url(#dnaRed)" strokeWidth="9" strokeLinecap="round" />
+              <path d="M50 230 Q100 240 150 250" stroke="url(#dnaG1)" strokeWidth="9" strokeLinecap="round" />
+              <path d="M40 290 Q100 305 160 320" stroke="url(#dnaG2)" strokeWidth="10" strokeLinecap="round" />
+              <path d="M40 30 C 20 90, 80 150, 150 210 C 180 240, 150 310, 80 340" fill="none" stroke="url(#dnaG1)" strokeWidth="18" strokeLinecap="round" />
+              <path d="M160 30 C 180 90, 120 150, 50 210 C 20 240, 50 310, 120 340" fill="none" stroke="url(#dnaG2)" strokeWidth="18" strokeLinecap="round" />
+              <circle cx="40" cy="50" r="12" fill="url(#dnaG1)" />
+              <circle cx="160" cy="80" r="12" fill="url(#dnaG2)" />
+              <circle cx="50" cy="110" r="11" fill="url(#dnaG1)" />
+              <circle cx="150" cy="130" r="11" fill="url(#dnaG2)" />
+              <circle cx="60" cy="170" r="10" fill="url(#dnaRed)" />
+              <circle cx="140" cy="180" r="10" fill="url(#dnaRed)" />
+              <circle cx="50" cy="230" r="11" fill="url(#dnaG1)" />
+              <circle cx="150" cy="250" r="11" fill="url(#dnaG2)" />
+              <circle cx="40" cy="290" r="12" fill="url(#dnaG1)" />
+              <circle cx="160" cy="320" r="12" fill="url(#dnaG2)" />
+            </svg>
+          </div>
+
+          <div className="hidden lg:block absolute -left-8 xl:-left-12 top-[42%] w-28 h-32 opacity-70 drop-shadow-[0_15px_25px_rgba(0,0,0,0.06)]">
+            <svg viewBox="0 0 160 180" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+              <defs>
+                <linearGradient id="shG1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFFFFF" />
+                  <stop offset="50%" stopColor="#F8FAFC" />
+                  <stop offset="100%" stopColor="#E2E8F0" />
+                </linearGradient>
+              </defs>
+              <path d="M80 15 C120 15 145 25 145 25 C145 95 120 145 80 165 C40 145 15 95 15 25 C15 25 40 15 80 15 Z" fill="url(#shG1)" stroke="#CBD5E1" strokeWidth="6" />
+              <path d="M80 28 C112 28 132 36 132 36 C132 92 112 133 80 150 C48 133 28 92 28 36 C28 36 48 28 80 28 Z" fill="#F8FAFC" opacity="0.8" />
+              <path d="M72 55 H88 V75 H108 V91 H88 V115 H72 V91 H52 V75 H72 V55 Z" fill="url(#shG1)" stroke="#E2E8F0" strokeWidth="2.5" />
+            </svg>
+          </div>
+
+          <div className="hidden lg:block absolute -left-6 xl:-left-10 bottom-6 w-32 h-40 opacity-70 drop-shadow-[0_15px_25px_rgba(0,0,0,0.06)]">
+            <svg viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+              <defs>
+                <linearGradient id="flG1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFFFFF" />
+                  <stop offset="40%" stopColor="#F8FAFC" />
+                  <stop offset="100%" stopColor="#E2E8F0" />
+                </linearGradient>
+              </defs>
+              <rect x="62" y="15" width="36" height="10" rx="5" fill="url(#flG1)" stroke="#CBD5E1" strokeWidth="3" />
+              <path d="M68 25 V70 L25 160 C18 175 28 188 45 188 H115 C132 188 142 175 135 160 L92 70 V25 H68 Z" fill="url(#flG1)" stroke="#CBD5E1" strokeWidth="6" strokeLinejoin="round" />
+              <line x1="60" y1="130" x2="80" y2="130" stroke="#94A3B8" strokeWidth="3" strokeLinecap="round" />
+              <line x1="55" y1="148" x2="85" y2="148" stroke="#94A3B8" strokeWidth="3" strokeLinecap="round" />
+              <line x1="50" y1="166" x2="80" y2="166" stroke="#94A3B8" strokeWidth="3" strokeLinecap="round" />
+            </svg>
+          </div>
+
+          {/* Centro Superior: Gran Cruz Médica 3D Suave */}
+          <div className="absolute top-0 left-[62%] -translate-x-1/2 w-48 sm:w-60 h-48 sm:h-60 opacity-25 lg:opacity-35">
+            <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-[0_20px_35px_rgba(0,0,0,0.05)]">
+              <defs>
+                <linearGradient id="crG1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFFFFF" />
+                  <stop offset="50%" stopColor="#F8FAFC" />
+                  <stop offset="100%" stopColor="#E2E8F0" />
+                </linearGradient>
+              </defs>
+              <path d="M72 16 C72 10 77 5 83 5 H117 C123 5 128 10 128 16 V72 H184 C190 72 195 77 195 83 V117 C195 123 190 128 184 128 H128 V184 C128 190 123 195 117 195 H83 C77 195 72 190 72 184 V128 H16 C10 128 5 123 5 117 V83 C5 77 10 72 16 72 H72 V16 Z" fill="url(#crG1)" stroke="#CBD5E1" strokeWidth="7" strokeLinejoin="round" />
+            </svg>
+          </div>
+
+          {/* Margen Derecho: Onda ECG 3D, Micropuntos y Microscopio 3D */}
+          <div className="hidden lg:block absolute -right-6 xl:-right-10 top-12 w-40 xl:w-48 h-24 opacity-75 drop-shadow-[0_10px_20px_rgba(0,0,0,0.05)]">
+            <svg viewBox="0 0 180 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+              <defs>
+                <linearGradient id="ecgG1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#E2E8F0" />
+                  <stop offset="30%" stopColor="#FFFFFF" />
+                  <stop offset="60%" stopColor="#F8FAFC" />
+                  <stop offset="100%" stopColor="#CBD5E1" />
+                </linearGradient>
+              </defs>
+              <path d="M10 40 H50 L65 15 L80 65 L95 25 L110 50 L120 40 H170" stroke="url(#ecgG1)" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+
+          <div className="hidden lg:block absolute right-8 xl:right-12 top-6 grid grid-cols-5 gap-2.5 opacity-30">
+            {Array.from({ length: 20 }).map((_, i) => (
+              <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-400 block"></span>
+            ))}
+          </div>
+
+          <div className="hidden lg:block absolute -right-8 xl:-right-14 bottom-4 w-44 xl:w-56 h-48 xl:h-60 opacity-75 rotate-[-6deg] drop-shadow-[0_20px_35px_rgba(0,0,0,0.07)]">
+            <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+              <defs>
+                <linearGradient id="mcG1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFFFFF" />
+                  <stop offset="45%" stopColor="#F8FAFC" />
+                  <stop offset="100%" stopColor="#CBD5E1" />
+                </linearGradient>
+                <linearGradient id="mcG2" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#FFFFFF" />
+                  <stop offset="60%" stopColor="#E2E8F0" />
+                  <stop offset="100%" stopColor="#94A3B8" />
+                </linearGradient>
+              </defs>
+              <ellipse cx="100" cy="215" rx="75" ry="18" fill="url(#mcG1)" stroke="#CBD5E1" strokeWidth="4" />
+              <path d="M35 210 C35 210 60 195 100 195 C140 195 165 210 165 210 V218 C165 228 135 234 100 234 C65 234 35 228 35 218 Z" fill="url(#mcG2)" />
+              <path d="M135 200 C155 165 155 90 120 60 C105 48 85 52 85 52" stroke="url(#mcG1)" strokeWidth="20" strokeLinecap="round" />
+              <rect x="55" y="145" width="70" height="12" rx="5" fill="url(#mcG1)" stroke="#94A3B8" strokeWidth="2.5" />
+              <circle cx="140" cy="140" r="15" fill="url(#mcG1)" stroke="#94A3B8" strokeWidth="3" />
+              <circle cx="140" cy="140" r="7" fill="url(#mcG2)" />
+              <rect x="75" y="105" width="30" height="16" rx="4" fill="url(#mcG2)" />
+              <rect x="70" y="121" width="12" height="18" rx="3" fill="url(#mcG1)" stroke="#94A3B8" strokeWidth="1.5" />
+              <rect x="90" y="121" width="14" height="22" rx="3" fill="url(#mcG1)" stroke="#94A3B8" strokeWidth="1.5" />
+              <rect x="68" y="20" width="22" height="55" rx="6" transform="rotate(-25 68 20)" fill="url(#mcG1)" stroke="#CBD5E1" strokeWidth="4" />
+              <rect x="50" y="12" width="28" height="14" rx="4" transform="rotate(-25 50 12)" fill="url(#mcG2)" />
+            </svg>
+          </div>
+
+        </div>
+
+        {/* CONTENIDO PRINCIPAL: CABECERA + 4 TARJETAS + BARRA DE CONFIANZA */}
+        <div className="relative z-10">
 
           {/* Cabecera de la Sección de Servicios */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-100 text-[#FF5A5F] text-[10px] font-extrabold uppercase tracking-widest mb-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A5F]"></span>
+                <span>Servicios de Salud</span>
+              </div>
               <h3 className="font-jakarta text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#1E3A4C] tracking-tight">
                 Servicios para cuidar tu salud
               </h3>
@@ -389,88 +534,206 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             </motion.button>
           </div>
 
-          {/* 3 Tarjetas Blancas de Servicios Principales */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+          {/* 4 Tarjetas Fotográficas de Servicios */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
 
             {/* Tarjeta 1: Exámenes y análisis clínicos */}
             <motion.div
-              whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 20 } }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setActiveTab('servicios')}
-              className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/90 shadow-md shadow-slate-200/40 hover:shadow-xl hover:border-slate-300 transition-all flex items-start gap-4 cursor-pointer group"
+              className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-md shadow-slate-200/40 hover:shadow-xl hover:border-slate-300 transition-all flex flex-col cursor-pointer group"
             >
-              <div className="w-14 h-14 rounded-full bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 border border-red-100 group-hover:scale-105 group-hover:bg-red-100/60 transition-all">
-                <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M7 3h10" />
-                  <path d="M9 3v13a4 4 0 0 0 8 0v-13" />
-                  <path d="M6 8h4" />
-                  <path d="M14 8h4" />
-                  <path d="M9 13h6" />
-                </svg>
+              <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+                <img
+                  src="/consultas medicas/examenes_analsisi_clinicos.png"
+                  alt="Exámenes y análisis clínicos UNIDOSLAB"
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-              <div className="min-w-0">
-                <h4 className="font-jakarta text-base font-extrabold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
-                  Exámenes y análisis clínicos
-                </h4>
-                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
-                  Pruebas de laboratorio confiables en sede o a domicilio.
-                </p>
+              <div className="p-5 pt-0 relative flex-1 flex flex-col justify-between">
+                {/* Icono circular flotante */}
+                <div className="-mt-6 mb-3 w-12 h-12 rounded-full bg-white text-[#FF5A5F] shadow-md border border-slate-100 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-red-50 transition-all">
+                  <IconFlask className="w-6 h-6 stroke-[1.8]" />
+                </div>
+                <div>
+                  <h4 className="font-jakarta text-base font-extrabold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
+                    Exámenes y análisis clínicos
+                  </h4>
+                  <p className="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
+                    Pruebas de laboratorio confiables en sede o a domicilio.
+                  </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-slate-100/80 flex items-center gap-1 text-[11px] font-extrabold text-[#FF5A5F] group-hover:gap-2 transition-all">
+                  <span>Conocer más</span>
+                  <IconArrowRight className="w-3.5 h-3.5" />
+                </div>
               </div>
             </motion.div>
 
             {/* Tarjeta 2: Ecografías */}
             <motion.div
-              whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 20 } }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setActiveTab('servicios')}
-              className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/90 shadow-md shadow-slate-200/40 hover:shadow-xl hover:border-slate-300 transition-all flex items-start gap-4 cursor-pointer group"
+              className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-md shadow-slate-200/40 hover:shadow-xl hover:border-slate-300 transition-all flex flex-col cursor-pointer group"
             >
-              <div className="w-14 h-14 rounded-full bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 border border-red-100 group-hover:scale-105 group-hover:bg-red-100/60 transition-all">
-                <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="4" width="18" height="12" rx="2" />
-                  <path d="M7 11c2-3 4 3 6 0 1-1.5 2-1.5 4 0" />
-                  <path d="M12 16v4" />
-                  <path d="M8 20h8" />
-                </svg>
+              <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+                <img
+                  src="/consultas medicas/ecografias.png"
+                  alt="Ecografías especializadas UNIDOSLAB"
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-              <div className="min-w-0">
-                <h4 className="font-jakarta text-base font-extrabold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
-                  Ecografías
-                </h4>
-                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
-                  Estudios ecográficos con atención profesional y precisa.
-                </p>
+              <div className="p-5 pt-0 relative flex-1 flex flex-col justify-between">
+                {/* Icono circular flotante */}
+                <div className="-mt-6 mb-3 w-12 h-12 rounded-full bg-white text-[#FF5A5F] shadow-md border border-slate-100 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-red-50 transition-all">
+                  <IconDeviceDesktopAnalytics className="w-6 h-6 stroke-[1.8]" />
+                </div>
+                <div>
+                  <h4 className="font-jakarta text-base font-extrabold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
+                    Ecografías
+                  </h4>
+                  <p className="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
+                    Estudios ecográficos con atención profesional y precisa.
+                  </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-slate-100/80 flex items-center gap-1 text-[11px] font-extrabold text-[#FF5A5F] group-hover:gap-2 transition-all">
+                  <span>Conocer más</span>
+                  <IconArrowRight className="w-3.5 h-3.5" />
+                </div>
               </div>
             </motion.div>
 
             {/* Tarjeta 3: Consultas médicas */}
             <motion.div
-              whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 20 } }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setActiveTab('servicios')}
-              className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/90 shadow-md shadow-slate-200/40 hover:shadow-xl hover:border-slate-300 transition-all flex items-start gap-4 cursor-pointer group"
+              className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-md shadow-slate-200/40 hover:shadow-xl hover:border-slate-300 transition-all flex flex-col cursor-pointer group"
             >
-              <div className="w-14 h-14 rounded-full bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 border border-red-100 group-hover:scale-105 group-hover:bg-red-100/60 transition-all">
-                <IconStethoscope className="w-7 h-7" />
+              <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+                <img
+                  src="/consultas medicas/consultas medicas.png"
+                  alt="Consultas médicas presenciales y especializadas"
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-              <div className="min-w-0">
-                <h4 className="font-jakarta text-base font-extrabold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
-                  Consultas médicas
-                </h4>
-                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
-                  Atención médica personalizada y oportuna.
-                </p>
+              <div className="p-5 pt-0 relative flex-1 flex flex-col justify-between">
+                {/* Icono circular flotante */}
+                <div className="-mt-6 mb-3 w-12 h-12 rounded-full bg-white text-[#FF5A5F] shadow-md border border-slate-100 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-red-50 transition-all">
+                  <IconStethoscope className="w-6 h-6 stroke-[1.8]" />
+                </div>
+                <div>
+                  <h4 className="font-jakarta text-base font-extrabold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
+                    Consultas médicas
+                  </h4>
+                  <p className="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
+                    Atención médica personalizada y oportuna.
+                  </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-slate-100/80 flex items-center gap-1 text-[11px] font-extrabold text-[#FF5A5F] group-hover:gap-2 transition-all">
+                  <span>Conocer más</span>
+                  <IconArrowRight className="w-3.5 h-3.5" />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Tarjeta 4: Atención a domicilio (Destacada) */}
+            <motion.div
+              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 20 } }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => window.open('https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20atenci%C3%B3n%20a%20domicilio%20en%20Tacna', '_blank')}
+              className="bg-white rounded-3xl overflow-hidden border-2 border-red-200/80 shadow-md shadow-red-500/10 hover:shadow-xl hover:border-red-300 transition-all flex flex-col cursor-pointer group relative"
+            >
+              {/* Badge de Más Comodidad */}
+              <div className="absolute top-3 left-3 z-10 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full border border-red-100 text-[#FF5A5F] text-[9.5px] font-extrabold uppercase tracking-wider flex items-center gap-1.5 shadow-xs">
+                <IconHome className="w-3.5 h-3.5" />
+                <span>Más comodidad</span>
+              </div>
+
+              <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+                <img
+                  src="/consultas medicas/antencion a domicilio.png"
+                  alt="Atención médica y toma de muestras a domicilio UNIDOSLAB"
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="p-5 pt-0 relative flex-1 flex flex-col justify-between">
+                {/* Icono circular flotante */}
+                <div className="-mt-6 mb-3 w-12 h-12 rounded-full bg-white text-[#FF5A5F] shadow-md border border-red-100 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-red-50 transition-all">
+                  <IconHome className="w-6 h-6 stroke-[1.8]" />
+                </div>
+                <div>
+                  <h4 className="font-jakarta text-base font-extrabold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
+                    Atención a domicilio
+                  </h4>
+                  <p className="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
+                    Tomamos tus muestras con seguridad y comodidad, sin salir de casa.
+                  </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-red-100 flex items-center gap-1 text-[11px] font-extrabold text-[#FF5A5F] group-hover:gap-2 transition-all">
+                  <span>Conocer más</span>
+                  <IconArrowRight className="w-3.5 h-3.5" />
+                </div>
               </div>
             </motion.div>
 
           </div>
 
-          {/* Banner Inferior: Atención a Domicilio */}
-          <div className="bg-red-50/50 border border-red-100/80 rounded-2xl py-3 px-4 sm:px-6 flex items-center justify-center gap-3 text-center">
-            <IconHome className="w-5 h-5 text-[#FF5A5F] shrink-0" />
-            <p className="text-xs sm:text-sm font-bold text-[#1E3A4C]">
-              También atendemos a domicilio: <span className="font-medium text-slate-600">toma de muestras en la comodidad de tu hogar.</span>
-            </p>
+          {/* Barra Inferior de Confianza y CTA WhatsApp */}
+          <div className="bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-3xl p-5 sm:p-6 shadow-xl shadow-slate-900/5 flex flex-col lg:flex-row items-center justify-between gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 w-full lg:w-auto flex-1">
+              {/* Feature 1 */}
+              <div className="flex items-center gap-3.5">
+                <div className="w-11 h-11 rounded-2xl bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 border border-red-100 shadow-xs">
+                  <IconShieldCheck className="w-6 h-6 stroke-[1.8]" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-[#1E3A4C]">Resultados confiables</h5>
+                  <p className="text-[11px] text-slate-500 leading-tight mt-0.5">Procesos certificados y alta precisión.</p>
+                </div>
+              </div>
+
+              {/* Feature 2 */}
+              <div className="flex items-center gap-3.5">
+                <div className="w-11 h-11 rounded-2xl bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 border border-red-100 shadow-xs">
+                  <IconUsers className="w-6 h-6 stroke-[1.8]" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-[#1E3A4C]">Atención profesional</h5>
+                  <p className="text-[11px] text-slate-500 leading-tight mt-0.5">Equipo calificado para tu tranquilidad.</p>
+                </div>
+              </div>
+
+              {/* Feature 3 */}
+              <div className="flex items-center gap-3.5">
+                <div className="w-11 h-11 rounded-2xl bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 border border-red-100 shadow-xs">
+                  <IconCar className="w-6 h-6 stroke-[1.8]" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-[#1E3A4C]">Servicio a domicilio</h5>
+                  <p className="text-[11px] text-slate-500 leading-tight mt-0.5">Comodidad y puntualidad en tu hogar.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Botón Agendar por WhatsApp */}
+            <motion.a
+              whileHover={{ scale: 1.03, transition: { duration: 0.15 } }}
+              whileTap={{ scale: 0.97 }}
+              href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20agendar%20un%20servicio%20m%C3%A9dico"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-6 py-3.5 bg-[#FF5A5F] hover:bg-[#E84A4F] text-white font-extrabold text-xs uppercase tracking-wider rounded-2xl shadow-md shadow-red-500/20 flex items-center justify-center gap-2 transition-all cursor-pointer shrink-0"
+            >
+              <IconBrandWhatsapp className="w-5 h-5" />
+              <span>AGENDAR POR WHATSAPP</span>
+            </motion.a>
           </div>
 
         </div>
@@ -848,22 +1111,47 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
           </div>
 
           {/* Grid Principal: Tarjetas de Sedes y Mapa */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start lg:items-stretch mb-8">
 
-            {/* Columna Izquierda: Carrusel Snap en Mobile / Tarjetas Espaciosas en Desktop */}
-            <div className="lg:col-span-5 flex flex-col justify-between gap-3 sm:gap-4 h-full">
-              <div className="flex flex-row lg:flex-col gap-3.5 sm:gap-4 overflow-x-auto lg:overflow-x-visible pb-3 pt-1 lg:pb-0 lg:pt-0 snap-x snap-mandatory scrollbar-none -mx-3 px-3 sm:mx-0 sm:px-0 h-full">
+            {/* Columna Izquierda: Selector Mobile + Tarjeta Activa / Lista Vertical en Desktop */}
+            <div className="lg:col-span-5 flex flex-col gap-3 lg:justify-between h-auto lg:h-full">
+
+              {/* Selector de Sedes para Mobile (Tabs táctiles compactas) */}
+              <div className="lg:hidden flex items-center bg-slate-100/90 p-1 rounded-2xl border border-slate-200/80">
                 {sedesData.map((sede, idx) => {
                   const isSelected = selectedSedeIndex === idx;
+                  return (
+                    <button
+                      key={sede.id}
+                      type="button"
+                      onClick={() => setSelectedSedeIndex(idx)}
+                      className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-extrabold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${isSelected
+                        ? 'bg-white text-[#1E3A4C] shadow-xs border border-slate-200/60'
+                        : 'text-slate-500 hover:text-slate-800'
+                        }`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#FF5A5F]' : 'bg-slate-300'}`}></span>
+                      <span className="truncate">{idx === 0 ? 'Sede Leguía' : 'Suc. P. Meléndez'}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Lista de Sedes (En Mobile muestra la seleccionada de forma compacta; en Desktop muestra ambas) */}
+              <div className="flex flex-col gap-3 lg:gap-4">
+                {sedesData.map((sede, idx) => {
+                  const isSelected = selectedSedeIndex === idx;
+
                   return (
                     <motion.div
                       key={sede.id}
                       onClick={() => setSelectedSedeIndex(idx)}
                       whileHover={{ scale: 1.01, transition: { duration: 0.15 } }}
                       whileTap={{ scale: 0.985, transition: { duration: 0.1 } }}
-                      className={`w-[88vw] max-w-[340px] sm:w-auto sm:min-w-[340px] lg:w-full lg:max-w-none lg:min-w-0 snap-center rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-6 border-2 transition-all duration-200 cursor-pointer flex flex-col justify-between shrink-0 select-none flex-1 ${isSelected
-                        ? 'bg-white text-slate-800 border-[#FF5A5F]/80 shadow-xl shadow-red-500/10 ring-4 ring-red-50/70'
+                      className={`w-full rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-6 border-2 transition-all duration-200 cursor-pointer flex flex-col justify-between select-none ${isSelected
+                        ? 'bg-white text-slate-800 border-[#FF5A5F]/80 shadow-lg shadow-red-500/5 ring-4 ring-red-50/70'
                         : 'bg-white text-slate-700 border-slate-200/80 hover:border-slate-300 hover:shadow-md'
+                        } ${!isSelected ? 'hidden lg:flex' : 'flex'
                         }`}
                     >
                       <div>
@@ -884,9 +1172,9 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                           </span>
                         </div>
 
-                        <div className="flex items-start gap-3.5 sm:gap-4 mb-3">
+                        <div className="flex items-start gap-3 sm:gap-4 mb-3">
                           {/* Pin 3D Container */}
-                          <div className={`w-13 h-13 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center shrink-0 p-1.5 transition-colors ${isSelected ? 'bg-red-50/80 border border-red-100' : 'bg-slate-50 border border-slate-100'
+                          <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center shrink-0 p-1 transition-colors ${isSelected ? 'bg-red-50/80 border border-red-100' : 'bg-slate-50 border border-slate-100'
                             }`}>
                             <img
                               src="/pin_sedes.webp"
@@ -894,13 +1182,13 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                               width={40}
                               height={40}
                               loading="lazy"
-                              className="w-9 h-9 sm:w-10 sm:h-10 object-contain drop-shadow-sm"
+                              className="w-8 h-8 sm:w-10 sm:h-10 object-contain drop-shadow-sm"
                             />
                           </div>
 
                           {/* Info de la sede */}
                           <div className="flex-1 min-w-0">
-                            <h4 className="font-jakarta text-base sm:text-lg lg:text-xl font-extrabold leading-snug text-[#1E3A4C]">
+                            <h4 className="font-jakarta text-base sm:text-lg font-extrabold leading-snug text-[#1E3A4C]">
                               {sede.name.replace('Sede ', '')}
                             </h4>
 
@@ -913,8 +1201,8 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                               <span className="font-semibold text-slate-500">Ref:</span> {sede.reference}
                             </p>
 
-                            <div className="mt-3 pt-2.5 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-1">
-                              <span className="flex items-center gap-1 font-medium text-slate-500">
+                            <div className="mt-2.5 pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-1">
+                              <span className="flex items-center gap-1 font-medium text-slate-500 text-[11px]">
                                 <IconClock className="w-3.5 h-3.5 text-[#FF5A5F]" />
                                 <span>Horario:</span>
                               </span>
@@ -927,7 +1215,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                       </div>
 
                       {/* Botones de acción inferiores */}
-                      <div className="flex items-center gap-2.5 sm:gap-3 mt-3 pt-3 border-t border-slate-100">
+                      <div className="flex items-center gap-2.5 sm:gap-3 mt-2 pt-2.5 border-t border-slate-100">
                         <motion.button
                           type="button"
                           whileTap={{ scale: 0.96 }}
@@ -935,7 +1223,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                             e.stopPropagation();
                             setSelectedSedeIndex(idx);
                           }}
-                          className={`flex-1 py-2.5 px-3.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${isSelected
+                          className={`flex-1 py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${isSelected
                             ? 'bg-slate-900 text-white shadow-xs'
                             : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                             }`}
@@ -950,7 +1238,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                           rel="noopener noreferrer"
                           whileTap={{ scale: 0.96 }}
                           onClick={(e) => e.stopPropagation()}
-                          className="flex-1 py-2.5 px-3.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer bg-red-50/80 hover:bg-red-100/80 text-[#FF5A5F] border border-red-100/90"
+                          className="flex-1 py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer bg-red-50/80 hover:bg-red-100/80 text-[#FF5A5F] border border-red-100/90"
                         >
                           <span>Cómo llegar</span>
                           <IconNavigation className="w-3.5 h-3.5 text-[#FF5A5F]" />
@@ -961,28 +1249,10 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                 })}
               </div>
 
-              {/* Paginación Táctil para Mobile */}
-              <div className="lg:hidden flex items-center justify-center gap-2 w-full py-1">
-                {sedesData.map((sede, dotIdx) => {
-                  const isActive = selectedSedeIndex === dotIdx;
-                  return (
-                    <button
-                      key={sede.id}
-                      type="button"
-                      onClick={() => setSelectedSedeIndex(dotIdx)}
-                      aria-label={`Ver ${sede.name}`}
-                      className="relative py-2 px-1 flex items-center justify-center cursor-pointer"
-                    >
-                      <span className={`block h-2 rounded-full transition-all duration-200 ${isActive ? 'w-7 bg-[#FF5A5F]' : 'w-2 bg-slate-200 hover:bg-slate-300'
-                        }`} />
-                    </button>
-                  );
-                })}
-              </div>
             </div>
 
             {/* Columna Derecha: Mapa Interactivo (7 columnas) */}
-            <div className="lg:col-span-7 h-[440px] lg:h-auto min-h-[440px]">
+            <div className="lg:col-span-7 h-[300px] sm:h-[380px] lg:h-auto min-h-[300px] sm:min-h-[380px] lg:min-h-[460px]">
               {mapVisible ? (
                 <SedesMap
                   sedes={sedesData}
@@ -990,7 +1260,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                   onSelectSede={setSelectedSedeIndex}
                 />
               ) : (
-                <div className="w-full h-full min-h-[440px] bg-slate-100/70 border border-slate-200/80 rounded-3xl flex items-center justify-center text-slate-400 font-bold text-xs uppercase tracking-wider">
+                <div className="w-full h-full min-h-[300px] sm:min-h-[380px] bg-slate-100/70 border border-slate-200/80 rounded-3xl flex items-center justify-center text-slate-400 font-bold text-xs uppercase tracking-wider">
                   <span>Cargando Mapa...</span>
                 </div>
               )}

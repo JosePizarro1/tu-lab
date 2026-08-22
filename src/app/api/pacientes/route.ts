@@ -8,12 +8,18 @@ export const dynamic = 'force-dynamic';
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const sedeId = searchParams.get('sedeId');
+  const dni = searchParams.get('dni');
 
   try {
     await ensureSeed();
-    const list = (sedeId && sedeId !== 'ALL')
-      ? await sql`SELECT * FROM "Paciente" WHERE "sedeId" = ${sedeId}`
-      : await sql`SELECT * FROM "Paciente"`;
+    let list;
+    if (dni) {
+      list = await sql`SELECT * FROM "Paciente" WHERE dni = ${dni}`;
+    } else if (sedeId && sedeId !== 'ALL') {
+      list = await sql`SELECT * FROM "Paciente" WHERE "sedeId" = ${sedeId}`;
+    } else {
+      list = await sql`SELECT * FROM "Paciente"`;
+    }
     
     const mapped = list.map((p: any) => ({
       dni: p.dni,

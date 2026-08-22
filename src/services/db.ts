@@ -205,10 +205,10 @@ export const database = {
 
   getPacienteByDni: async (dni: string): Promise<Paciente | undefined> => {
     try {
-      const res = await fetch('/api/pacientes');
+      const res = await fetch(`/api/pacientes?dni=${encodeURIComponent(dni)}`);
       if (!res.ok) return undefined;
       const list: Paciente[] = await res.json();
-      return list.find((p) => p.dni === dni);
+      return list && list.length > 0 ? list[0] : undefined;
     } catch (e) {
       console.error(e);
       return undefined;

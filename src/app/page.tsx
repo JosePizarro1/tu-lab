@@ -35,8 +35,6 @@ export default function Page() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<string>('inicio');
   const [dni, setDni] = useState<string>('');
-  const [orderCode, setOrderCode] = useState<string>('');
-  const [showResults, setShowResults] = useState<boolean>(false);
   const [isPageReady, setIsPageReady] = useState<boolean>(false);
 
   useEffect(() => {
@@ -44,92 +42,6 @@ export default function Page() {
     const timer = setTimeout(() => setIsPageReady(true), 400);
     return () => clearTimeout(timer);
   }, []);
-
-  const handleDownloadPDF = () => {
-    const { jsPDF } = require('jspdf');
-    const doc = new jsPDF();
-
-    // Encabezado del reporte
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(22);
-    doc.setTextColor(229, 35, 32); // UNIDOSLAB Red
-    doc.text("UNIDOSLAB", 20, 20);
-
-    doc.setFontSize(8);
-    doc.setTextColor(30, 58, 76); // UNIDOSLAB Navy
-    doc.text("UNIDOS POR TU SALUD", 20, 25);
-
-    doc.setDrawColor(226, 232, 240);
-    doc.line(20, 28, 190, 28);
-
-    // Información del Paciente
-    doc.setFontSize(10);
-    doc.setFont("helvetica", "normal");
-    doc.text(`Paciente: JUAN PÉREZ GARCÍA`, 20, 38);
-    doc.text(`DNI: ${dni || '12345678'}`, 20, 44);
-    doc.text(`Codigo de Orden: ${orderCode || 'ORD-2026-8871'}`, 20, 50);
-    doc.text(`Fecha de Emision: 03/07/2026`, 130, 38);
-    doc.text(`Estado: Completado`, 130, 44);
-
-    doc.line(20, 55, 190, 55);
-
-    // Tabla de Exámenes
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(12);
-    doc.setTextColor(15, 23, 42);
-    doc.text("Resultados de Analisis Clinico", 20, 65);
-
-    doc.setFontSize(10);
-    doc.text("Examen", 20, 75);
-    doc.text("Resultado", 80, 75);
-    doc.text("Unidades", 120, 75);
-    doc.text("Valores de Referencia", 150, 75);
-
-    doc.line(20, 78, 190, 78);
-
-    doc.setFont("helvetica", "normal");
-    // Fila 1
-    doc.text("Hemoglobina", 20, 86);
-    doc.setFont("helvetica", "bold");
-    doc.text("14.5", 80, 86);
-    doc.setFont("helvetica", "normal");
-    doc.text("g/dL", 120, 86);
-    doc.text("13.8 - 17.2", 150, 86);
-
-    // Fila 2
-    doc.text("Glucosa en Ayunas", 20, 94);
-    doc.setFont("helvetica", "bold");
-    doc.text("85", 80, 94);
-    doc.setFont("helvetica", "normal");
-    doc.text("mg/dL", 120, 94);
-    doc.text("70 - 100", 150, 94);
-
-    // Fila 3
-    doc.text("Colesterol Total", 20, 102);
-    doc.setFont("helvetica", "bold");
-    doc.text("198", 80, 102);
-    doc.setFont("helvetica", "normal");
-    doc.text("mg/dL", 120, 102);
-    doc.text("< 200", 150, 102);
-
-    // Fila 4
-    doc.text("Trigliceridos", 20, 110);
-    doc.setFont("helvetica", "bold");
-    doc.text("135", 80, 110);
-    doc.setFont("helvetica", "normal");
-    doc.text("mg/dL", 120, 110);
-    doc.text("< 150", 150, 110);
-
-    doc.line(20, 115, 190, 115);
-
-    // Nota de personalización solicitada
-    doc.setFont("helvetica", "oblique");
-    doc.setFontSize(8);
-    doc.setTextColor(148, 163, 184);
-    doc.text("Nota: Este reporte es un modelo demo de UNIDOSLAB. El diseno y contenido de este documento PDF es 100% personalizable.", 20, 125);
-
-    doc.save(`reporte-${orderCode || 'ORD-8871'}.pdf`);
-  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -210,136 +122,51 @@ export default function Page() {
                 </div>
               </section>
 
-              {/* Panel Derecho: Formulario Redondeado */}
-              {!showResults ? (
-                <section aria-labelledby="results-heading" className="glass-panel relative flex flex-col justify-center p-8 sm:p-12 lg:p-14 shadow-xl rounded-3xl border border-slate-200/80 bg-white">
-                  <header className="mb-8">
-                    <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-red-50 border border-red-100 rounded-full mb-4">
-                      <span className="w-1.5 h-1.5 bg-[#E52320] rounded-full"></span>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#E52320]">Consulta de Resultados</span>
-                    </div>
-                    <h2 id="results-heading" className="font-jakarta text-3xl font-extrabold text-[#1E3A4C] tracking-tight leading-tight">Consulte sus Resultados</h2>
-                    <p className="text-slate-500 mt-2 text-xs font-medium leading-relaxed">Ingrese su número de documento de identidad para verificar sus exámenes.</p>
-                  </header>
-
-                  <form className="space-y-8" onSubmit={(e) => { e.preventDefault(); setShowResults(true); }}>
-                    <div className="group relative">
-                      <label htmlFor="document-number" className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-bold mb-2 block group-focus-within:text-[#E52320] transition-colors">
-                        Número de Documento (DNI / C.E.)
-                      </label>
-                      <div className="relative">
-                        <input
-                          id="document-number"
-                          type="text"
-                          required
-                          value={dni}
-                          onChange={(e) => setDni(e.target.value)}
-                          placeholder="Ingrese DNI..."
-                          className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-bold text-sm focus:outline-none focus:border-[#E52320] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition-all duration-300"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="pt-2">
-                      <button
-                        type="submit"
-                        className="w-full bg-[#E52320] hover:bg-red-700 text-white py-4.5 px-8 rounded-full font-extrabold uppercase tracking-[0.2em] text-xs shadow-lg shadow-red-500/20 flex items-center justify-center gap-3 cursor-pointer group transition-all duration-300 transform hover:scale-[1.02]"
-                      >
-                        Buscar Resultados
-                        <IconArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                      </button>
-                    </div>
-                  </form>
-
-                  <footer className="mt-10 pt-6 border-t border-slate-100 flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-widest text-slate-400">
-                    <IconLock className="text-sm text-emerald-500" />
-                    Tus datos se consultan de forma privada
-                  </footer>
-                </section>
-              ) : (
-                <section className="glass-panel relative flex flex-col justify-between p-8 sm:p-10 shadow-xl rounded-3xl border border-slate-200/80 bg-white">
-                  <div className="flex flex-col gap-4 border-b border-slate-100 pb-6">
-                    <div className="flex items-center justify-between">
-                      <div className="inline-flex items-center gap-2 border border-red-100 bg-red-50 px-3.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#E52320]">
-                        <IconFileCheck className="text-xs" /> Informe Clínico
-                      </div>
-                      <button
-                        onClick={() => { setShowResults(false); setDni(''); }}
-                        className="inline-flex items-center gap-1.5 px-4 py-2 border border-slate-200 hover:border-[#E52320] hover:text-[#E52320] rounded-full text-slate-600 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
-                      >
-                        <IconRefresh className="w-3.5 h-3.5" />
-                        Nueva Consulta
-                      </button>
-                    </div>
-                    <div>
-                      <h2 className="font-jakarta text-2xl font-extrabold text-[#1E3A4C] tracking-tight">Resultado de Análisis</h2>
-                      <p className="text-slate-500 text-xs mt-1 font-mono uppercase tracking-wider">Documento: <span className="font-bold text-slate-800">{dni || '70855'}</span></p>
-                    </div>
+              {/* Panel Derecho: Formulario de Consulta */}
+              <section aria-labelledby="results-heading" className="glass-panel relative flex flex-col justify-center p-8 sm:p-12 lg:p-14 shadow-xl rounded-3xl border border-slate-200/80 bg-white">
+                <header className="mb-8">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-red-50 border border-red-100 rounded-full mb-4">
+                    <span className="w-1.5 h-1.5 bg-[#E52320] rounded-full"></span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#E52320]">Consulta de Resultados</span>
                   </div>
+                  <h2 id="results-heading" className="font-jakarta text-3xl font-extrabold text-[#1E3A4C] tracking-tight leading-tight">Consulte sus Resultados</h2>
+                  <p className="text-slate-500 mt-2 text-xs font-medium leading-relaxed">Ingrese su número de documento de identidad para verificar sus exámenes.</p>
+                </header>
 
-                  <div className="my-6 space-y-5">
-                    <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 flex justify-between items-center text-xs">
-                      <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Paciente</p>
-                        <p className="font-bold text-slate-800 text-sm mt-0.5">JUAN PÉREZ GARCÍA</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Fecha de Emisión</p>
-                        <p className="font-bold text-slate-800 text-sm mt-0.5">03/07/2026</p>
-                      </div>
-                    </div>
-
-                    <div className="border border-slate-200/80 rounded-2xl overflow-hidden overflow-x-auto">
-                      <table className="w-full text-left text-xs border-collapse min-w-[400px]">
-                        <thead>
-                          <tr className="bg-slate-100/70 border-b border-slate-200/80 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                            <th className="p-3.5">Examen</th>
-                            <th className="p-3.5">Resultado</th>
-                            <th className="p-3.5">Unidades</th>
-                            <th className="p-3.5">Valores Ref.</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100 text-slate-700 font-medium">
-                          <tr>
-                            <td className="p-3.5 font-bold text-slate-800">Hemoglobina</td>
-                            <td className="p-3.5 font-bold text-[#E52320]">14.5</td>
-                            <td className="p-3.5 text-slate-500">g/dL</td>
-                            <td className="p-3.5 text-slate-400">13.8 - 17.2</td>
-                          </tr>
-                          <tr>
-                            <td className="p-3.5 font-bold text-slate-800">Glucosa en Ayunas</td>
-                            <td className="p-3.5 font-bold text-emerald-600">85</td>
-                            <td className="p-3.5 text-slate-500">mg/dL</td>
-                            <td className="p-3.5 text-slate-400">70 - 100</td>
-                          </tr>
-                          <tr>
-                            <td className="p-3.5 font-bold text-slate-800">Colesterol Total</td>
-                            <td className="p-3.5 font-bold text-amber-600">198</td>
-                            <td className="p-3.5 text-slate-500">mg/dL</td>
-                            <td className="p-3.5 text-slate-400">&lt; 200</td>
-                          </tr>
-                          <tr>
-                            <td className="p-3.5 font-bold text-slate-800">Triglicéridos</td>
-                            <td className="p-3.5 font-bold text-[#E52320]">135</td>
-                            <td className="p-3.5 text-slate-500">mg/dL</td>
-                            <td className="p-3.5 text-slate-400">&lt; 150</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                <form className="space-y-8" onSubmit={(e) => { e.preventDefault(); }}>
+                  <div className="group relative">
+                    <label htmlFor="document-number" className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-bold mb-2 block group-focus-within:text-[#E52320] transition-colors">
+                      Número de Documento (DNI / C.E.)
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="document-number"
+                        type="text"
+                        value={dni}
+                        onChange={(e) => setDni(e.target.value.replace(/\D/g, ''))}
+                        maxLength={12}
+                        placeholder="Ingrese DNI..."
+                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-bold text-sm focus:outline-none focus:border-[#E52320] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition-all duration-300"
+                      />
                     </div>
                   </div>
 
                   <div className="pt-2">
                     <button
-                      onClick={handleDownloadPDF}
-                      className="w-full bg-[#E52320] hover:bg-red-700 text-white py-4.5 px-8 rounded-full font-extrabold uppercase tracking-[0.2em] text-xs shadow-lg shadow-red-500/20 flex items-center justify-center gap-3 cursor-pointer transition-all duration-300 transform hover:scale-[1.02]"
+                      type="submit"
+                      className="w-full bg-[#E52320] hover:bg-red-700 text-white py-4.5 px-8 rounded-full font-extrabold uppercase tracking-[0.2em] text-xs shadow-lg shadow-red-500/20 flex items-center justify-center gap-3 cursor-pointer group transition-all duration-300 transform hover:scale-[1.02]"
                     >
-                      <IconFileDownload className="w-5 h-5" />
-                      Descargar Reporte PDF
+                      <span>Buscar Resultados</span>
+                      <IconArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                     </button>
                   </div>
-                </section>
-              )}
+                </form>
+
+                <footer className="mt-10 pt-6 border-t border-slate-100 flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+                  <IconLock className="text-sm text-emerald-500" />
+                  Tus datos se consultan de forma privada
+                </footer>
+              </section>
             </div>
           </main>
         );
