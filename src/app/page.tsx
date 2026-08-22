@@ -1,15 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import Swal from 'sweetalert2';
 import Header from '../components/Header';
 import Home from '../components/Home';
-import Login from '../components/Login';
-import Services from '../components/Services';
-import Sedes from '../components/Sedes';
-import Terminos from '../components/Terminos';
-import Privacidad from '../components/Privacidad';
+
+// Dynamic imports para reducir el bundle inicial en mobile y desktop
+const Login = dynamic(() => import('../components/Login'), { ssr: false });
+const Services = dynamic(() => import('../components/Services'), { ssr: false });
+const Terminos = dynamic(() => import('../components/Terminos'), { ssr: false });
+const Privacidad = dynamic(() => import('../components/Privacidad'), { ssr: false });
 import {
   IconMapPin,
   IconClock,
@@ -35,13 +36,6 @@ export default function Page() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<string>('inicio');
   const [dni, setDni] = useState<string>('');
-  const [isPageReady, setIsPageReady] = useState<boolean>(false);
-
-  useEffect(() => {
-    // Breve animación de montaje para asegurar renderizado fluido
-    const timer = setTimeout(() => setIsPageReady(true), 400);
-    return () => clearTimeout(timer);
-  }, []);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -180,37 +174,6 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-slate-50/30 flex flex-col justify-between relative">
-
-      {/* Loader Clínico Inicial Elegante de UNIDOSLAB */}
-      <div
-        className={`fixed inset-0 z-50 bg-white flex flex-col items-center justify-center transition-opacity duration-300 pointer-events-none ${isPageReady ? 'opacity-0 invisible' : 'opacity-100'
-          }`}
-      >
-        <div className="flex flex-col items-center gap-5">
-          <div className="relative flex items-center justify-center">
-            {/* Anillo de pulso médico coral */}
-            <div className="absolute w-28 h-28 rounded-full bg-red-100/70 animate-ping"></div>
-            <div className="w-24 h-24 rounded-3xl bg-white shadow-xl shadow-red-500/10 border border-slate-100 flex items-center justify-center p-3 relative z-10">
-              <img
-                src="/icon-unidoslab.webp"
-                alt="UNIDOSLAB"
-                width={56}
-                height={56}
-                className="w-14 h-14 object-contain animate-pulse"
-              />
-            </div>
-          </div>
-          <div className="text-center">
-            <h3 className="font-jakarta text-sm font-extrabold tracking-widest text-[#1E3A4C] uppercase">
-              UNIDOSLAB
-            </h3>
-            <p className="text-[11px] text-[#FF5A5F] font-bold tracking-wider mt-0.5">
-              Unidos por tu Salud
-            </p>
-          </div>
-        </div>
-      </div>
-
       <div>
         <Header activeTab={activeTab} setActiveTab={setActiveTab} />
         <main>

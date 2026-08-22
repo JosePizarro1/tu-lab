@@ -546,7 +546,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             >
               <div className="relative h-44 w-full overflow-hidden bg-slate-100">
                 <img
-                  src="/consultas medicas/examenes_analsisi_clinicos.png"
+                  src="/consultas medicas/examenes_analsisi_clinicos.webp"
                   alt="Exámenes y análisis clínicos UNIDOSLAB"
                   loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -581,7 +581,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             >
               <div className="relative h-44 w-full overflow-hidden bg-slate-100">
                 <img
-                  src="/consultas medicas/ecografias.png"
+                  src="/consultas medicas/ecografias.webp"
                   alt="Ecografías especializadas UNIDOSLAB"
                   loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -616,7 +616,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             >
               <div className="relative h-44 w-full overflow-hidden bg-slate-100">
                 <img
-                  src="/consultas medicas/consultas medicas.png"
+                  src="/consultas medicas/consultas medicas.webp"
                   alt="Consultas médicas presenciales y especializadas"
                   loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -657,7 +657,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
 
               <div className="relative h-44 w-full overflow-hidden bg-slate-100">
                 <img
-                  src="/consultas medicas/antencion a domicilio.png"
+                  src="/consultas medicas/antencion a domicilio.webp"
                   alt="Atención médica y toma de muestras a domicilio UNIDOSLAB"
                   loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -849,8 +849,9 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
               <div className="relative rounded-[40px] p-2 bg-slate-100/80 border-2 border-slate-200/80 shadow-xl max-w-sm sm:max-w-md w-full">
                 <div className="rounded-[32px] overflow-hidden bg-slate-100 relative">
                   <img
-                    src="https://images.pexels.com/photos/3735709/pexels-photo-3735709.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                    src="https://images.pexels.com/photos/3735709/pexels-photo-3735709.jpeg?auto=compress&cs=tinysrgb&w=600&q=75"
                     alt="Laboratorio de análisis clínicos y reactivos - UNIDOSLAB Tacna"
+                    loading="lazy"
                     className="w-full h-[360px] sm:h-[430px] object-cover object-center"
                   />
                 </div>
