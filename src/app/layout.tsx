@@ -1,7 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, IBM_Plex_Sans } from "next/font/google";
+import { Manrope, Plus_Jakarta_Sans, IBM_Plex_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-manrope",
+  display: "swap",
+});
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -98,9 +105,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning className={`h-full ${plusJakarta.variable} ${ibmPlex.variable}`}>
-      <head />
-      <body suppressHydrationWarning className="min-h-full flex flex-col antialiased">
+    <html lang="es" suppressHydrationWarning className={`h-full ${manrope.variable} ${plusJakarta.variable} ${ibmPlex.variable}`}>
+      <head>
+        {/* Preconnect a dominios externos para reducir latencia DNS y SSL */}
+        <link rel="preconnect" href="https://images.pexels.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://images.pexels.com" />
+        <link rel="preconnect" href="https://tile.openstreetmap.org" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://tile.openstreetmap.org" />
+
+        {/* Preload crítico del LCP Hero Image y Logo */}
+        <link rel="preload" as="image" href="/hero-unidoslab.webp" type="image/webp" fetchPriority="high" />
+        <link rel="preload" as="image" href="/logo-unidoslab-opt.webp" type="image/webp" fetchPriority="high" />
+      </head>
+      <body suppressHydrationWarning className="min-h-full flex flex-col antialiased font-manrope text-[#17374a]">
         {children}
         <Analytics />
       </body>

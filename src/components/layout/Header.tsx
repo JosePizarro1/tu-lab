@@ -28,9 +28,12 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Brand Mobile */}
       <div className="flex items-center gap-2 md:hidden">
         <img 
-          src="/logo-unidoslab.webp" 
+          src="/logo-unidoslab-opt.webp" 
           alt="UNIDOSLAB" 
-          className="h-6 w-auto object-contain" 
+          width={120}
+          height={38}
+          decoding="async"
+          className="h-8 w-auto object-contain" 
         />
       </div>
 

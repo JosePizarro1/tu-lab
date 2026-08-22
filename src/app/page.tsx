@@ -15,11 +15,11 @@ import {
   IconMapPin,
   IconClock,
   IconPhone,
+  IconPhoneCall,
   IconShieldCheck,
   IconMicroscope,
   IconBrandFacebook,
   IconBrandInstagram,
-  IconBrandWhatsapp,
   IconMail,
   IconHexagon,
   IconLock,
@@ -31,6 +31,7 @@ import {
   IconChevronRight,
   IconHome
 } from '@tabler/icons-react';
+import WhatsAppIcon from '../components/icons/WhatsAppIcon';
 
 export default function Page() {
   const router = useRouter();
@@ -69,8 +70,12 @@ export default function Page() {
               {/* Panel Izquierdo: Imagen Clínica Redondeada */}
               <section className="relative min-h-[360px] overflow-hidden rounded-3xl bg-slate-900 shadow-xl lg:min-h-0 border border-slate-100">
                 <img
-                  src="https://images.pexels.com/photos/8442574/pexels-photo-8442574.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80"
+                  src="https://images.pexels.com/photos/8442574/pexels-photo-8442574.jpeg?auto=compress&cs=tinysrgb&w=800&q=75"
                   alt="Técnica de laboratorio trabajando en microscopio"
+                  loading="lazy"
+                  decoding="async"
+                  width={600}
+                  height={560}
                   className="absolute inset-0 h-full w-full object-cover"
                 />
                 <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-900/40"></div>
@@ -189,80 +194,115 @@ export default function Page() {
         aria-label="Contacto por WhatsApp"
         className="fixed bottom-6 right-6 z-50 flex items-center bg-[#25D366] hover:bg-[#20ba5a] text-white p-3.5 rounded-full shadow-xl shadow-emerald-600/30 transition-all duration-300 hover:scale-105 group overflow-hidden"
       >
-        <IconBrandWhatsapp className="w-7 h-7 shrink-0" />
+        <WhatsAppIcon className="w-7 h-7 shrink-0" />
         <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-[120px] transition-all duration-300 ease-in-out text-xs font-bold uppercase tracking-wider group-hover:pl-2.5 group-hover:pr-1.5 opacity-0 group-hover:opacity-100">
           WhatsApp
         </span>
       </a>
 
-      {/* Footer - Diseño Limpio Fiel a la Referencia */}
-      <footer className="w-full bg-white text-slate-600 pt-16 pb-10 border-t-2 border-[#FF5A5F]/20 font-plex relative z-20">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 mb-14">
+      {/* Footer - Diseño Oficial con Tipografía Manrope e Iconos */}
+      <footer className="w-full bg-[#ffffff] text-[#60788a] pt-[72px] pb-[38px] border-t border-[#dce6ec] font-manrope relative z-20">
+        <div className="w-[min(1180px,100%-48px)] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1.1fr_1.2fr] gap-[36px] lg:gap-[48px] mb-[48px]">
 
-          {/* Columna 1: Branding & Info (4 Cols) */}
-          <div className="lg:col-span-4 flex flex-col items-center sm:items-start gap-4">
-            <div className="flex items-center gap-3">
+          {/* Columna 1: Branding & Redes Sociales */}
+          <div className="flex flex-col items-start gap-4">
+            <div
+              className="cursor-pointer"
+              onClick={() => { setActiveTab('inicio'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            >
               <img
-                src="/logo-unidoslab.webp"
-                alt="UNIDOSLAB - Unidos por tu Salud"
-                width={180}
-                height={45}
+                src="/logo-unidoslab-opt.webp"
+                alt="UNIDOSLAB - Laboratorio Clínico"
+                width={170}
+                height={52}
                 loading="lazy"
-                className="h-11 w-auto object-contain cursor-pointer"
-                onClick={() => setActiveTab('inicio')}
+                decoding="async"
+                className="h-[48px] w-auto object-contain"
               />
             </div>
-            <p className="text-xs text-slate-500 leading-relaxed max-w-xs mt-1 text-center sm:text-left font-medium">
-              Laboratorio clínico en Tacna con atención profesional, resultados confiables y calidez humana.
+            <p className="font-manrope text-[13px] text-[#60788a] leading-[1.65] max-w-xs">
+              Laboratorio clínico en Tacna con más de 6 años de experiencia en diagnóstico preciso y atención humana.
             </p>
-            <div className="flex items-center gap-2 text-xs font-semibold text-slate-700 mt-2">
-              <IconHome className="w-4 h-4 text-[#FF5A5F] shrink-0" />
-              <span>Atención en sede y a domicilio.</span>
+
+            {/* Redes Sociales con estilo oficial */}
+            <div className="flex items-center gap-[10px] pt-1">
+              <a
+                href="https://www.facebook.com/UNIIDOSLAB.Laboratorio.Clinico/"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Facebook UNIDOSLAB"
+                className="w-[38px] h-[38px] rounded-[11px] bg-white border border-[#dce6ec] text-[#09283c] hover:text-[#fb5962] hover:border-[#f7c7ca] flex items-center justify-center transition-all shadow-xs"
+              >
+                <IconBrandFacebook className="w-[19px] h-[19px]" />
+              </a>
+              <a
+                href="https://www.instagram.com/uniilab_laboratorio_clinico"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Instagram UNIDOSLAB"
+                className="w-[38px] h-[38px] rounded-[11px] bg-white border border-[#dce6ec] text-[#09283c] hover:text-[#fb5962] hover:border-[#f7c7ca] flex items-center justify-center transition-all shadow-xs"
+              >
+                <IconBrandInstagram className="w-[19px] h-[19px]" />
+              </a>
+              <a
+                href="https://wa.me/51952920616"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="WhatsApp UNIDOSLAB"
+                className="w-[38px] h-[38px] rounded-[11px] bg-white border border-[#dce6ec] text-[#09283c] hover:text-[#25D366] hover:border-[#25D366]/40 flex items-center justify-center transition-all shadow-xs"
+              >
+                <WhatsAppIcon className="w-[19px] h-[19px]" />
+              </a>
             </div>
           </div>
 
-          {/* Columna 2: EXPLORAR (2.5 Cols) */}
-          <div className="lg:col-span-2 sm:col-span-1 flex flex-col items-center sm:items-start">
-            <h4 className="text-xs font-extrabold uppercase tracking-widest text-[#1E3A4C] mb-5">EXPLORAR</h4>
-            <ul className="space-y-3 text-xs w-full">
+          {/* Columna 2: Explorar / Servicios */}
+          <div className="flex flex-col items-start">
+            <h4 className="font-manrope font-[800] text-[13px] uppercase tracking-[0.1em] text-[#09283c] mb-[18px]">
+              Explorar
+            </h4>
+            <ul className="space-y-[11px] text-[13px] font-manrope font-[600] w-full">
               <li>
                 <button
+                  type="button"
                   onClick={() => { setActiveTab('inicio'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
+                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center gap-1.5"
                 >
                   <span>Inicio</span>
-                  <IconChevronRight className="w-3.5 h-3.5 text-[#FF5A5F] transition-transform group-hover:translate-x-0.5" />
                 </button>
               </li>
               <li>
                 <button
+                  type="button"
                   onClick={() => { setActiveTab('servicios'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
+                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center gap-1.5"
                 >
-                  <span>Servicios</span>
-                  <IconChevronRight className="w-3.5 h-3.5 text-[#FF5A5F] transition-transform group-hover:translate-x-0.5" />
+                  <span>Servicios de salud</span>
                 </button>
               </li>
               <li>
                 <button
+                  type="button"
                   onClick={() => {
                     if (activeTab !== 'inicio') {
                       setActiveTab('inicio');
                       setTimeout(() => {
-                        window.scrollTo({ top: 900, behavior: 'smooth' });
+                        const el = document.getElementById('proceso');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
                       }, 100);
                     } else {
-                      window.scrollTo({ top: 900, behavior: 'smooth' });
+                      const el = document.getElementById('proceso');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}
-                  className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
+                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center gap-1.5"
                 >
-                  <span>¿Cómo funciona?</span>
-                  <IconChevronRight className="w-3.5 h-3.5 text-[#FF5A5F] transition-transform group-hover:translate-x-0.5" />
+                  <span>Cómo funciona</span>
                 </button>
               </li>
               <li>
                 <button
+                  type="button"
                   onClick={() => {
                     if (activeTab !== 'inicio') {
                       setActiveTab('inicio');
@@ -275,160 +315,123 @@ export default function Page() {
                       if (el) el.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}
-                  className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
+                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center gap-1.5"
                 >
                   <span>Nuestras sedes</span>
-                  <IconChevronRight className="w-3.5 h-3.5 text-[#FF5A5F] transition-transform group-hover:translate-x-0.5" />
                 </button>
               </li>
               <li>
-                <a
-                  href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20contactarme"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
-                >
-                  <span>Contacto</span>
-                  <IconChevronRight className="w-3.5 h-3.5 text-[#FF5A5F] transition-transform group-hover:translate-x-0.5" />
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Columna 3: ATENCIÓN (2.5 Cols) */}
-          <div className="lg:col-span-3 sm:col-span-1 flex flex-col items-center sm:items-start">
-            <h4 className="text-xs font-extrabold uppercase tracking-widest text-[#1E3A4C] mb-5">ATENCIÓN</h4>
-            <ul className="space-y-3 text-xs w-full">
-              <li>
                 <button
+                  type="button"
                   onClick={() => { setActiveTab('resultados'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
+                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center gap-1.5"
                 >
                   <span>Resultados en línea</span>
-                  <IconChevronRight className="w-3.5 h-3.5 text-[#FF5A5F] transition-transform group-hover:translate-x-0.5" />
                 </button>
               </li>
               <li>
                 <button
+                  type="button"
                   onClick={() => { setActiveTab('soy_medico'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
+                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center gap-1.5"
                 >
-                  <span>Soy Médico</span>
-                  <IconChevronRight className="w-3.5 h-3.5 text-[#FF5A5F] transition-transform group-hover:translate-x-0.5" />
+                  <span>Soy médico</span>
                 </button>
-              </li>
-              <li>
-                <a
-                  href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20solicitar%20toma%20de%20muestras%20a%20domicilio"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
-                >
-                  <span>Toma de muestras a domicilio</span>
-                  <IconChevronRight className="w-3.5 h-3.5 text-[#FF5A5F] transition-transform group-hover:translate-x-0.5" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20agendar%20una%20atenci%C3%B3n"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-between text-slate-600 hover:text-[#FF5A5F] font-medium transition-colors cursor-pointer group"
-                >
-                  <span>Agendar atención</span>
-                  <IconChevronRight className="w-3.5 h-3.5 text-[#FF5A5F] transition-transform group-hover:translate-x-0.5" />
-                </a>
               </li>
             </ul>
           </div>
 
-          {/* Columna 4: CONTACTO & REDES (3.5 Cols) */}
-          <div className="lg:col-span-3 flex flex-col items-center sm:items-start gap-3">
-            <h4 className="text-xs font-extrabold uppercase tracking-widest text-[#1E3A4C] mb-1">CONTACTO</h4>
+          {/* Columna 3: Sedes & Horarios */}
+          <div className="flex flex-col items-start">
+            <h4 className="font-manrope font-[800] text-[13px] uppercase tracking-[0.1em] text-[#09283c] mb-[18px]">
+              Sedes en Tacna
+            </h4>
+            <div className="space-y-[13px] text-[13px] font-manrope">
+              <div>
+                <p className="font-[800] text-[#09283c] flex items-center gap-1.5">
+                  <IconMapPin className="w-4 h-4 text-[#fb5962] shrink-0" />
+                  <span>Sede Av. Leguía:</span>
+                </p>
+                <p className="text-[12px] text-[#60788a] pl-5 mt-0.5">Av. Leguía N° 778-C</p>
+              </div>
+
+              <div>
+                <p className="font-[800] text-[#09283c] flex items-center gap-1.5">
+                  <IconMapPin className="w-4 h-4 text-[#fb5962] shrink-0" />
+                  <span>Sede Patricio Meléndez:</span>
+                </p>
+                <p className="text-[12px] text-[#60788a] pl-5 mt-0.5">Calle Patricio Meléndez N° 382 Of. 303</p>
+              </div>
+
+              <div className="pt-2 border-t border-[#dce6ec]">
+                <p className="font-[800] text-[#09283c] flex items-center gap-1.5 text-[12px]">
+                  <IconClock className="w-4 h-4 text-[#fb5962] shrink-0" />
+                  <span>Horario de atención:</span>
+                </p>
+                <p className="text-[12px] text-[#60788a] pl-5 mt-0.5">
+                  Lun a Sáb: 8:00 am – 1:00 pm / 3:00 pm – 8:00 pm<br />
+                  <span className="text-[11px] text-[#8aa0ae]">(Leguía desde 7:45 am)</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Columna 4: Canales de Atención */}
+          <div className="flex flex-col items-start gap-3">
+            <h4 className="font-manrope font-[800] text-[13px] uppercase tracking-[0.1em] text-[#09283c] mb-[6px]">
+              Contacto directo
+            </h4>
+
+            {/* WhatsApp 24h */}
+            <a
+              href="https://wa.me/51952920616"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-2.5 px-3 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/30 text-[#1EBE5D] font-manrope font-[800] text-[12.5px] rounded-[13px] transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <WhatsAppIcon className="w-4 h-4 text-[#25D366] shrink-0" />
+              <span>952 920 616 (24 Horas)</span>
+            </a>
+
+            {/* WhatsApp Citas */}
+            <a
+              href="https://wa.me/51969940249"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-2.5 px-3 bg-white hover:bg-slate-50 border border-[#dce6ec] text-[#09283c] hover:text-[#25D366] font-manrope font-[800] text-[12.5px] rounded-[13px] transition-all flex items-center gap-2 cursor-pointer shadow-2xs"
+            >
+              <WhatsAppIcon className="w-4 h-4 text-[#25D366] shrink-0" />
+              <span>969 940 249 (Citas)</span>
+            </a>
 
             {/* Correo Electrónico */}
             <a
               href="mailto:uniilab.laboratorioclinico@outlook.es"
-              className="flex items-center gap-2 text-xs text-slate-600 hover:text-[#FF5A5F] transition-colors"
+              className="flex items-center gap-2 text-[12px] text-[#60788a] hover:text-[#fb5962] transition-colors mt-1"
             >
-              <div className="w-6 h-6 rounded-lg bg-red-50 border border-red-100 flex items-center justify-center text-[#FF5A5F] shrink-0">
-                <IconMail className="w-3.5 h-3.5" />
-              </div>
-              <span className="truncate text-[11.5px]">uniilab.laboratorioclinico@outlook.es</span>
+              <IconMail className="w-4 h-4 text-[#fb5962] shrink-0" />
+              <span className="truncate">uniilab.laboratorioclinico@outlook.es</span>
             </a>
-
-            {/* Canales WhatsApp */}
-            <div className="w-full space-y-2 pt-1">
-              <a
-                href="https://wa.me/51952920616"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-2 px-3 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/40 text-[#1EBE5D] font-extrabold text-[11.5px] rounded-xl transition-all flex items-center justify-center sm:justify-start gap-2 cursor-pointer"
-              >
-                <IconBrandWhatsapp className="w-4 h-4 text-[#25D366]" />
-                <span>952 920 616 (24 Horas)</span>
-              </a>
-
-              <a
-                href="https://wa.me/51969940249"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-2 px-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#25D366] font-extrabold text-[11.5px] rounded-xl transition-all flex items-center justify-center sm:justify-start gap-2 cursor-pointer shadow-2xs"
-              >
-                <IconBrandWhatsapp className="w-4 h-4 text-[#25D366]" />
-                <span>969 940 249 </span>
-              </a>
-            </div>
-
-            {/* Ubicación y Sedes */}
-            <div className="text-[11px] text-slate-500 space-y-1 pt-1 text-center sm:text-left">
-              <p className="font-bold text-[#1E3A4C] flex items-center gap-1.5 justify-center sm:justify-start">
-                <IconMapPin className="w-3.5 h-3.5 text-[#FF5A5F] shrink-0" />
-                <span>Tacna, Perú:</span>
-              </p>
-              <p>• AV. Leguía N° 778-C (Desde 7:45 AM)</p>
-              <p>• Patricio Meléndez N° 382 Of. 303</p>
-            </div>
-
-            {/* Redes Sociales Cuadradas Blancas con Borde */}
-            <div className="flex items-center gap-2.5 pt-1">
-              <a
-                href="https://www.facebook.com/UNIIDOSLAB.Laboratorio.Clinico/"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Facebook UNIDOSLAB"
-                className="w-9 h-9 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#1877F2] rounded-xl flex items-center justify-center transition-all shadow-2xs"
-              >
-                <IconBrandFacebook className="w-4.5 h-4.5" />
-              </a>
-              <a
-                href="https://www.instagram.com/uniilab_laboratorio_clinico"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Instagram UNIDOSLAB"
-                className="w-9 h-9 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#E4405F] rounded-xl flex items-center justify-center transition-all shadow-2xs"
-              >
-                <IconBrandInstagram className="w-4.5 h-4.5" />
-              </a>
-            </div>
           </div>
 
         </div>
 
         {/* Línea Divisoria Inferior y Derechos */}
-        <div className="max-w-7xl mx-auto px-4 md:px-6 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400 font-medium text-center sm:text-left">
-          <span suppressHydrationWarning>&copy; {new Date().getFullYear()} UNIDOSLAB. Todos los derechos reservados.</span>
+        <div className="w-[min(1180px,100%-48px)] mx-auto pt-[24px] border-t border-[#dce6ec] flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] text-[#8aa0ae] font-medium text-center sm:text-left">
+          <span suppressHydrationWarning>&copy; {new Date().getFullYear()} UNIDOSLAB · Unidos por tu Salud. Tacna, Perú.</span>
           <div className="flex justify-center sm:justify-start gap-6">
             <button
+              type="button"
               onClick={() => { setActiveTab('terminos'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-              className="hover:text-[#FF5A5F] transition-colors cursor-pointer"
+              className="hover:text-[#fb5962] transition-colors cursor-pointer"
             >
               Términos de servicio
             </button>
-            <span className="text-slate-300">|</span>
+            <span className="text-[#dce6ec]">|</span>
             <button
+              type="button"
               onClick={() => { setActiveTab('privacidad'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-              className="hover:text-[#FF5A5F] transition-colors cursor-pointer"
+              className="hover:text-[#fb5962] transition-colors cursor-pointer"
             >
               Política de privacidad
             </button>

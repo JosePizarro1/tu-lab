@@ -34,11 +34,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ onLogout, rolUsuario }) => {
     <>
       {/* DESKTOP SIDEBAR */}
       <aside className="hidden md:flex flex-col w-64 bg-white text-slate-800 min-h-screen p-6 border-r border-slate-100 shrink-0 shadow-xs">
-        <div className="flex items-center gap-3 mb-8 px-2">
+        <div className="flex items-center gap-3">
           <img 
-            src="/logo-unidoslab.webp" 
+            src="/logo-unidoslab-opt.webp" 
             alt="UNIDOSLAB" 
-            className="h-8 w-auto object-contain" 
+            width={140}
+            height={44}
+            decoding="async"
+            className="h-9 w-auto object-contain" 
           />
         </div>
 

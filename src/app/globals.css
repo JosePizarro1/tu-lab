@@ -1,14 +1,24 @@
 @import "tailwindcss";
 
 @theme {
+  --font-manrope: var(--font-manrope), "Manrope", sans-serif;
   --font-jakarta: "Plus Jakarta Sans", sans-serif;
   --font-plex: "IBM Plex Sans", sans-serif;
   
-  --color-unidos-red: #E52320;
-  --color-unidos-navy: #1E3A4C;
-  --color-cerulean: #E52320;
-  --color-azure-mist: #FFF5F5;
-  --color-lab-border: #FEE2E2;
+  --color-navy: #12354a;
+  --color-navy-deep: #09283c;
+  --color-blue-gray: #60798a;
+  --color-coral: #fb5962;
+  --color-coral-dark: #e54550;
+  --color-coral-soft: #fff0f1;
+  --color-mint: #14b879;
+  --color-surface-soft: #f5f8fb;
+  --color-line: #dce6ec;
+  --color-text: #17374a;
+  --color-muted: #60788a;
+  
+  --color-unidos-red: #fb5962;
+  --color-unidos-navy: #09283c;
 }
 
 @layer base {
@@ -19,9 +29,9 @@
   }
 
   body {
-    font-family: var(--font-plex);
+    font-family: var(--font-manrope);
     background-color: white;
-    color: #1E3A4C;
+    color: #17374a;
   }
 }
 

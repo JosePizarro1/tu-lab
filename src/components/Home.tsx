@@ -23,10 +23,12 @@ import {
   IconStethoscope,
   IconDeviceDesktopAnalytics,
   IconHome,
+  IconCalendarEvent,
+  IconPhoneCall,
   IconBrandFacebook,
-  IconBrandInstagram,
-  IconBrandWhatsapp
+  IconBrandInstagram
 } from '@tabler/icons-react';
+import WhatsAppIcon from './icons/WhatsAppIcon';
 import gsap from 'gsap';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -202,919 +204,650 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
         <IconSparkles className="absolute top-[62%] left-[22%] w-16 h-16 text-amber-400/12 stroke-[1.5]" />
       </div>
 
-      {/* 1. HERO SECTION PRINCIPAL (Diseño Limpio, Luminoso y Moderno en Blanco/Slate) */}
+      {/* 1. HERO SECTION PRINCIPAL (Fiel al Rediseño del Mockup y CSS Oficial) */}
       <section
         ref={heroRef}
-        className="relative w-full bg-gradient-to-b from-slate-50/90 via-white to-slate-50/50 overflow-hidden pt-20 sm:pt-28 lg:pt-36 pb-16 sm:pb-24 lg:pb-36 px-4 md:px-8 text-slate-800 z-10"
+        id="inicio"
+        className="relative w-full bg-[linear-gradient(120deg,#f8fbfd_0%,#eef6fa_48%,#e2f0f6_100%)] min-h-[760px] pt-[86px] pb-[60px] overflow-hidden z-10"
       >
-        {/* CAPA DE FONDO: Detalles sutiles y Cruz Médica de cristal */}
+        {/* ELEMENTOS AMBIENTALES DE FONDO (Fiel a .hero:before y .hero:after del CSS) */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-
-          {/* Halos de luz y gradientes de fondo limpios */}
-          <div className="absolute top-1/4 -left-32 w-[520px] h-[520px] rounded-full bg-gradient-to-tr from-red-500/5 via-rose-300/4 to-transparent blur-[140px]"></div>
-          <div className="absolute top-1/3 -right-32 w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-sky-400/8 via-slate-200/20 to-transparent blur-[150px]"></div>
-
-          {/* Cruz Médica suave en el fondo central */}
-          <div className="absolute top-[15%] left-[45%] -translate-x-1/2 opacity-30 pointer-events-none">
-            <svg className="w-48 h-48 text-slate-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-              <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3z" />
-            </svg>
-          </div>
+          {/* Círculo geométrico a la derecha (.hero:before) */}
+          <div className="absolute top-[55px] -right-[190px] w-[430px] h-[430px] rounded-full border-[80px] border-[#12354a]/[0.055]"></div>
+          {/* Matriz de puntos a la izquierda (.hero:after) */}
+          <div className="absolute bottom-[70px] left-[5%] w-[160px] h-[160px] opacity-50 bg-[radial-gradient(#b9ceda_1.5px,transparent_1.5px)] bg-[size:16px_16px]"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center relative z-20">
+        <div className="w-[min(1180px,100%-48px)] mx-auto relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.02fr_0.98fr] gap-[40px] lg:gap-[72px] items-center">
 
-          {/* Columna Izquierda: Titular y CTA */}
-          <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-center lg:text-left flex flex-col items-center lg:items-start">
+            {/* Columna Izquierda: Contenido (.hero-copy) */}
+            <div className="pb-6 lg:pb-[68px] flex flex-col items-start text-left">
 
-            {/* Badge superior */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white text-[#1E3A4C] text-[10.5px] sm:text-xs font-extrabold uppercase tracking-widest shadow-xs border border-slate-200/90">
-              <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#FF5A5F] shrink-0"></span>
-              <span>Laboratorio Clínico Tacna · Perú</span>
-            </div>
-
-            {/* Titular contundente */}
-            <div>
-              <h1 className="font-jakarta text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.14] tracking-tight">
-                <span className="block text-[#1E3A4C]">Tu Salud Es</span>
-                <span className="block text-[#1E3A4C]">
-                  Nuestra Prioridad<span className="text-[#FF5A5F]">.</span>
-                </span>
-              </h1>
-              {/* Barra corta de acento rojo coral */}
-              <span className="w-12 sm:w-14 h-1 bg-[#FF5A5F] rounded-full mt-2.5 sm:mt-3 mx-auto lg:mx-0 block"></span>
-            </div>
-
-            {/* Bajada */}
-            <p className="text-slate-500 text-xs sm:text-base md:text-lg max-w-xl font-normal leading-relaxed">
-              Tecnología diagnóstica automatizada de alta precisión, calidez humana y entrega digital inmediata de tus análisis clínicos.
-            </p>
-
-            {/* Botones de acción */}
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: 12 },
-                visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 320, damping: 26, mass: 0.8 } }
-              }}
-              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-1 sm:pt-2 w-full sm:w-auto"
-            >
-              <motion.button
-                onClick={() => setActiveTab('servicios')}
-                whileHover={{ scale: 1.025, transition: { duration: 0.15, ease: [0.16, 1, 0.3, 1] } }}
-                whileTap={{ scale: 0.97, transition: { duration: 0.08 } }}
-                className="group px-6 sm:px-7 py-3 sm:py-3.5 bg-[#FF5A5F] hover:bg-[#E84A4F] text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow-lg shadow-red-500/25 transition-colors cursor-pointer flex items-center justify-center gap-3"
+              {/* Eyebrow badge */}
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="inline-flex items-center gap-[9px] text-[12px] font-[800] uppercase tracking-[0.14em] text-[#e54550] mb-[17px]"
               >
-                <span>Ver Servicios</span>
-                <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                  <IconArrowRight className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-white" />
-                </span>
-              </motion.button>
+                <span className="w-[7px] h-[7px] rounded-full bg-[#fb5962] shadow-[0_0_0_5px_#fff0f1] shrink-0"></span>
+                <span>UNIDOSLAB · Laboratorio Clínico</span>
+              </motion.p>
 
-              <motion.a
-                href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20mayor%20informaci%C3%B3n%20sobre%20an%C3%A1lisis%20cl%C3%ADnicos"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 1)", transition: { duration: 0.15 } }}
-                whileTap={{ scale: 0.97, transition: { duration: 0.08 } }}
-                className="px-6 sm:px-7 py-3 sm:py-3.5 bg-white text-[#1E3A4C] hover:text-[#25D366] border border-slate-200/90 font-bold text-xs uppercase tracking-wider rounded-full shadow-xs flex items-center justify-center gap-2 cursor-pointer transition-all"
+              {/* Titular contundente (H1) */}
+              <motion.h1
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="font-manrope text-[clamp(42px,5.2vw,74px)] font-[800] text-[#09283c] leading-[1.02] tracking-[-0.035em] max-w-[680px] mb-[25px]"
               >
-                <IconSend className="w-4 h-4 text-[#25D366]" />
-                <span>Escríbenos por WhatsApp</span>
-              </motion.a>
-            </motion.div>
-          </div>
+                Resultados precisos.<br />
+                <span className="text-[#fb5962] font-[800]">Atención que te acompaña.</span>
+              </motion.h1>
 
-          {/* Columna Derecha: Especialistas Médicos & Marco Squircle Limpio */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96, y: 16 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0.12 }}
-            className="lg:col-span-5 relative flex justify-center lg:justify-end mt-4 lg:mt-0"
-          >
+              {/* Bajada (.hero-lead) */}
+              <motion.p
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="font-manrope text-[16px] sm:text-[18px] text-[#60788a] leading-[1.72] max-w-[600px] mb-[31px]"
+              >
+                Diagnóstico confiable, atención profesional y resultados digitales para cuidar tu salud con tranquilidad.
+              </motion.p>
 
-            {/* Matriz de puntos decorativos detrás de los doctores */}
-            <div className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 w-24 sm:w-32 h-24 sm:h-32 opacity-20 grid grid-cols-6 gap-2 pointer-events-none">
-              {Array.from({ length: 36 }).map((_, i) => (
-                <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-400 block"></span>
-              ))}
+              {/* Botones de acción (.hero-actions) */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.25 }}
+                className="flex flex-wrap items-center gap-[13px] w-full sm:w-auto"
+              >
+                <a
+                  href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20agendar%20una%20atenci%C3%B3n"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="min-h-[48px] px-[22px] bg-[#fb5962] hover:bg-[#e54550] text-white font-manrope font-[800] text-[13px] rounded-[13px] shadow-[0_11px_24px_rgba(251,89,98,0.23)] hover:shadow-[0_14px_28px_rgba(229,69,80,0.28)] transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[10px] cursor-pointer"
+                >
+                  <WhatsAppIcon className="w-[19px] h-[19px]" />
+                  <span>Agendar atención</span>
+                </a>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('servicios')}
+                  className="min-h-[48px] px-[22px] bg-white hover:bg-slate-50 border border-[#dce6ec] hover:border-[#b9cad4] text-[#09283c] font-manrope font-[800] text-[13px] rounded-[13px] shadow-none hover:shadow-[0_10px_24px_rgba(23,55,74,0.08)] transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[10px] cursor-pointer"
+                >
+                  <span>Conocer servicios</span>
+                  <IconArrowRight className="w-[18px] h-[18px]" />
+                </button>
+              </motion.div>
+
+              {/* Métricas de prueba animadas y 100% responsive (.hero-proof) */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.35 }}
+                className="border-t border-[#12354a]/[0.13] pt-[25px] mt-[36px] sm:mt-[42px] grid grid-cols-3 divide-x divide-[#12354a]/[0.13] w-full max-w-[560px]"
+              >
+                <motion.div
+                  whileHover={{ y: -2 }}
+                  className="pr-2.5 sm:pr-6 flex flex-col gap-[3px] group cursor-default transition-all"
+                >
+                  <strong className="font-manrope text-[15px] sm:text-[18px] font-[800] text-[#09283c] group-hover:text-[#fb5962] transition-colors leading-tight">
+                    +6 años
+                  </strong>
+                  <span className="font-manrope text-[11px] sm:text-[12px] text-[#60788a] leading-tight">
+                    de experiencia
+                  </span>
+                </motion.div>
+
+                <motion.div
+                  whileHover={{ y: -2 }}
+                  className="px-2.5 sm:px-6 flex flex-col gap-[3px] group cursor-default transition-all"
+                >
+                  <strong className="font-manrope text-[15px] sm:text-[18px] font-[800] text-[#09283c] group-hover:text-[#fb5962] transition-colors leading-tight">
+                    2 sedes
+                  </strong>
+                  <span className="font-manrope text-[11px] sm:text-[12px] text-[#60788a] leading-tight">
+                    en Tacna
+                  </span>
+                </motion.div>
+
+                <motion.div
+                  whileHover={{ y: -2 }}
+                  className="pl-2.5 sm:pl-6 flex flex-col gap-[3px] group cursor-default transition-all"
+                >
+                  <strong className="font-manrope text-[15px] sm:text-[18px] font-[800] text-[#09283c] group-hover:text-[#fb5962] transition-colors leading-tight">
+                    Digital
+                  </strong>
+                  <span className="font-manrope text-[11px] sm:text-[12px] text-[#60788a] leading-tight">
+                    resultados en línea
+                  </span>
+                </motion.div>
+              </motion.div>
             </div>
 
-            {/* Imagen del especialista con marco squircle blanco suave */}
-            <div className="relative z-10 rounded-[28px] sm:rounded-[38px] p-2 sm:p-2.5 bg-white/80 border-2 border-white shadow-xl shadow-slate-200/60 backdrop-blur-md max-w-[280px] sm:max-w-sm lg:max-w-md w-full">
-              <div className="rounded-[22px] sm:rounded-[30px] overflow-hidden bg-gradient-to-b from-slate-100/80 via-slate-50 to-slate-100/60 flex items-end justify-center pt-3 sm:pt-4">
+            {/* Columna Derecha: Especialista Médico & Floating Cards (.hero-visual) */}
+            <div className="relative flex justify-center items-end min-h-[460px] lg:min-h-[545px]">
+
+              {/* Fondo orgánico rotado detrás de la foto (.hero-visual:before) */}
+              <div className="absolute inset-[30px_10px_10px_30px] lg:inset-[48px_0_14px_48px] rounded-[48%_48%_36%_36%] bg-gradient-to-br from-[#12354a]/[0.11] to-[#12354a]/[0.02] rotate-3 pointer-events-none"></div>
+
+              {/* Contenedor de la foto (.hero-image-wrap) */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.7, ease: "easeOut" }}
+                className="w-[94%] sm:w-[86%] h-[400px] sm:h-[460px] lg:h-[515px] bg-[#eef5f9] border-[8px] sm:border-[12px] border-white rounded-[28px_28px_90px_28px] sm:rounded-[42px_42px_130px_42px] shadow-[0_18px_50px_rgba(23,55,74,0.09)] relative overflow-hidden z-10"
+              >
                 <img
-                  src="/home_chica.webp"
-                  alt="Especialista en análisis clínicos y diagnóstico UNIDOSLAB Tacna"
+                  src="/hero-unidoslab.webp"
+                  alt="Profesional de salud de UNIDOSLAB"
                   width={400}
-                  height={500}
+                  height={515}
                   loading="eager"
                   fetchPriority="high"
-                  className="w-full h-[260px] sm:h-[340px] lg:h-[430px] object-contain object-bottom drop-shadow-xl"
+                  decoding="async"
+                  className="w-full h-full object-cover object-top"
                 />
-              </div>
+                {/* Degradado inferior (.hero-image-wrap:after) */}
+                <div className="absolute inset-x-0 bottom-0 h-[32%] bg-gradient-to-t from-[#09283c]/[0.06] to-transparent pointer-events-none"></div>
+              </motion.div>
+
+              {/* Floating Card Superior (.fc-top) con animación continua de levitación */}
+              <motion.div
+                initial={{ opacity: 0, x: 25 }}
+                animate={{ opacity: 1, x: 0, y: [0, -6, 0] }}
+                transition={{
+                  opacity: { duration: 0.6, delay: 0.3 },
+                  x: { duration: 0.6, delay: 0.3 },
+                  y: { duration: 3.8, repeat: Infinity, ease: "easeInOut" }
+                }}
+                whileHover={{ scale: 1.04 }}
+                className="absolute top-[55px] sm:top-[90px] right-0 bg-white/95 backdrop-blur-[12px] border border-[#dce6ec] rounded-[15px] shadow-[0_15px_30px_rgba(23,55,74,0.12)] min-w-[170px] sm:min-w-[210px] p-[10px_12px] sm:p-[14px_17px] flex items-center gap-[11px] z-20 cursor-default"
+              >
+                <div className="w-[22px] h-[22px] text-[#fb5962] shrink-0 flex items-center justify-center">
+                  <IconShieldCheck className="w-[22px] h-[22px] stroke-[1.8]" />
+                </div>
+                <div className="flex flex-col">
+                  <strong className="font-manrope text-[11px] sm:text-[12px] font-[800] text-[#09283c] leading-tight">Procesos confiables</strong>
+                  <span className="font-manrope text-[9px] sm:text-[11px] text-[#60788a] leading-tight mt-0.5">Control y precisión</span>
+                </div>
+              </motion.div>
+
+              {/* Floating Card Inferior (.fc-bottom) con animación continua de levitación */}
+              <motion.div
+                initial={{ opacity: 0, x: -25 }}
+                animate={{ opacity: 1, x: 0, y: [0, 6, 0] }}
+                transition={{
+                  opacity: { duration: 0.6, delay: 0.45 },
+                  x: { duration: 0.6, delay: 0.45 },
+                  y: { duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }
+                }}
+                whileHover={{ scale: 1.04 }}
+                className="absolute bottom-[25px] sm:bottom-[60px] left-0 bg-white/95 backdrop-blur-[12px] border border-[#dce6ec] rounded-[15px] shadow-[0_15px_30px_rgba(23,55,74,0.12)] min-w-[170px] sm:min-w-[210px] p-[10px_12px] sm:p-[14px_17px] flex items-center gap-[11px] z-20 cursor-default"
+              >
+                <div className="w-[22px] h-[22px] text-[#fb5962] shrink-0 flex items-center justify-center">
+                  <IconClock className="w-[22px] h-[22px] stroke-[1.8]" />
+                </div>
+                <div className="flex flex-col">
+                  <strong className="font-manrope text-[11px] sm:text-[12px] font-[800] text-[#09283c] leading-tight">Atención cercana</strong>
+                  <span className="font-manrope text-[9px] sm:text-[11px] text-[#60788a] leading-tight mt-0.5">En sede y domicilio</span>
+                </div>
+              </motion.div>
+
             </div>
-
-            {/* Barra lateral flotante de redes sociales (Estilo Blanco Píldora del Mockup) */}
-            <motion.div
-              initial={{ x: 20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.3, type: "spring", stiffness: 350, damping: 25 }}
-              className="hidden xl:flex absolute -right-5 top-1/2 -translate-y-1/2 flex-col gap-3 bg-white p-2 rounded-2xl shadow-xl shadow-slate-300/40 border border-slate-100 z-20"
-            >
-              <motion.a
-                whileHover={{ scale: 1.15, transition: { type: "spring", stiffness: 400, damping: 15 } }}
-                whileTap={{ scale: 0.92 }}
-                href="https://www.facebook.com/UNIIDOSLAB.Laboratorio.Clinico/"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Facebook UNIDOSLAB"
-                aria-label="Facebook UNIDOSLAB"
-                className="w-8 h-8 rounded-xl hover:bg-blue-50 text-slate-600 hover:text-[#1877F2] flex items-center justify-center transition-colors shadow-2xs"
-              >
-                <IconBrandFacebook className="w-4.5 h-4.5" />
-              </motion.a>
-              <motion.a
-                whileHover={{ scale: 1.15, transition: { type: "spring", stiffness: 400, damping: 15 } }}
-                whileTap={{ scale: 0.92 }}
-                href="https://www.instagram.com/uniilab_laboratorio_clinico"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Instagram UNIDOSLAB"
-                aria-label="Instagram UNIDOSLAB"
-                className="w-8 h-8 rounded-xl hover:bg-rose-50 text-slate-600 hover:text-[#E4405F] flex items-center justify-center transition-colors shadow-2xs"
-              >
-                <IconBrandInstagram className="w-4.5 h-4.5" />
-              </motion.a>
-              <motion.a
-                whileHover={{ scale: 1.15, transition: { type: "spring", stiffness: 400, damping: 15 } }}
-                whileTap={{ scale: 0.92 }}
-                href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20mayor%20informaci%C3%B3n%20sobre%20sus%20servicios"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="WhatsApp UNIDOSLAB"
-                aria-label="WhatsApp UNIDOSLAB"
-                className="w-8 h-8 rounded-xl hover:bg-emerald-50 text-slate-600 hover:text-[#25D366] flex items-center justify-center transition-colors shadow-2xs"
-              >
-                <IconBrandWhatsapp className="w-4.5 h-4.5" />
-              </motion.a>
-            </motion.div>
-
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* 2. SECCIÓN: SERVICIOS PARA CUIDAR TU SALUD (Fiel al Mockup: Fondo Canvas Amplio + Elementos 3D en Márgenes) */}
-      <section className="w-full max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-10 -mt-10 md:-mt-14 relative z-30 mb-4 sm:mb-6">
+      {/* QUICK ACTIONS BAR (.quick-actions del CSS Oficial) */}
+      <div className="w-[min(1180px,100%-48px)] mx-auto border border-[#dce6ec] bg-white rounded-[20px] shadow-[0_16px_40px_rgba(23,55,74,0.09)] grid grid-cols-1 md:grid-cols-3 -mt-[14px] relative z-20 overflow-hidden mb-6 sm:mb-8">
 
-        {/* CAPA DE FONDO: ELEMENTOS 3D EN LOS MÁRGENES (Solo visibles en Desktop/Laptop para no sobrecargar Mobile) */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-visible select-none">
-
-          {/* Margen Izquierdo: ADN 3D, Escudo 3D y Matraz 3D */}
-          <div className="hidden lg:block absolute -left-10 xl:-left-16 top-2 w-48 xl:w-56 h-80 opacity-70 drop-shadow-[0_15px_30px_rgba(0,0,0,0.06)]">
-            <svg viewBox="0 0 200 350" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-              <defs>
-                <linearGradient id="dnaG1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FFFFFF" />
-                  <stop offset="50%" stopColor="#F1F5F9" />
-                  <stop offset="100%" stopColor="#E2E8F0" />
-                </linearGradient>
-                <linearGradient id="dnaG2" x1="100%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#FFFFFF" />
-                  <stop offset="60%" stopColor="#F8FAFC" />
-                  <stop offset="100%" stopColor="#CBD5E1" />
-                </linearGradient>
-                <linearGradient id="dnaRed" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FFE4E6" />
-                  <stop offset="100%" stopColor="#FECDD3" />
-                </linearGradient>
-              </defs>
-              <path d="M40 50 Q100 65 160 80" stroke="url(#dnaG1)" strokeWidth="10" strokeLinecap="round" />
-              <path d="M50 110 Q100 120 150 130" stroke="url(#dnaG2)" strokeWidth="9" strokeLinecap="round" />
-              <path d="M60 170 Q100 175 140 180" stroke="url(#dnaRed)" strokeWidth="9" strokeLinecap="round" />
-              <path d="M50 230 Q100 240 150 250" stroke="url(#dnaG1)" strokeWidth="9" strokeLinecap="round" />
-              <path d="M40 290 Q100 305 160 320" stroke="url(#dnaG2)" strokeWidth="10" strokeLinecap="round" />
-              <path d="M40 30 C 20 90, 80 150, 150 210 C 180 240, 150 310, 80 340" fill="none" stroke="url(#dnaG1)" strokeWidth="18" strokeLinecap="round" />
-              <path d="M160 30 C 180 90, 120 150, 50 210 C 20 240, 50 310, 120 340" fill="none" stroke="url(#dnaG2)" strokeWidth="18" strokeLinecap="round" />
-              <circle cx="40" cy="50" r="12" fill="url(#dnaG1)" />
-              <circle cx="160" cy="80" r="12" fill="url(#dnaG2)" />
-              <circle cx="50" cy="110" r="11" fill="url(#dnaG1)" />
-              <circle cx="150" cy="130" r="11" fill="url(#dnaG2)" />
-              <circle cx="60" cy="170" r="10" fill="url(#dnaRed)" />
-              <circle cx="140" cy="180" r="10" fill="url(#dnaRed)" />
-              <circle cx="50" cy="230" r="11" fill="url(#dnaG1)" />
-              <circle cx="150" cy="250" r="11" fill="url(#dnaG2)" />
-              <circle cx="40" cy="290" r="12" fill="url(#dnaG1)" />
-              <circle cx="160" cy="320" r="12" fill="url(#dnaG2)" />
-            </svg>
+        {/* Acción 1: Ver resultados */}
+        <button
+          type="button"
+          onClick={() => setActiveTab('resultados')}
+          className="border-b md:border-b-0 md:border-r border-[#dce6ec] p-[18px_20px] sm:p-[21px_25px] grid grid-cols-[auto_1fr_auto] items-center gap-[14px] text-left hover:bg-[#f5f8fb] transition-colors group cursor-pointer"
+        >
+          <div className="text-[#fb5962] flex items-center justify-center">
+            <IconShieldCheck className="w-[22px] h-[22px] stroke-[1.8]" />
           </div>
-
-          <div className="hidden lg:block absolute -left-8 xl:-left-12 top-[42%] w-28 h-32 opacity-70 drop-shadow-[0_15px_25px_rgba(0,0,0,0.06)]">
-            <svg viewBox="0 0 160 180" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-              <defs>
-                <linearGradient id="shG1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FFFFFF" />
-                  <stop offset="50%" stopColor="#F8FAFC" />
-                  <stop offset="100%" stopColor="#E2E8F0" />
-                </linearGradient>
-              </defs>
-              <path d="M80 15 C120 15 145 25 145 25 C145 95 120 145 80 165 C40 145 15 95 15 25 C15 25 40 15 80 15 Z" fill="url(#shG1)" stroke="#CBD5E1" strokeWidth="6" />
-              <path d="M80 28 C112 28 132 36 132 36 C132 92 112 133 80 150 C48 133 28 92 28 36 C28 36 48 28 80 28 Z" fill="#F8FAFC" opacity="0.8" />
-              <path d="M72 55 H88 V75 H108 V91 H88 V115 H72 V91 H52 V75 H72 V55 Z" fill="url(#shG1)" stroke="#E2E8F0" strokeWidth="2.5" />
-            </svg>
+          <div className="flex flex-col gap-[3px]">
+            <strong className="font-manrope text-[13px] font-[800] text-[#09283c] group-hover:text-[#fb5962] transition-colors">Ver resultados</strong>
+            <span className="font-manrope text-[11px] text-[#60788a]">Consulta segura en línea</span>
           </div>
+          <IconArrowRight className="w-[18px] h-[18px] text-[#9aadb9] group-hover:text-[#fb5962] group-hover:translate-x-1 transition-all" />
+        </button>
 
-          <div className="hidden lg:block absolute -left-6 xl:-left-10 bottom-6 w-32 h-40 opacity-70 drop-shadow-[0_15px_25px_rgba(0,0,0,0.06)]">
-            <svg viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-              <defs>
-                <linearGradient id="flG1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FFFFFF" />
-                  <stop offset="40%" stopColor="#F8FAFC" />
-                  <stop offset="100%" stopColor="#E2E8F0" />
-                </linearGradient>
-              </defs>
-              <rect x="62" y="15" width="36" height="10" rx="5" fill="url(#flG1)" stroke="#CBD5E1" strokeWidth="3" />
-              <path d="M68 25 V70 L25 160 C18 175 28 188 45 188 H115 C132 188 142 175 135 160 L92 70 V25 H68 Z" fill="url(#flG1)" stroke="#CBD5E1" strokeWidth="6" strokeLinejoin="round" />
-              <line x1="60" y1="130" x2="80" y2="130" stroke="#94A3B8" strokeWidth="3" strokeLinecap="round" />
-              <line x1="55" y1="148" x2="85" y2="148" stroke="#94A3B8" strokeWidth="3" strokeLinecap="round" />
-              <line x1="50" y1="166" x2="80" y2="166" stroke="#94A3B8" strokeWidth="3" strokeLinecap="round" />
-            </svg>
+        {/* Acción 2: Agendar atención */}
+        <a
+          href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20agendar%20una%20atenci%C3%B3n"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="border-b md:border-b-0 md:border-r border-[#dce6ec] p-[18px_20px] sm:p-[21px_25px] grid grid-cols-[auto_1fr_auto] items-center gap-[14px] text-left hover:bg-[#f5f8fb] transition-colors group cursor-pointer"
+        >
+          <div className="text-[#fb5962] flex items-center justify-center">
+            <WhatsAppIcon className="w-[21px] h-[21px]" />
           </div>
-
-          {/* Centro Superior: Gran Cruz Médica 3D Suave */}
-          <div className="absolute top-0 left-[62%] -translate-x-1/2 w-48 sm:w-60 h-48 sm:h-60 opacity-25 lg:opacity-35">
-            <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-[0_20px_35px_rgba(0,0,0,0.05)]">
-              <defs>
-                <linearGradient id="crG1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FFFFFF" />
-                  <stop offset="50%" stopColor="#F8FAFC" />
-                  <stop offset="100%" stopColor="#E2E8F0" />
-                </linearGradient>
-              </defs>
-              <path d="M72 16 C72 10 77 5 83 5 H117 C123 5 128 10 128 16 V72 H184 C190 72 195 77 195 83 V117 C195 123 190 128 184 128 H128 V184 C128 190 123 195 117 195 H83 C77 195 72 190 72 184 V128 H16 C10 128 5 123 5 117 V83 C5 77 10 72 16 72 H72 V16 Z" fill="url(#crG1)" stroke="#CBD5E1" strokeWidth="7" strokeLinejoin="round" />
-            </svg>
+          <div className="flex flex-col gap-[3px]">
+            <strong className="font-manrope text-[13px] font-[800] text-[#09283c] group-hover:text-[#fb5962] transition-colors">Agendar atención</strong>
+            <span className="font-manrope text-[11px] text-[#60788a]">Coordina por WhatsApp</span>
           </div>
+          <IconArrowRight className="w-[18px] h-[18px] text-[#9aadb9] group-hover:text-[#fb5962] group-hover:translate-x-1 transition-all" />
+        </a>
 
-          {/* Margen Derecho: Onda ECG 3D, Micropuntos y Microscopio 3D */}
-          <div className="hidden lg:block absolute -right-6 xl:-right-10 top-12 w-40 xl:w-48 h-24 opacity-75 drop-shadow-[0_10px_20px_rgba(0,0,0,0.05)]">
-            <svg viewBox="0 0 180 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-              <defs>
-                <linearGradient id="ecgG1" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#E2E8F0" />
-                  <stop offset="30%" stopColor="#FFFFFF" />
-                  <stop offset="60%" stopColor="#F8FAFC" />
-                  <stop offset="100%" stopColor="#CBD5E1" />
-                </linearGradient>
-              </defs>
-              <path d="M10 40 H50 L65 15 L80 65 L95 25 L110 50 L120 40 H170" stroke="url(#ecgG1)" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+        {/* Acción 3: Encontrar una sede */}
+        <button
+          type="button"
+          onClick={() => {
+            const el = document.getElementById('sedes');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className="p-[18px_20px] sm:p-[21px_25px] grid grid-cols-[auto_1fr_auto] items-center gap-[14px] text-left hover:bg-[#f5f8fb] transition-colors group cursor-pointer"
+        >
+          <div className="text-[#fb5962] flex items-center justify-center">
+            <IconMapPin className="w-[22px] h-[22px] stroke-[1.8]" />
           </div>
-
-          <div className="hidden lg:block absolute right-8 xl:right-12 top-6 grid grid-cols-5 gap-2.5 opacity-30">
-            {Array.from({ length: 20 }).map((_, i) => (
-              <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-400 block"></span>
-            ))}
+          <div className="flex flex-col gap-[3px]">
+            <strong className="font-manrope text-[13px] font-[800] text-[#09283c] group-hover:text-[#fb5962] transition-colors">Encontrar una sede</strong>
+            <span className="font-manrope text-[11px] text-[#60788a]">Dos ubicaciones en Tacna</span>
           </div>
+          <IconArrowRight className="w-[18px] h-[18px] text-[#9aadb9] group-hover:text-[#fb5962] group-hover:translate-x-1 transition-all" />
+        </button>
 
-          <div className="hidden lg:block absolute -right-8 xl:-right-14 bottom-4 w-44 xl:w-56 h-48 xl:h-60 opacity-75 rotate-[-6deg] drop-shadow-[0_20px_35px_rgba(0,0,0,0.07)]">
-            <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-              <defs>
-                <linearGradient id="mcG1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FFFFFF" />
-                  <stop offset="45%" stopColor="#F8FAFC" />
-                  <stop offset="100%" stopColor="#CBD5E1" />
-                </linearGradient>
-                <linearGradient id="mcG2" x1="100%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#FFFFFF" />
-                  <stop offset="60%" stopColor="#E2E8F0" />
-                  <stop offset="100%" stopColor="#94A3B8" />
-                </linearGradient>
-              </defs>
-              <ellipse cx="100" cy="215" rx="75" ry="18" fill="url(#mcG1)" stroke="#CBD5E1" strokeWidth="4" />
-              <path d="M35 210 C35 210 60 195 100 195 C140 195 165 210 165 210 V218 C165 228 135 234 100 234 C65 234 35 228 35 218 Z" fill="url(#mcG2)" />
-              <path d="M135 200 C155 165 155 90 120 60 C105 48 85 52 85 52" stroke="url(#mcG1)" strokeWidth="20" strokeLinecap="round" />
-              <rect x="55" y="145" width="70" height="12" rx="5" fill="url(#mcG1)" stroke="#94A3B8" strokeWidth="2.5" />
-              <circle cx="140" cy="140" r="15" fill="url(#mcG1)" stroke="#94A3B8" strokeWidth="3" />
-              <circle cx="140" cy="140" r="7" fill="url(#mcG2)" />
-              <rect x="75" y="105" width="30" height="16" rx="4" fill="url(#mcG2)" />
-              <rect x="70" y="121" width="12" height="18" rx="3" fill="url(#mcG1)" stroke="#94A3B8" strokeWidth="1.5" />
-              <rect x="90" y="121" width="14" height="22" rx="3" fill="url(#mcG1)" stroke="#94A3B8" strokeWidth="1.5" />
-              <rect x="68" y="20" width="22" height="55" rx="6" transform="rotate(-25 68 20)" fill="url(#mcG1)" stroke="#CBD5E1" strokeWidth="4" />
-              <rect x="50" y="12" width="28" height="14" rx="4" transform="rotate(-25 50 12)" fill="url(#mcG2)" />
-            </svg>
-          </div>
+      </div>
 
-        </div>
+      {/* 2. SECCIÓN: SERVICIOS DE SALUD (Fiel al Rediseño Oficial) */}
+      <section id="servicios" className="bg-white pt-[80px] sm:pt-[108px] pb-[70px] sm:pb-[100px] scroll-mt-[86px]">
+        <div className="w-[min(1180px,100%-48px)] mx-auto">
 
-        {/* CONTENIDO PRINCIPAL: CABECERA + 4 TARJETAS + BARRA DE CONFIANZA */}
-        <div className="relative z-10">
-
-          {/* Cabecera de la Sección de Servicios */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          {/* Encabezado Split */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_0.7fr] gap-[20px] lg:gap-[60px] items-end mb-[44px] sm:mb-[48px]">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-100 text-[#FF5A5F] text-[10px] font-extrabold uppercase tracking-widest mb-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A5F]"></span>
-                <span>Servicios de Salud</span>
-              </div>
-              <h3 className="font-jakarta text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#1E3A4C] tracking-tight">
-                Servicios para cuidar tu salud
-              </h3>
-              <p className="text-slate-500 text-xs sm:text-sm mt-1 font-medium">
-                Atención profesional, resultados confiables y soluciones cerca de ti.
+              <p className="inline-flex items-center gap-[9px] text-[12px] font-[800] uppercase tracking-[0.14em] text-[#e54550] mb-[17px]">
+                <span className="w-[7px] h-[7px] rounded-full bg-[#fb5962] shadow-[0_0_0_5px_#fff0f1] shrink-0"></span>
+                <span>Servicios de salud</span>
               </p>
+              <h2 className="font-manrope text-[clamp(30px,3.8vw,54px)] font-[800] text-[#09283c] leading-[1.08] tracking-[-0.035em] max-w-[720px]">
+                Una atención integral, pensada alrededor de ti.
+              </h2>
             </div>
-
-            <motion.button
-              onClick={() => setActiveTab('servicios')}
-              whileHover={{ scale: 1.03, transition: { duration: 0.15 } }}
-              whileTap={{ scale: 0.97 }}
-              className="self-start sm:self-auto px-6 py-2.5 bg-[#FF5A5F] hover:bg-[#E84A4F] text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow-md shadow-red-500/20 flex items-center gap-1.5 transition-all cursor-pointer shrink-0"
-            >
-              <span>VER SERVICIOS</span>
-              <span className="font-bold text-sm">›</span>
-            </motion.button>
+            <p className="font-manrope text-[15px] sm:text-[16px] text-[#60788a] leading-[1.72] max-w-[420px] mb-0 lg:mb-[21px]">
+              Encuentra el servicio que necesitas y recibe orientación profesional en cada etapa de tu atención.
+            </p>
           </div>
 
-          {/* 4 Tarjetas Fotográficas de Servicios */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+          {/* Grid de 3 Tarjetas de Servicios */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-[22px]">
 
             {/* Tarjeta 1: Exámenes y análisis clínicos */}
-            <motion.div
-              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 20 } }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setActiveTab('servicios')}
-              className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-md shadow-slate-200/40 hover:shadow-xl hover:border-slate-300 transition-all flex flex-col cursor-pointer group"
-            >
-              <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+            <article className="border border-[#dce6ec] bg-white rounded-[20px] hover:shadow-[0_18px_50px_rgba(23,55,74,0.09)] hover:border-[#f7c7ca] hover:-translate-y-1.5 transition-all duration-200 overflow-hidden flex flex-col group">
+              <div className="aspect-[1.7] bg-[#f5f8fb] overflow-hidden">
                 <img
-                  src="/consultas medicas/examenes_analsisi_clinicos.webp"
+                  src="/analisis-clinicos.webp"
                   alt="Exámenes y análisis clínicos UNIDOSLAB"
+                  width={360}
+                  height={212}
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="p-5 pt-0 relative flex-1 flex flex-col justify-between">
-                {/* Icono circular flotante */}
-                <div className="-mt-6 mb-3 w-12 h-12 rounded-full bg-white text-[#FF5A5F] shadow-md border border-slate-100 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-red-50 transition-all">
-                  <IconFlask className="w-6 h-6 stroke-[1.8]" />
-                </div>
+              <div className="p-[29px_27px_27px] relative flex-1 flex flex-col justify-between">
+                {/* Icon Box */}
+                <span className="w-[48px] h-[48px] bg-[#fff0f1] text-[#fb5962] border-[6px] border-white rounded-full flex items-center justify-center absolute -top-[26px] left-[27px] shadow-xs">
+                  <IconFlask className="w-[22px] h-[22px] stroke-[1.8]" />
+                </span>
                 <div>
-                  <h4 className="font-jakarta text-base font-extrabold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
+                  <h3 className="font-manrope text-[20px] font-[800] text-[#09283c] tracking-[-0.035em] mt-[13px] mb-[11px] group-hover:text-[#fb5962] transition-colors">
                     Exámenes y análisis clínicos
-                  </h4>
-                  <p className="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
-                    Pruebas de laboratorio confiables en sede o a domicilio.
+                  </h3>
+                  <p className="font-manrope text-[14px] text-[#60788a] leading-[1.72] mb-[18px]">
+                    Pruebas confiables con procesos estandarizados y entrega digital de resultados.
                   </p>
                 </div>
-                <div className="mt-4 pt-3 border-t border-slate-100/80 flex items-center gap-1 text-[11px] font-extrabold text-[#FF5A5F] group-hover:gap-2 transition-all">
-                  <span>Conocer más</span>
-                  <IconArrowRight className="w-3.5 h-3.5" />
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('servicios')}
+                  className="font-manrope text-[13px] font-[800] text-[#e54550] hover:text-[#fb5962] flex items-center gap-[8px] cursor-pointer mt-auto"
+                >
+                  <span>Ver servicios disponibles</span>
+                  <IconArrowRight className="w-[17px] h-[17px] group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
-            </motion.div>
+            </article>
 
             {/* Tarjeta 2: Ecografías */}
-            <motion.div
-              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 20 } }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setActiveTab('servicios')}
-              className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-md shadow-slate-200/40 hover:shadow-xl hover:border-slate-300 transition-all flex flex-col cursor-pointer group"
-            >
-              <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+            <article className="border border-[#dce6ec] bg-white rounded-[20px] hover:shadow-[0_18px_50px_rgba(23,55,74,0.09)] hover:border-[#f7c7ca] hover:-translate-y-1.5 transition-all duration-200 overflow-hidden flex flex-col group">
+              <div className="aspect-[1.7] bg-[#f5f8fb] overflow-hidden">
                 <img
-                  src="/consultas medicas/ecografias.webp"
+                  src="/ecografias.webp"
                   alt="Ecografías especializadas UNIDOSLAB"
+                  width={360}
+                  height={212}
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="p-5 pt-0 relative flex-1 flex flex-col justify-between">
-                {/* Icono circular flotante */}
-                <div className="-mt-6 mb-3 w-12 h-12 rounded-full bg-white text-[#FF5A5F] shadow-md border border-slate-100 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-red-50 transition-all">
-                  <IconDeviceDesktopAnalytics className="w-6 h-6 stroke-[1.8]" />
-                </div>
+              <div className="p-[29px_27px_27px] relative flex-1 flex flex-col justify-between">
+                <span className="w-[48px] h-[48px] bg-[#fff0f1] text-[#fb5962] border-[6px] border-white rounded-full flex items-center justify-center absolute -top-[26px] left-[27px] shadow-xs">
+                  <IconDeviceDesktopAnalytics className="w-[22px] h-[22px] stroke-[1.8]" />
+                </span>
                 <div>
-                  <h4 className="font-jakarta text-base font-extrabold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
+                  <h3 className="font-manrope text-[20px] font-[800] text-[#09283c] tracking-[-0.035em] mt-[13px] mb-[11px] group-hover:text-[#fb5962] transition-colors">
                     Ecografías
-                  </h4>
-                  <p className="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
-                    Estudios ecográficos con atención profesional y precisa.
+                  </h3>
+                  <p className="font-manrope text-[14px] text-[#60788a] leading-[1.72] mb-[18px]">
+                    Estudios ecográficos realizados por profesionales, con atención clara y precisa.
                   </p>
                 </div>
-                <div className="mt-4 pt-3 border-t border-slate-100/80 flex items-center gap-1 text-[11px] font-extrabold text-[#FF5A5F] group-hover:gap-2 transition-all">
-                  <span>Conocer más</span>
-                  <IconArrowRight className="w-3.5 h-3.5" />
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('servicios')}
+                  className="font-manrope text-[13px] font-[800] text-[#e54550] hover:text-[#fb5962] flex items-center gap-[8px] cursor-pointer mt-auto"
+                >
+                  <span>Ver servicios disponibles</span>
+                  <IconArrowRight className="w-[17px] h-[17px] group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
-            </motion.div>
+            </article>
 
             {/* Tarjeta 3: Consultas médicas */}
-            <motion.div
-              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 20 } }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setActiveTab('servicios')}
-              className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-md shadow-slate-200/40 hover:shadow-xl hover:border-slate-300 transition-all flex flex-col cursor-pointer group"
-            >
-              <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+            <article className="border border-[#dce6ec] bg-white rounded-[20px] hover:shadow-[0_18px_50px_rgba(23,55,74,0.09)] hover:border-[#f7c7ca] hover:-translate-y-1.5 transition-all duration-200 overflow-hidden flex flex-col group">
+              <div className="aspect-[1.7] bg-[#f5f8fb] overflow-hidden">
                 <img
-                  src="/consultas medicas/consultas medicas.webp"
+                  src="/consultas-medicas.webp"
                   alt="Consultas médicas presenciales y especializadas"
+                  width={360}
+                  height={212}
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="p-5 pt-0 relative flex-1 flex flex-col justify-between">
-                {/* Icono circular flotante */}
-                <div className="-mt-6 mb-3 w-12 h-12 rounded-full bg-white text-[#FF5A5F] shadow-md border border-slate-100 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-red-50 transition-all">
-                  <IconStethoscope className="w-6 h-6 stroke-[1.8]" />
-                </div>
+              <div className="p-[29px_27px_27px] relative flex-1 flex flex-col justify-between">
+                <span className="w-[48px] h-[48px] bg-[#fff0f1] text-[#fb5962] border-[6px] border-white rounded-full flex items-center justify-center absolute -top-[26px] left-[27px] shadow-xs">
+                  <IconStethoscope className="w-[22px] h-[22px] stroke-[1.8]" />
+                </span>
                 <div>
-                  <h4 className="font-jakarta text-base font-extrabold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
+                  <h3 className="font-manrope text-[20px] font-[800] text-[#09283c] tracking-[-0.035em] mt-[13px] mb-[11px] group-hover:text-[#fb5962] transition-colors">
                     Consultas médicas
-                  </h4>
-                  <p className="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
-                    Atención médica personalizada y oportuna.
+                  </h3>
+                  <p className="font-manrope text-[14px] text-[#60788a] leading-[1.72] mb-[18px]">
+                    Evaluación personalizada y orientación oportuna para el cuidado de tu salud.
                   </p>
                 </div>
-                <div className="mt-4 pt-3 border-t border-slate-100/80 flex items-center gap-1 text-[11px] font-extrabold text-[#FF5A5F] group-hover:gap-2 transition-all">
-                  <span>Conocer más</span>
-                  <IconArrowRight className="w-3.5 h-3.5" />
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('servicios')}
+                  className="font-manrope text-[13px] font-[800] text-[#e54550] hover:text-[#fb5962] flex items-center gap-[8px] cursor-pointer mt-auto"
+                >
+                  <span>Ver servicios disponibles</span>
+                  <IconArrowRight className="w-[17px] h-[17px] group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
-            </motion.div>
-
-            {/* Tarjeta 4: Atención a domicilio (Destacada) */}
-            <motion.div
-              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 20 } }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => window.open('https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20atenci%C3%B3n%20a%20domicilio%20en%20Tacna', '_blank')}
-              className="bg-white rounded-3xl overflow-hidden border-2 border-red-200/80 shadow-md shadow-red-500/10 hover:shadow-xl hover:border-red-300 transition-all flex flex-col cursor-pointer group relative"
-            >
-              {/* Badge de Más Comodidad */}
-              <div className="absolute top-3 left-3 z-10 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full border border-red-100 text-[#FF5A5F] text-[9.5px] font-extrabold uppercase tracking-wider flex items-center gap-1.5 shadow-xs">
-                <IconHome className="w-3.5 h-3.5" />
-                <span>Más comodidad</span>
-              </div>
-
-              <div className="relative h-44 w-full overflow-hidden bg-slate-100">
-                <img
-                  src="/consultas medicas/antencion a domicilio.webp"
-                  alt="Atención médica y toma de muestras a domicilio UNIDOSLAB"
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div className="p-5 pt-0 relative flex-1 flex flex-col justify-between">
-                {/* Icono circular flotante */}
-                <div className="-mt-6 mb-3 w-12 h-12 rounded-full bg-white text-[#FF5A5F] shadow-md border border-red-100 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-red-50 transition-all">
-                  <IconHome className="w-6 h-6 stroke-[1.8]" />
-                </div>
-                <div>
-                  <h4 className="font-jakarta text-base font-extrabold text-[#1E3A4C] leading-snug group-hover:text-[#FF5A5F] transition-colors">
-                    Atención a domicilio
-                  </h4>
-                  <p className="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
-                    Tomamos tus muestras con seguridad y comodidad, sin salir de casa.
-                  </p>
-                </div>
-                <div className="mt-4 pt-3 border-t border-red-100 flex items-center gap-1 text-[11px] font-extrabold text-[#FF5A5F] group-hover:gap-2 transition-all">
-                  <span>Conocer más</span>
-                  <IconArrowRight className="w-3.5 h-3.5" />
-                </div>
-              </div>
-            </motion.div>
+            </article>
 
           </div>
 
-          {/* Barra Inferior de Confianza y CTA WhatsApp */}
-          <div className="bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-3xl p-5 sm:p-6 shadow-xl shadow-slate-900/5 flex flex-col lg:flex-row items-center justify-between gap-5">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 w-full lg:w-auto flex-1">
-              {/* Feature 1 */}
-              <div className="flex items-center gap-3.5">
-                <div className="w-11 h-11 rounded-2xl bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 border border-red-100 shadow-xs">
-                  <IconShieldCheck className="w-6 h-6 stroke-[1.8]" />
-                </div>
+          {/* Banner Horizontal Destacado: Atención a Domicilio (.home-feature) */}
+          <article className="bg-[linear-gradient(115deg,#fff7f7,#fff)] border border-[#f5ced1] rounded-[24px] grid grid-cols-1 lg:grid-cols-[1fr_1.08fr] min-h-[400px] mt-[24px] overflow-hidden">
+            <div className="p-[30px_22px] sm:p-[50px_48px] flex flex-col justify-center items-start">
+              <p className="inline-flex items-center gap-[9px] text-[12px] font-[800] uppercase tracking-[0.14em] text-[#e54550] mb-[17px]">
+                <span className="w-[7px] h-[7px] rounded-full bg-[#fb5962] shadow-[0_0_0_5px_#fff0f1] shrink-0"></span>
+                <span>Más comodidad</span>
+              </p>
+              <h3 className="font-manrope text-[24px] sm:text-[34px] font-[800] text-[#09283c] leading-[1.17] tracking-[-0.035em] max-w-[540px] mb-[17px]">
+                Atención a domicilio con la misma calidad de nuestras sedes.
+              </h3>
+              <p className="font-manrope text-[14px] sm:text-[15px] text-[#60788a] leading-[1.72] max-w-[540px] mb-[22px]">
+                Realizamos la toma de muestras en tu hogar con personal capacitado, protocolos seguros y atención puntual.
+              </p>
+              <div className="flex flex-wrap gap-[10px_22px] mb-[28px]">
+                <span className="font-manrope text-[12px] font-[700] text-[#12354a] flex items-center gap-[7px]">
+                  <IconCheck className="w-[17px] h-[17px] text-[#fb5962] stroke-[2.5]" />
+                  <span>Personal capacitado</span>
+                </span>
+                <span className="font-manrope text-[12px] font-[700] text-[#12354a] flex items-center gap-[7px]">
+                  <IconCheck className="w-[17px] h-[17px] text-[#fb5962] stroke-[2.5]" />
+                  <span>Coordinación rápida</span>
+                </span>
+                <span className="font-manrope text-[12px] font-[700] text-[#12354a] flex items-center gap-[7px]">
+                  <IconCheck className="w-[17px] h-[17px] text-[#fb5962] stroke-[2.5]" />
+                  <span>Cobertura en Tacna</span>
+                </span>
+              </div>
+              <a
+                href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20agendar%20una%20atenci%C3%B3n%20a%20domicilio"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="min-h-[48px] px-[22px] bg-[#fb5962] hover:bg-[#e54550] text-white font-manrope font-[800] text-[13px] rounded-[13px] shadow-[0_11px_24px_rgba(251,89,98,0.23)] hover:shadow-[0_14px_28px_rgba(229,69,80,0.28)] transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[10px] cursor-pointer"
+              >
+                <WhatsAppIcon className="w-[19px] h-[19px]" />
+                <span>Solicitar atención</span>
+              </a>
+            </div>
+            <div className="order-first lg:order-last h-[240px] sm:h-[320px] lg:h-full overflow-hidden">
+              <img
+                src="/atencion-domicilio.webp"
+                alt="Toma de muestra a domicilio UNIDOSLAB"
+                width={480}
+                height={320}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      {/* 3. SECCIÓN: CONFIANZA CLÍNICA / POR QUÉ ELEGIRNOS (.trust-section Fiel al Rediseño) */}
+      <section id="confianza" className="bg-[#09283c] py-[82px] sm:py-[108px] text-white relative overflow-hidden scroll-mt-[86px]">
+        {/* Anillo decorativo ambiental superior derecho */}
+        <div aria-hidden="true" className="pointer-events-none absolute top-[-250px] -right-[260px] w-[560px] h-[560px] rounded-full border-[90px] border-white/[0.024]"></div>
+
+        <div className="w-[min(1180px,100%-48px)] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-[0.92fr_1.08fr] gap-[50px] lg:gap-[82px] items-center">
+
+          {/* Columna Izquierda: Fotografía con sello de calidad (.trust-photo) */}
+          <div className="relative h-[360px] sm:h-[480px] lg:h-[610px]">
+            <img
+              src="/analisis-clinicos.webp"
+              alt="Proceso de análisis clínico UNIDOSLAB"
+              width={520}
+              height={610}
+              loading="lazy"
+              decoding="async"
+              className="w-full h-full object-cover rounded-[30px_90px_30px_30px] shadow-[0_18px_50px_rgba(0,0,0,0.35)]"
+            />
+            {/* Quality Seal flotante (.quality-seal) con animación de levitación */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              animate={{ y: [0, -6, 0] }}
+              transition={{
+                opacity: { duration: 0.6 },
+                scale: { duration: 0.6 },
+                y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+              }}
+              whileHover={{ scale: 1.05 }}
+              className="absolute bottom-[15px] sm:bottom-[35px] right-[10px] sm:-right-[30px] bg-white text-[#12354a] rounded-[16px] p-[16px_20px] sm:p-[18px_22px] flex items-center gap-[12px] shadow-[0_18px_50px_rgba(0,0,0,0.25)] z-10 cursor-default"
+            >
+              <div className="w-[28px] h-[28px] text-[#fb5962] flex items-center justify-center shrink-0">
+                <IconShieldCheck className="w-[28px] h-[28px] stroke-[1.8]" />
+              </div>
+              <div className="flex flex-col">
+                <strong className="font-manrope text-[12px] sm:text-[13px] font-[800] text-[#09283c] leading-tight">Control de calidad</strong>
+                <span className="font-manrope text-[10px] sm:text-[11px] text-[#60788a] leading-tight mt-0.5">en cada proceso</span>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Columna Derecha: Contenido y Pilares (.trust-copy) */}
+          <div className="flex flex-col items-start text-left">
+            <p className="inline-flex items-center gap-[9px] text-[12px] font-[800] uppercase tracking-[0.14em] text-[#ff9da3] mb-[17px]">
+              <span className="w-[7px] h-[7px] rounded-full bg-[#fb5962] shadow-[0_0_0_5px_rgba(251,89,98,0.13)] shrink-0"></span>
+              <span>Experiencia y precisión</span>
+            </p>
+
+            <h2 className="font-manrope text-[clamp(30px,3.8vw,54px)] font-[800] text-white leading-[1.08] tracking-[-0.035em] mb-[20px]">
+              Confianza clínica que se demuestra en cada resultado.
+            </h2>
+
+            <p className="font-manrope text-[15px] sm:text-[16px] text-[#b9cad3] leading-[1.72] max-w-[620px] mb-[33px]">
+              Más de seis años acompañando a familias, profesionales e instituciones de Tacna con diagnóstico oportuno y atención humana.
+            </p>
+
+            {/* Lista de Razones (.reason-list) */}
+            <div className="grid gap-[23px] w-full mb-[34px]">
+              {/* Razón 1 */}
+              <div className="grid grid-cols-[50px_1fr] gap-[16px] items-start">
+                <span className="w-[50px] h-[50px] bg-white/[0.07] border border-white/[0.12] rounded-[15px] text-[#ff7b83] flex items-center justify-center shrink-0">
+                  <IconShieldCheck className="w-[24px] h-[24px] stroke-[1.8]" />
+                </span>
                 <div>
-                  <h5 className="text-xs font-bold text-[#1E3A4C]">Resultados confiables</h5>
-                  <p className="text-[11px] text-slate-500 leading-tight mt-0.5">Procesos certificados y alta precisión.</p>
+                  <h3 className="font-manrope text-[16px] font-[800] text-white mb-[4px]">Procesos estandarizados</h3>
+                  <p className="font-manrope text-[13px] text-[#b9cad3] leading-[1.55]">Verificación continua para entregar resultados consistentes y confiables.</p>
                 </div>
               </div>
 
-              {/* Feature 2 */}
-              <div className="flex items-center gap-3.5">
-                <div className="w-11 h-11 rounded-2xl bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 border border-red-100 shadow-xs">
-                  <IconUsers className="w-6 h-6 stroke-[1.8]" />
-                </div>
+              {/* Razón 2 */}
+              <div className="grid grid-cols-[50px_1fr] gap-[16px] items-start">
+                <span className="w-[50px] h-[50px] bg-white/[0.07] border border-white/[0.12] rounded-[15px] text-[#ff7b83] flex items-center justify-center shrink-0">
+                  <IconUsers className="w-[24px] h-[24px] stroke-[1.8]" />
+                </span>
                 <div>
-                  <h5 className="text-xs font-bold text-[#1E3A4C]">Atención profesional</h5>
-                  <p className="text-[11px] text-slate-500 leading-tight mt-0.5">Equipo calificado para tu tranquilidad.</p>
+                  <h3 className="font-manrope text-[16px] font-[800] text-white mb-[4px]">Equipo profesional</h3>
+                  <p className="font-manrope text-[13px] text-[#b9cad3] leading-[1.55]">Atención clara, respetuosa y orientada a resolver tus dudas.</p>
                 </div>
               </div>
 
-              {/* Feature 3 */}
-              <div className="flex items-center gap-3.5">
-                <div className="w-11 h-11 rounded-2xl bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 border border-red-100 shadow-xs">
-                  <IconCar className="w-6 h-6 stroke-[1.8]" />
-                </div>
+              {/* Razón 3 */}
+              <div className="grid grid-cols-[50px_1fr] gap-[16px] items-start">
+                <span className="w-[50px] h-[50px] bg-white/[0.07] border border-white/[0.12] rounded-[15px] text-[#ff7b83] flex items-center justify-center shrink-0">
+                  <IconDeviceDesktopAnalytics className="w-[24px] h-[24px] stroke-[1.8]" />
+                </span>
                 <div>
-                  <h5 className="text-xs font-bold text-[#1E3A4C]">Servicio a domicilio</h5>
-                  <p className="text-[11px] text-slate-500 leading-tight mt-0.5">Comodidad y puntualidad en tu hogar.</p>
+                  <h3 className="font-manrope text-[16px] font-[800] text-white mb-[4px]">Acceso digital</h3>
+                  <p className="font-manrope text-[13px] text-[#b9cad3] leading-[1.55]">Consulta tus resultados de forma privada desde cualquier dispositivo.</p>
                 </div>
               </div>
             </div>
 
-            {/* Botón Agendar por WhatsApp */}
-            <motion.a
-              whileHover={{ scale: 1.03, transition: { duration: 0.15 } }}
-              whileTap={{ scale: 0.97 }}
-              href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20agendar%20un%20servicio%20m%C3%A9dico"
+            {/* Fila de Estadísticas (.stat-row) */}
+            <div className="border-t border-white/[0.14] grid grid-cols-2 gap-[20px] w-full pt-[24px]">
+              <div className="flex flex-col gap-[3px]">
+                <strong className="font-manrope text-[28px] sm:text-[31px] font-[800] text-white">+6</strong>
+                <span className="font-manrope text-[12px] text-[#aebfca]">años de experiencia</span>
+              </div>
+              <div className="flex flex-col gap-[3px]">
+                <strong className="font-manrope text-[28px] sm:text-[31px] font-[800] text-white">5,125+</strong>
+                <span className="font-manrope text-[12px] text-[#aebfca]">pacientes atendidos</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 4. SECCIÓN: CÓMO FUNCIONA / PROCESO EN 3 PASOS (.process-section Fiel al Rediseño) */}
+      <section id="proceso" className="bg-white py-[82px] sm:py-[108px] scroll-mt-[86px]">
+        <div className="w-[min(1180px,100%-48px)] mx-auto">
+
+          {/* Encabezado Centrado */}
+          <div className="text-center max-w-[790px] mx-auto mb-[48px] sm:mb-[60px]">
+            <p className="inline-flex items-center justify-center gap-[9px] text-[12px] font-[800] uppercase tracking-[0.14em] text-[#e54550] mb-[17px]">
+              <span className="w-[7px] h-[7px] rounded-full bg-[#fb5962] shadow-[0_0_0_5px_#fff0f1] shrink-0"></span>
+              <span>Cómo funciona</span>
+            </p>
+            <h2 className="font-manrope text-[clamp(30px,3.8vw,54px)] font-[800] text-[#09283c] leading-[1.08] tracking-[-0.035em] mb-[20px]">
+              Tu atención, clara de principio a fin.
+            </h2>
+            <p className="font-manrope text-[15px] sm:text-[16px] text-[#60788a] leading-[1.72] max-w-[650px] mx-auto">
+              Un proceso sencillo para que dediques menos tiempo a coordinar y más tiempo a cuidar tu salud.
+            </p>
+          </div>
+
+          {/* Lista de 3 Pasos (.process-list) */}
+          <ol className="grid grid-cols-1 md:grid-cols-3 border-y border-[#dce6ec] list-none p-0 m-0">
+            {/* Paso 01 */}
+            <li className="p-[30px_20px] sm:p-[35px_30px] min-h-[220px] sm:min-h-[270px] relative border-b md:border-b-0 md:border-r border-[#dce6ec]">
+              <span className="font-manrope text-[13px] font-[800] text-[#ccd7de] absolute top-[22px] right-[25px]">01</span>
+              <div className="w-[58px] h-[58px] bg-[#fff0f1] text-[#fb5962] rounded-[17px] flex items-center justify-center mb-[31px]">
+                <IconCalendarEvent className="w-[26px] h-[26px] stroke-[1.8]" />
+              </div>
+              <h3 className="font-manrope text-[19px] font-[800] text-[#09283c] mb-[10px]">Elige tu servicio</h3>
+              <p className="font-manrope text-[13px] text-[#60788a] leading-[1.6]">Consulta por análisis, ecografías o atención médica.</p>
+            </li>
+
+            {/* Paso 02 */}
+            <li className="p-[30px_20px] sm:p-[35px_30px] min-h-[220px] sm:min-h-[270px] relative border-b md:border-b-0 md:border-r border-[#dce6ec]">
+              <span className="font-manrope text-[13px] font-[800] text-[#ccd7de] absolute top-[22px] right-[25px]">02</span>
+              <div className="w-[58px] h-[58px] bg-[#fff0f1] text-[#fb5962] rounded-[17px] flex items-center justify-center mb-[31px]">
+                <IconMapPin className="w-[26px] h-[26px] stroke-[1.8]" />
+              </div>
+              <h3 className="font-manrope text-[19px] font-[800] text-[#09283c] mb-[10px]">Visítanos o recibe atención</h3>
+              <p className="font-manrope text-[13px] text-[#60788a] leading-[1.6]">Acude a una sede o coordina la toma en tu domicilio.</p>
+            </li>
+
+            {/* Paso 03 */}
+            <li className="p-[30px_20px] sm:p-[35px_30px] min-h-[220px] sm:min-h-[270px] relative">
+              <span className="font-manrope text-[13px] font-[800] text-[#ccd7de] absolute top-[22px] right-[25px]">03</span>
+              <div className="w-[58px] h-[58px] bg-[#fff0f1] text-[#fb5962] rounded-[17px] flex items-center justify-center mb-[31px]">
+                <IconShieldCheck className="w-[26px] h-[26px] stroke-[1.8]" />
+              </div>
+              <h3 className="font-manrope text-[19px] font-[800] text-[#09283c] mb-[10px]">Consulta tus resultados</h3>
+              <p className="font-manrope text-[13px] text-[#60788a] leading-[1.6]">Accede a tu información de forma privada y continúa tu atención.</p>
+            </li>
+          </ol>
+
+          {/* Enlace Inferior a WhatsApp */}
+          <div className="text-center mt-[32px]">
+            <a
+              href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20orientaci%C3%B3n%20sobre%20sus%20servicios"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-6 py-3.5 bg-[#FF5A5F] hover:bg-[#E84A4F] text-white font-extrabold text-xs uppercase tracking-wider rounded-2xl shadow-md shadow-red-500/20 flex items-center justify-center gap-2 transition-all cursor-pointer shrink-0"
+              className="font-manrope text-[13px] font-[800] text-[#e54550] hover:text-[#fb5962] inline-flex items-center gap-[8px] group transition-colors"
             >
-              <IconBrandWhatsapp className="w-5 h-5" />
-              <span>AGENDAR POR WHATSAPP</span>
-            </motion.a>
+              <span>¿No sabes qué servicio necesitas? Escríbenos</span>
+              <IconArrowRight className="w-[18px] h-[18px] group-hover:translate-x-1 transition-transform" />
+            </a>
           </div>
 
         </div>
       </section>
 
-      {/* 3. SECCIÓN: ¿POR QUÉ CONFIAR TU DIAGNÓSTICO EN UNIDOSLAB? (Diseño Limpio, Blanco y Moderno) */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 py-4 sm:py-8 relative z-20">
-        <div className="relative rounded-[36px] bg-white p-6 sm:p-10 lg:p-14 shadow-2xl shadow-slate-900/5 border border-slate-200/80 overflow-hidden">
-
-          {/* Fondo sutil con Cruz Médica y Micropuntos */}
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-            {/* Cruz Médica suave en el centro */}
-            <div className="absolute top-8 left-[45%] -translate-x-1/2 opacity-25">
-              <svg className="w-44 h-44 text-slate-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-                <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3z" />
-              </svg>
-            </div>
-
-            {/* Retícula de Micropuntos en Fondo Derecho */}
-            <div className="absolute top-12 right-12 w-28 h-28 opacity-25 grid grid-cols-5 gap-2.5">
-              {Array.from({ length: 25 }).map((_, i) => (
-                <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-400 block"></span>
-              ))}
-            </div>
-
-            {/* Retícula de Micropuntos en Fondo Inferior Izquierdo */}
-            <div className="absolute bottom-10 left-10 w-24 h-24 opacity-25 grid grid-cols-4 gap-2.5">
-              {Array.from({ length: 16 }).map((_, i) => (
-                <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-400 block"></span>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center relative z-10">
-
-            {/* Columna Izquierda: Información de Confianza & Estadísticas (7 Columnas) */}
-            <div className="lg:col-span-7 space-y-6">
-
-              {/* Titular contundente */}
-              <div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-50 border border-red-100 text-[#FF5A5F] text-[11px] font-extrabold uppercase tracking-widest mb-3">
-                  <span className="w-2 h-2 rounded-full bg-[#FF5A5F]"></span>
-                  <span>Experiencia y Precisión</span>
-                </div>
-                <h2 className="font-jakarta text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#1E3A4C] leading-[1.12] tracking-tight">
-                  ¿Por qué confiar tu<br />
-                  diagnóstico en<br />
-                  <span className="text-[#FF5A5F]">UNIDOSLAB</span>?
-                </h2>
-                <div className="w-14 h-1 bg-[#FF5A5F] rounded-full mt-3"></div>
-              </div>
-
-              <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-normal max-w-xl">
-                Más de 6 años brindando resultados certeros, diagnóstico oportuno y atención médica personalizada a las familias e instituciones de Tacna.
-              </p>
-
-              {/* 2 Grandes Cápsulas de Estadísticas en Blanco con Sombra y Acento Coral */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-
-                {/* Cápsula 1: +6 Años de Trayectoria Clínica */}
-                <motion.div
-                  whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
-                  whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
-                  className="bg-white p-5 sm:p-6 rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-200/80 flex items-center gap-4 cursor-default transition-all"
-                >
-                  <div className="w-13 h-13 rounded-2xl bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/25">
-                    <IconAward className="w-7 h-7" />
-                  </div>
-                  <div>
-                    <div className="flex items-baseline">
-                      <span className="text-[#FF5A5F] text-2xl font-extrabold mr-0.5">+</span>
-                      <span className="font-jakarta text-3xl sm:text-4xl font-extrabold text-[#1E3A4C] tracking-tight">
-                        {yearsCount}
-                      </span>
-                    </div>
-                    <span className="text-xs font-bold text-slate-500 block leading-tight mt-0.5">
-                      Años de Trayectoria Clínica
-                    </span>
-                    <div className="w-8 h-0.5 bg-[#FF5A5F] rounded-full mt-2"></div>
-                  </div>
-                </motion.div>
-
-                {/* Cápsula 2: Pacientes atendidos */}
-                <motion.div
-                  whileHover={{ y: -3, transition: { type: "spring", stiffness: 400, damping: 20 } }}
-                  whileTap={{ scale: 0.98, transition: { duration: 0.08 } }}
-                  className="bg-white p-5 sm:p-6 rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-200/80 flex items-center gap-4 cursor-default transition-all"
-                >
-                  <div className="w-13 h-13 rounded-2xl bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/25">
-                    <IconUsers className="w-7 h-7" />
-                  </div>
-                  <div>
-                    <div className="flex items-baseline">
-                      <span className="font-jakarta text-3xl sm:text-4xl font-extrabold text-[#1E3A4C] tracking-tight">
-                        {examsCount.toLocaleString('es-PE')}
-                      </span>
-                      <span className="text-[#FF5A5F] text-2xl font-extrabold ml-0.5">+</span>
-                    </div>
-                    <span className="text-xs font-bold text-slate-500 block leading-tight mt-0.5">
-                      Pacientes atendidos en Tacna
-                    </span>
-                    <div className="w-8 h-0.5 bg-[#FF5A5F] rounded-full mt-2"></div>
-                  </div>
-                </motion.div>
-
-              </div>
-            </div>
-
-            {/* Columna Derecha: Marco Squircle Blanco Limpio & Badge Flotante (5 Columnas) */}
-            <div className="lg:col-span-5 relative flex justify-center">
-
-              {/* Marco Squircle Blanco */}
-              <div className="relative rounded-[40px] p-2 bg-slate-100/80 border-2 border-slate-200/80 shadow-xl max-w-sm sm:max-w-md w-full">
-                <div className="rounded-[32px] overflow-hidden bg-slate-100 relative">
-                  <img
-                    src="https://images.pexels.com/photos/3735709/pexels-photo-3735709.jpeg?auto=compress&cs=tinysrgb&w=600&q=75"
-                    alt="Laboratorio de análisis clínicos y reactivos - UNIDOSLAB Tacna"
-                    loading="lazy"
-                    className="w-full h-[360px] sm:h-[430px] object-cover object-center"
-                  />
-                </div>
-
-                {/* Badge Flotante de Garantía */}
-                <motion.div
-                  initial={{ y: 8, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2, type: "spring", stiffness: 350, damping: 25 }}
-                  className="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl shadow-slate-900/10 border border-slate-200/70 flex items-center gap-3.5 text-slate-800"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 shadow-xs border border-red-100">
-                    <IconShieldCheck className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-extrabold text-[#1E3A4C]">Control de Calidad Acreditado</h4>
-                    <p className="text-[11px] font-medium text-slate-500 leading-snug">Validación continua de reactivos en Tacna para resultados confiables.</p>
-                  </div>
-                </motion.div>
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* 4. SECCIÓN: ¿CÓMO FUNCIONA? TU ATENCIÓN EN 3 SIMPLES PASOS (Diseño Fiel al Mockup) */}
-      <section className="relative py-20 lg:py-24 overflow-hidden">
-        {/* Decoración de cruces médicas suaves y micropuntos */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-          <div className="absolute top-12 left-10 opacity-20">
-            <svg className="w-24 h-24 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-              <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3z" />
-            </svg>
-          </div>
-          <div className="absolute top-16 right-10 opacity-20">
-            <svg className="w-24 h-24 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-              <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3z" />
-            </svg>
-          </div>
-          <div className="absolute top-36 left-12 w-20 h-20 opacity-20 grid grid-cols-4 gap-2">
-            {Array.from({ length: 16 }).map((_, i) => (
-              <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-400 block"></span>
-            ))}
-          </div>
-          <div className="absolute top-40 right-16 w-20 h-20 opacity-20 grid grid-cols-4 gap-2">
-            {Array.from({ length: 16 }).map((_, i) => (
-              <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-400 block"></span>
-            ))}
-          </div>
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 text-center">
-          {/* Cabecera */}
-          <span className="text-[11px] font-extrabold text-[#FF5A5F] uppercase tracking-[0.2em] block mb-2">
-            ¿CÓMO FUNCIONA?
-          </span>
-          <h2 className="font-jakarta text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#1E3A4C] tracking-tight">
-            Tu atención en 3 simples pasos<span className="text-[#FF5A5F]">.</span>
-          </h2>
-          <p className="text-slate-500 text-xs sm:text-sm mt-3 max-w-xl mx-auto font-normal leading-relaxed">
-            Elige el servicio que necesitas, recibe atención profesional y continúa cuidando tu salud con nosotros.
-          </p>
-
-          {/* 3 Tarjetas con Conector Lineal */}
-          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-14 max-w-5xl mx-auto items-stretch">
-
-            {/* Línea conectora entre tarjetas (Solo Desktop) */}
-            <div className="hidden md:block absolute top-1/2 left-[15%] right-[15%] h-[1.5px] bg-[#FF5A5F]/30 -translate-y-6 z-0"></div>
-
-            {/* Paso 1: Elige tu servicio */}
-            <motion.div
-              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 20 } }}
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xl shadow-slate-200/40 relative z-10 flex flex-col items-center text-center transition-all group"
-            >
-              {/* Badge Número */}
-              <div className="absolute top-4 left-4 w-7 h-7 rounded-full bg-red-50 border border-red-100 flex items-center justify-center text-[#FF5A5F] text-xs font-extrabold">
-                01
-              </div>
-
-              {/* Icono Circular Line-art */}
-              <div className="w-20 h-20 rounded-full bg-red-50/70 border border-red-100 flex items-center justify-center p-4 mb-5 group-hover:scale-105 group-hover:bg-red-100/60 transition-all">
-                <svg className="w-10 h-10 text-[#FF5A5F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
-                  <rect x="9" y="3" width="6" height="4" rx="1" />
-                  <path d="M9 12h6" />
-                  <path d="M9 16h6" />
-                  <path d="M9 9h6" />
-                </svg>
-              </div>
-
-              <h3 className="font-jakarta text-lg font-extrabold text-[#1E3A4C] tracking-tight mb-2 group-hover:text-[#FF5A5F] transition-colors">
-                Elige tu servicio
-              </h3>
-              <p className="text-xs text-slate-500 leading-relaxed font-medium">
-                Selecciona análisis clínicos, ecografías o consultas médicas.
-              </p>
-            </motion.div>
-
-            {/* Paso 2: Atiéndete en sede o domicilio */}
-            <motion.div
-              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 20 } }}
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xl shadow-slate-200/40 relative z-10 flex flex-col items-center text-center transition-all group"
-            >
-              {/* Badge Número */}
-              <div className="absolute top-4 left-4 w-7 h-7 rounded-full bg-red-50 border border-red-100 flex items-center justify-center text-[#FF5A5F] text-xs font-extrabold">
-                02
-              </div>
-
-              {/* Icono Circular Line-art */}
-              <div className="w-20 h-20 rounded-full bg-red-50/70 border border-red-100 flex items-center justify-center p-4 mb-5 group-hover:scale-105 group-hover:bg-red-100/60 transition-all">
-                <svg className="w-10 h-10 text-[#FF5A5F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 21h18" />
-                  <path d="M5 21V9l7-5 7 5v12" />
-                  <path d="M12 9v6" />
-                  <path d="M9 12h6" />
-                </svg>
-              </div>
-
-              <h3 className="font-jakarta text-lg font-extrabold text-[#1E3A4C] tracking-tight mb-2 group-hover:text-[#FF5A5F] transition-colors">
-                Atiéndete en sede o domicilio
-              </h3>
-              <p className="text-xs text-slate-500 leading-relaxed font-medium">
-                Visítanos en nuestras sedes o solicita la toma de muestras en casa.
-              </p>
-            </motion.div>
-
-            {/* Paso 3: Recibe tus resultados */}
-            <motion.div
-              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 20 } }}
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xl shadow-slate-200/40 relative z-10 flex flex-col items-center text-center transition-all group"
-            >
-              {/* Badge Número */}
-              <div className="absolute top-4 left-4 w-7 h-7 rounded-full bg-red-50 border border-red-100 flex items-center justify-center text-[#FF5A5F] text-xs font-extrabold">
-                03
-              </div>
-
-              {/* Icono Circular Line-art */}
-              <div className="w-20 h-20 rounded-full bg-red-50/70 border border-red-100 flex items-center justify-center p-4 mb-5 group-hover:scale-105 group-hover:bg-red-100/60 transition-all">
-                <svg className="w-10 h-10 text-[#FF5A5F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="3" width="20" height="14" rx="2" />
-                  <path d="M8 21h8" />
-                  <path d="M12 17v4" />
-                  <path d="M12 7v4" />
-                  <path d="M10 9h4" />
-                </svg>
-              </div>
-
-              <h3 className="font-jakarta text-lg font-extrabold text-[#1E3A4C] tracking-tight mb-2 group-hover:text-[#FF5A5F] transition-colors">
-                Recibe tus resultados
-              </h3>
-              <p className="text-xs text-slate-500 leading-relaxed font-medium">
-                Consulta tus resultados en línea y continúa tu atención.
-              </p>
-            </motion.div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* 5. SECCIÓN: SEDES Y HORARIOS EN TACNA (Diseño fiel al mockup) */}
+      {/* 5. SECCIÓN: SEDES Y HORARIOS EN TACNA (Diseño Fiel al Rediseño) */}
       <section
         ref={sedesSectionRef}
         id="sedes"
-        className="max-w-7xl mx-auto px-4 md:px-6 pt-16 pb-16 scroll-mt-24 relative z-10 font-plex"
+        className="w-[min(1180px,100%-48px)] mx-auto pt-[80px] sm:pt-[108px] pb-[40px] sm:pb-[60px] scroll-mt-[86px] relative z-10"
       >
-        <div className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl shadow-slate-900/5 border border-slate-200/80 relative overflow-hidden">
+        {/* Encabezado Centrado de Sedes */}
+        <div className="text-center max-w-[790px] mx-auto mb-[44px] sm:mb-[52px]">
+          <p className="inline-flex items-center justify-center gap-[9px] text-[12px] font-[800] uppercase tracking-[0.14em] text-[#e54550] mb-[17px]">
+            <span className="w-[7px] h-[7px] rounded-full bg-[#fb5962] shadow-[0_0_0_5px_#fff0f1] shrink-0"></span>
+            <span>Sedes en Tacna</span>
+          </p>
+          <h2 className="font-manrope text-[clamp(30px,3.8vw,54px)] font-[800] text-[#09283c] leading-[1.08] tracking-[-0.035em] mb-[18px]">
+            Dos ubicaciones pensadas para tu comodidad.
+          </h2>
+          <p className="font-manrope text-[15px] sm:text-[16px] text-[#60788a] leading-[1.72] max-w-[650px] mx-auto">
+            Atención continua, toma de muestras y orientación personalizada en puntos clave de la ciudad.
+          </p>
+        </div>
 
-          {/* Header Superior y Barra de Referencias */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-8 pb-6 border-b border-slate-100">
-            {/* Título y subtítulo */}
-            <div className="lg:col-span-5">
-              <div className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-widest text-[#1E3A4C] mb-2">
-                <span className="w-2 h-2 rounded-full bg-[#E52320]"></span>
-                <span>Atención Presencial en Tacna</span>
-              </div>
-              <h3 className="font-jakarta text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1E3A4C] tracking-tight">
-                Nuestras Sedes
-              </h3>
-              <p className="text-slate-500 text-xs sm:text-sm mt-1 font-medium">
-                Selecciona una sede a la izquierda para enfocarlo en el mapa.
-              </p>
-            </div>
-
-            {/* Widget Superior: Ubícanos en Tacna + Puntos de Referencia */}
-            <div className="lg:col-span-7 bg-slate-50/80 border border-slate-200/80 rounded-2xl p-3.5 sm:p-4">
-              <div className="flex items-center gap-2.5 mb-3">
-                <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-[#FF5A5F] shrink-0">
-                  <IconMapPin className="w-4 h-4" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-[#1E3A4C]">Ubícanos en Tacna</h4>
-                  <p className="text-[11px] text-slate-500">Explora nuestras sedes y referencias cercanas.</p>
-                </div>
-              </div>
-
-              {/* Cards de Referencias 3D: Responsive (Vertical en Mobile, Horizontal en Desktop) */}
-              <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                {/* Catedral */}
-                <div className="flex flex-col sm:flex-row items-center justify-between sm:justify-start gap-1 sm:gap-2.5 bg-white rounded-xl p-2 sm:p-2.5 border border-slate-200/90 shadow-xs hover:border-slate-300 transition-all text-center sm:text-left">
-                  {/* Nombre en Mobile */}
-                  <p className="sm:hidden text-[10px] font-bold text-[#1E3A4C] leading-tight line-clamp-1 w-full">
-                    Catedral
-                  </p>
-                  {/* Imagen 3D */}
-                  <div className="my-1 sm:my-0 flex items-center justify-center h-10 sm:h-9 w-auto shrink-0">
-                    <img
-                      src="/catedral_3d_tacna.webp"
-                      alt="Referencia de ubicación Catedral de Tacna"
-                      width={48}
-                      height={48}
-                      loading="lazy"
-                      className="h-full w-auto max-w-[48px] sm:max-w-[36px] object-contain drop-shadow-sm"
-                    />
-                  </div>
-                  {/* Info Desktop (Horizontal) */}
-                  <div className="hidden sm:block min-w-0 flex-1">
-                    <p className="text-[11px] font-bold text-[#1E3A4C] truncate">Catedral de Tacna</p>
-                    <p className="text-[10px] text-slate-400 font-medium">A 6 min</p>
-                  </div>
-                  {/* Minutos Mobile */}
-                  <span className="sm:hidden inline-block text-[9.5px] text-slate-400 font-semibold bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100">
-                    A 6 min
-                  </span>
-                </div>
-
-                {/* Mercado 2 de Mayo */}
-                <div className="flex flex-col sm:flex-row items-center justify-between sm:justify-start gap-1 sm:gap-2.5 bg-white rounded-xl p-2 sm:p-2.5 border border-slate-200/90 shadow-xs hover:border-slate-300 transition-all text-center sm:text-left">
-                  {/* Nombre en Mobile */}
-                  <p className="sm:hidden text-[10px] font-bold text-[#1E3A4C] leading-tight line-clamp-1 w-full">
-                    Mercado 2 de Mayo
-                  </p>
-                  {/* Imagen 3D */}
-                  <div className="my-1 sm:my-0 flex items-center justify-center h-10 sm:h-9 w-auto shrink-0">
-                    <img
-                      src="/2_de_mayo.webp"
-                      alt="Referencia Mercado 2 de Mayo"
-                      width={48}
-                      height={48}
-                      loading="lazy"
-                      className="h-full w-auto max-w-[48px] sm:max-w-[36px] object-contain drop-shadow-sm"
-                    />
-                  </div>
-                  {/* Info Desktop (Horizontal) */}
-                  <div className="hidden sm:block min-w-0 flex-1">
-                    <p className="text-[11px] font-bold text-[#1E3A4C] truncate">Mercado 2 de Mayo</p>
-                    <p className="text-[10px] text-slate-400 font-medium">A 4 min</p>
-                  </div>
-                  {/* Minutos Mobile */}
-                  <span className="sm:hidden inline-block text-[9.5px] text-slate-400 font-semibold bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100">
-                    A 4 min
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="bg-white rounded-[24px] p-5 sm:p-7 lg:p-8 shadow-[0_16px_40px_rgba(23,55,74,0.08)] border border-[#dce6ec] relative overflow-hidden">
 
           {/* Grid Principal: Tarjetas de Sedes y Mapa */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start lg:items-stretch mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start lg:items-stretch mb-6 sm:mb-7">
 
-            {/* Columna Izquierda: Selector Mobile + Tarjeta Activa / Lista Vertical en Desktop */}
+            {/* Columna Izquierda: Selector Mobile + Tarjetas de Sedes en Desktop */}
             <div className="lg:col-span-5 flex flex-col gap-3 lg:justify-between h-auto lg:h-full">
 
               {/* Selector de Sedes para Mobile (Tabs táctiles compactas) */}
@@ -1127,18 +860,18 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                       type="button"
                       onClick={() => setSelectedSedeIndex(idx)}
                       className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-extrabold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${isSelected
-                        ? 'bg-white text-[#1E3A4C] shadow-xs border border-slate-200/60'
+                        ? 'bg-white text-[#09283c] shadow-xs border border-slate-200/60'
                         : 'text-slate-500 hover:text-slate-800'
                         }`}
                     >
-                      <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#FF5A5F]' : 'bg-slate-300'}`}></span>
+                      <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#fb5962]' : 'bg-slate-300'}`}></span>
                       <span className="truncate">{idx === 0 ? 'Sede Leguía' : 'Suc. P. Meléndez'}</span>
                     </button>
                   );
                 })}
               </div>
 
-              {/* Lista de Sedes (En Mobile muestra la seleccionada de forma compacta; en Desktop muestra ambas) */}
+              {/* Lista de Sedes (En Mobile muestra la seleccionada; en Desktop muestra ambas) */}
               <div className="flex flex-col gap-3 lg:gap-4">
                 {sedesData.map((sede, idx) => {
                   const isSelected = selectedSedeIndex === idx;
@@ -1149,9 +882,9 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                       onClick={() => setSelectedSedeIndex(idx)}
                       whileHover={{ scale: 1.01, transition: { duration: 0.15 } }}
                       whileTap={{ scale: 0.985, transition: { duration: 0.1 } }}
-                      className={`w-full rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-6 border-2 transition-all duration-200 cursor-pointer flex flex-col justify-between select-none ${isSelected
-                        ? 'bg-white text-slate-800 border-[#FF5A5F]/80 shadow-lg shadow-red-500/5 ring-4 ring-red-50/70'
-                        : 'bg-white text-slate-700 border-slate-200/80 hover:border-slate-300 hover:shadow-md'
+                      className={`w-full rounded-[20px] p-4 sm:p-5 border-2 transition-all duration-200 cursor-pointer flex flex-col justify-between select-none ${isSelected
+                        ? 'bg-white text-[#09283c] border-[#fb5962] shadow-[0_12px_32px_rgba(251,89,98,0.12)] ring-4 ring-[#fff0f1]'
+                        : 'bg-white text-slate-700 border-[#dce6ec] hover:border-[#b9cad4] hover:shadow-md'
                         } ${!isSelected ? 'hidden lg:flex' : 'flex'
                         }`}
                     >
@@ -1159,12 +892,12 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                         {/* Badge Superior */}
                         <div className="flex items-center justify-between mb-3">
                           {isSelected ? (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF5A5F] text-[10px] font-extrabold uppercase tracking-widest text-white shadow-xs">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fb5962] text-[10px] font-manrope font-[800] uppercase tracking-widest text-white shadow-xs">
                               <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
                               SEDE ACTIVA
                             </span>
                           ) : (
-                            <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+                            <span className="text-[10px] font-manrope font-[800] uppercase tracking-widest text-slate-400">
                               SEDE 0{idx + 1}
                             </span>
                           )}
@@ -1174,7 +907,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                         </div>
 
                         <div className="flex items-start gap-3 sm:gap-4 mb-3">
-                          {/* Pin 3D Container */}
+                          {/* Pin 3D Container (Preservado fielmente) */}
                           <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center shrink-0 p-1 transition-colors ${isSelected ? 'bg-red-50/80 border border-red-100' : 'bg-slate-50 border border-slate-100'
                             }`}>
                             <img
@@ -1183,18 +916,19 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                               width={40}
                               height={40}
                               loading="lazy"
+                              decoding="async"
                               className="w-8 h-8 sm:w-10 sm:h-10 object-contain drop-shadow-sm"
                             />
                           </div>
 
                           {/* Info de la sede */}
                           <div className="flex-1 min-w-0">
-                            <h4 className="font-jakarta text-base sm:text-lg font-extrabold leading-snug text-[#1E3A4C]">
+                            <h4 className="font-manrope text-[17px] sm:text-[18px] font-[800] leading-snug text-[#09283c]">
                               {sede.name.replace('Sede ', '')}
                             </h4>
 
-                            <p className="text-[11.5px] sm:text-xs mt-1 flex items-start gap-1.5 text-slate-600 font-medium">
-                              <IconMapPin className="w-3.5 h-3.5 shrink-0 text-[#FF5A5F] mt-0.5" />
+                            <p className="text-[12px] sm:text-[12.5px] mt-1 flex items-start gap-1.5 text-slate-600 font-medium">
+                              <IconMapPin className="w-3.5 h-3.5 shrink-0 text-[#fb5962] mt-0.5" />
                               <span className="leading-snug">{sede.address}</span>
                             </p>
 
@@ -1204,10 +938,10 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
 
                             <div className="mt-2.5 pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-1">
                               <span className="flex items-center gap-1 font-medium text-slate-500 text-[11px]">
-                                <IconClock className="w-3.5 h-3.5 text-[#FF5A5F]" />
+                                <IconClock className="w-3.5 h-3.5 text-[#fb5962]" />
                                 <span>Horario:</span>
                               </span>
-                              <span className="font-extrabold text-[#1E3A4C] text-[11px] sm:text-xs">
+                              <span className="font-manrope font-[800] text-[#09283c] text-[11px] sm:text-[12px]">
                                 {sede.schedule}
                               </span>
                             </div>
@@ -1224,8 +958,8 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                             e.stopPropagation();
                             setSelectedSedeIndex(idx);
                           }}
-                          className={`flex-1 py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${isSelected
-                            ? 'bg-slate-900 text-white shadow-xs'
+                          className={`flex-1 py-2.5 px-3 rounded-xl font-manrope font-[800] text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${isSelected
+                            ? 'bg-[#09283c] text-white shadow-xs'
                             : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                             }`}
                         >
@@ -1239,10 +973,10 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                           rel="noopener noreferrer"
                           whileTap={{ scale: 0.96 }}
                           onClick={(e) => e.stopPropagation()}
-                          className="flex-1 py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer bg-red-50/80 hover:bg-red-100/80 text-[#FF5A5F] border border-red-100/90"
+                          className="flex-1 py-2.5 px-3 rounded-xl font-manrope font-[800] text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer bg-red-50/80 hover:bg-red-100/80 text-[#e54550] border border-red-100/90"
                         >
                           <span>Cómo llegar</span>
-                          <IconNavigation className="w-3.5 h-3.5 text-[#FF5A5F]" />
+                          <IconNavigation className="w-3.5 h-3.5 text-[#fb5962]" />
                         </motion.a>
                       </div>
                     </motion.div>
@@ -1253,7 +987,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
             </div>
 
             {/* Columna Derecha: Mapa Interactivo (7 columnas) */}
-            <div className="lg:col-span-7 h-[300px] sm:h-[380px] lg:h-auto min-h-[300px] sm:min-h-[380px] lg:min-h-[460px]">
+            <div className="lg:col-span-7 h-[320px] sm:h-[400px] lg:h-auto min-h-[320px] sm:min-h-[400px] lg:min-h-[480px]">
               {mapVisible ? (
                 <SedesMap
                   sedes={sedesData}
@@ -1261,7 +995,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                   onSelectSede={setSelectedSedeIndex}
                 />
               ) : (
-                <div className="w-full h-full min-h-[300px] sm:min-h-[380px] bg-slate-100/70 border border-slate-200/80 rounded-3xl flex items-center justify-center text-slate-400 font-bold text-xs uppercase tracking-wider">
+                <div className="w-full h-full min-h-[320px] sm:min-h-[400px] bg-slate-100/70 border border-slate-200/80 rounded-[20px] flex items-center justify-center text-slate-400 font-bold text-xs uppercase tracking-wider">
                   <span>Cargando Mapa...</span>
                 </div>
               )}
@@ -1269,61 +1003,65 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
 
           </div>
 
-          {/* Fila Inferior: Horarios, Canales WhatsApp Oficiales y Servicio a Domicilio */}
-          <div className="bg-slate-50/80 rounded-2xl p-4 sm:p-6 border border-slate-200/80 grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
-
-            {/* Horarios Generales */}
-            <div className="md:col-span-4 space-y-1">
-              <div className="flex items-center gap-2 text-[#FF5A5F] text-xs font-extrabold uppercase tracking-wider">
-                <IconClock className="w-4 h-4" />
-                <span>Horarios de Atención</span>
+          {/* Barra de Horario General Oficial (.schedule-bar Fiel al Rediseño) */}
+          <div className="border border-[#dce6ec] bg-[#f5f8fb] rounded-[18px] flex flex-col sm:flex-row items-center justify-between gap-[16px] sm:gap-[24px] p-[18px_20px] sm:p-[20px_24px] mt-[16px]">
+            <div className="flex items-center gap-[13px] text-left w-full sm:w-auto">
+              <div className="w-[42px] h-[42px] rounded-full bg-[#fff0f1] text-[#fb5962] flex items-center justify-center shrink-0">
+                <IconClock className="w-[22px] h-[22px] stroke-[1.8]" />
               </div>
-              <p className="text-xs font-bold text-[#1E3A4C]">
-                Lunes a Sábado: 8:00 AM – 1:00 PM · 3:00 PM – 8:00 PM
-              </p>
-              <p className="text-[11px] text-slate-500 font-medium">
-                *(En Sede Leguía atención desde las 7:45 AM)*
-              </p>
-              <span className="inline-flex items-center gap-1 mt-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
-                🚗 Servicio a domicilio en todo Tacna
-              </span>
+              <div className="flex flex-col gap-[2px]">
+                <strong className="font-manrope text-[13px] font-[800] text-[#09283c]">Horario general</strong>
+                <span className="font-manrope text-[12px] text-[#60788a]">Lunes a sábado · 8:00 a. m. – 1:00 p. m. · 3:00 p. m. – 8:00 p. m.</span>
+              </div>
             </div>
 
-            {/* WhatsApp Canales */}
-            <div className="md:col-span-8 flex flex-col sm:flex-row items-center justify-end gap-3">
-              <span className="text-xs font-bold text-[#1E3A4C] self-start sm:self-auto">
-                Escríbenos directamente:
-              </span>
-
-              {/* WhatsApp 1 (24 horas) */}
-              <motion.a
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                href="https://wa.me/51952920616"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto py-2.5 px-4 bg-[#25D366] hover:bg-[#20ba5a] text-white font-extrabold text-xs rounded-xl shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer transition-all"
-              >
-                <IconBrandWhatsapp className="w-4 h-4" />
-                <span>952 920 616 (24 Horas)</span>
-              </motion.a>
-
-              {/* WhatsApp 2 (Atención y Citas) */}
-              <motion.a
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                href="https://wa.me/51969940249"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto py-2.5 px-4 bg-white hover:bg-emerald-50 border-2 border-[#25D366] text-[#25D366] font-extrabold text-xs rounded-xl shadow-xs flex items-center justify-center gap-2 cursor-pointer transition-all"
-              >
-                <IconBrandWhatsapp className="w-4 h-4 text-[#25D366]" />
-                <span>969 940 249 </span>
-              </motion.a>
-            </div>
-
+            <a
+              href="tel:51952920616"
+              className="w-full sm:w-auto min-h-[44px] px-[20px] bg-white hover:bg-slate-50 border border-[#dce6ec] hover:border-[#b9cad4] text-[#09283c] font-manrope font-[800] text-[13px] rounded-[13px] transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[9px] cursor-pointer shrink-0 shadow-2xs"
+            >
+              <IconPhoneCall className="w-[17px] h-[17px] text-[#fb5962]" />
+              <span>952 920 616</span>
+            </a>
           </div>
 
+        </div>
+      </section>
+
+      {/* 6. BANNER CTA FINAL (.cta-section Fiel al Rediseño) */}
+      <section className="w-[min(1180px,100%-48px)] mx-auto mb-[80px] sm:mb-[108px] relative z-20">
+        <div className="bg-[#09283c] rounded-[26px] p-[38px_28px] sm:p-[48px_52px] text-white flex flex-col lg:flex-row items-center justify-between gap-[32px] shadow-[0_20px_50px_rgba(9,40,60,0.18)]">
+          <div className="flex flex-col items-start text-left max-w-[660px]">
+            <p className="inline-flex items-center gap-[9px] text-[12px] font-[800] uppercase tracking-[0.14em] text-[#ff9da3] mb-[15px]">
+              <span className="w-[7px] h-[7px] rounded-full bg-[#fb5962] shadow-[0_0_0_5px_rgba(251,89,98,0.13)] shrink-0"></span>
+              <span>Estamos para ayudarte</span>
+            </p>
+            <h2 className="font-manrope text-[clamp(24px,3vw,38px)] font-[800] text-white leading-[1.15] tracking-[-0.035em] mb-[13px]">
+              ¿Tienes dudas sobre qué examen necesitas o cómo prepararte?
+            </h2>
+            <p className="font-manrope text-[14px] sm:text-[15px] text-[#b9cad3] leading-[1.65]">
+              Escríbenos por WhatsApp y te orientamos con los requisitos, costos y horarios disponibles.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-[12px] w-full lg:w-auto shrink-0">
+            <a
+              href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20orientaci%C3%B3n%20sobre%20un%20examen"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="min-h-[48px] px-[22px] bg-white hover:bg-slate-100 text-[#09283c] font-manrope font-[800] text-[13px] rounded-[13px] shadow-sm transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[10px] cursor-pointer"
+            >
+              <WhatsAppIcon className="w-[19px] h-[19px] text-[#25D366]" />
+              <span>Hablar por WhatsApp</span>
+            </a>
+
+            <a
+              href="tel:51952920616"
+              className="min-h-[48px] px-[22px] bg-transparent hover:bg-white/[0.08] border border-white/[0.22] hover:border-white/40 text-white font-manrope font-[800] text-[13px] rounded-[13px] transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[10px] cursor-pointer"
+            >
+              <IconPhoneCall className="w-[18px] h-[18px]" />
+              <span>Llamar ahora</span>
+            </a>
+          </div>
         </div>
       </section>
 

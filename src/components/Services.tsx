@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   IconSearch, 
   IconX, 
-  IconBrandWhatsapp, 
   IconMicroscope, 
   IconActivity, 
   IconHomeHeart, 
@@ -16,8 +15,10 @@ import {
   IconShieldCheck,
   IconSparkles,
   IconInfoCircle,
-  IconSend
+  IconSend,
+  IconPhone
 } from '@tabler/icons-react';
+import WhatsAppIcon from './icons/WhatsAppIcon';
 import {
   IconOrganLiver,
   IconOrganGallbladder,
@@ -319,199 +320,174 @@ const Services: React.FC = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-slate-50/40 pt-20 sm:pt-28 pb-16 font-plex">
-      <div className="max-w-7xl mx-auto px-3.5 sm:px-6">
+    <div className="w-full min-h-screen bg-[#f7fafc] pt-[104px] sm:pt-[128px] pb-[96px] font-manrope">
+      <div className="w-[min(1180px,100%-48px)] mx-auto space-y-[32px] sm:space-y-[44px]">
 
-        {/* 1. HERO HEADER DE SERVICIOS */}
-        <section className="relative bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-12 shadow-xl shadow-slate-900/5 border border-slate-200/80 mb-6 sm:mb-8 overflow-hidden">
-          
-          {/* Acentos sutiles */}
-          <div className="absolute top-0 right-0 w-80 sm:w-96 h-80 sm:h-96 bg-gradient-to-bl from-red-500/8 via-rose-300/5 to-transparent rounded-full blur-3xl pointer-events-none"></div>
-          <div className="absolute bottom-0 left-0 w-64 sm:w-80 h-64 sm:h-80 bg-gradient-to-tr from-sky-400/5 via-slate-100/50 to-transparent rounded-full blur-2xl pointer-events-none"></div>
-          
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
-            
-            <div className="lg:col-span-8 space-y-3.5 sm:space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-red-50 text-[#FF5A5F] text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest border border-red-100/80">
-                <span className="w-2 h-2 rounded-full bg-[#FF5A5F] animate-pulse"></span>
-                <span>Laboratorio Clínico · Tacna, Perú</span>
-              </div>
+        {/* 1. HERO HEADER DE SERVICIOS (.catalog-hero-grid) */}
+        <section className="border border-[#dce6ec] bg-[radial-gradient(circle_at_79%_46%,rgba(251,89,98,0.07),transparent_27%),linear-gradient(135deg,#fff,#fbfdfe)] rounded-[28px] p-[28px_20px] sm:p-[48px] shadow-[0_16px_38px_rgba(23,55,74,0.08)] grid grid-cols-1 lg:grid-cols-[1.55fr_0.65fr] gap-[36px] lg:gap-[52px] items-center">
+          <div className="flex flex-col items-start text-left">
+            <p className="inline-flex items-center gap-[9px] text-[12px] font-[800] uppercase tracking-[0.14em] text-[#e54550] mb-[17px]">
+              <span className="w-[7px] h-[7px] rounded-full bg-[#fb5962] shadow-[0_0_0_5px_#fff0f1] shrink-0"></span>
+              <span>UNIDOSLAB · Catálogo de Servicios</span>
+            </p>
 
-              <h1 className="font-jakarta text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#1E3A4C] tracking-tight leading-tight">
-                Catálogo de Exámenes <br className="hidden sm:block" />
-                <span className="text-[#FF5A5F]">y Servicios Médicos.</span>
-              </h1>
+            <h1 className="font-manrope text-[clamp(34px,4.5vw,64px)] font-[800] text-[#09283c] leading-[1.04] tracking-[-0.035em] mb-[20px]">
+              Catálogo de exámenes <br />
+              <span className="text-[#fb5962]">y servicios médicos.</span>
+            </h1>
 
-              <p className="text-slate-500 text-xs sm:text-base max-w-2xl leading-relaxed font-medium">
-                Resultados precisos, confidenciales y con entrega digital inmediata. Consulta y cotiza cualquiera de nuestros análisis clínicos o ecografías directamente por WhatsApp.
-              </p>
+            <p className="font-manrope text-[15px] sm:text-[16px] text-[#60788a] leading-[1.72] max-w-[720px] mb-[25px]">
+              Resultados precisos, confidenciales y con entrega digital inmediata. Consulta y cotiza cualquiera de nuestros análisis clínicos o ecografías directamente por WhatsApp.
+            </p>
 
-              {/* 3 Badges de Valor */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 pt-1 sm:pt-2">
-                <div className="flex items-center gap-2 sm:gap-2.5 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl bg-slate-50/80 border border-slate-100">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-red-100 text-[#FF5A5F] flex items-center justify-center shrink-0">
-                    <IconClock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  </div>
-                  <span className="text-[11px] sm:text-xs font-bold text-[#1E3A4C]">Resultados Rápidos</span>
+            {/* 3 Badges de Beneficios (.catalog-benefits) */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-[11px] w-full">
+              <span className="min-h-[54px] text-[#12354a] bg-[#f8fafc] border border-[#e5edf2] rounded-[14px] flex items-center gap-[9px] p-[10px_13px] text-[12px] font-[700]">
+                <div className="w-[34px] h-[34px] rounded-[10px] bg-[#fff0f1] text-[#fb5962] flex items-center justify-center shrink-0">
+                  <IconClock className="w-[18px] h-[18px]" />
                 </div>
+                <span>Resultados rápidos</span>
+              </span>
 
-                <div className="flex items-center gap-2 sm:gap-2.5 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl bg-slate-50/80 border border-slate-100">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-red-100 text-[#FF5A5F] flex items-center justify-center shrink-0">
-                    <IconShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  </div>
-                  <span className="text-[11px] sm:text-xs font-bold text-[#1E3A4C]">Control de Calidad</span>
+              <span className="min-h-[54px] text-[#12354a] bg-[#f8fafc] border border-[#e5edf2] rounded-[14px] flex items-center gap-[9px] p-[10px_13px] text-[12px] font-[700]">
+                <div className="w-[34px] h-[34px] rounded-[10px] bg-[#fff0f1] text-[#fb5962] flex items-center justify-center shrink-0">
+                  <IconShieldCheck className="w-[18px] h-[18px]" />
                 </div>
+                <span>Control de calidad</span>
+              </span>
 
-                <div className="flex items-center gap-2 sm:gap-2.5 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl bg-slate-50/80 border border-slate-100">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
-                    <IconHomeHeart className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  </div>
-                  <span className="text-[11px] sm:text-xs font-bold text-[#1E3A4C]">Atención a Domicilio</span>
+              <span className="min-h-[54px] text-[#12354a] bg-[#f8fafc] border border-[#e5edf2] rounded-[14px] flex items-center gap-[9px] p-[10px_13px] text-[12px] font-[700]">
+                <div className="w-[34px] h-[34px] rounded-[10px] bg-[#e5f9f1] text-[#14b879] flex items-center justify-center shrink-0">
+                  <IconHomeHeart className="w-[18px] h-[18px]" />
                 </div>
-              </div>
+                <span>Atención a domicilio</span>
+              </span>
             </div>
+          </div>
 
-            {/* CTA Lateral WhatsApp */}
-            <div className="lg:col-span-4 flex flex-col items-center lg:items-end justify-center pt-2 sm:pt-0">
-              <div className="w-full max-w-sm bg-gradient-to-b from-slate-50 to-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/90 shadow-md sm:shadow-lg text-center space-y-2.5 sm:space-y-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#25D366]/10 text-[#25D366] flex items-center justify-center mx-auto shadow-inner">
-                  <IconBrandWhatsapp className="w-6 h-6 sm:w-7 sm:h-7" />
-                </div>
-                <h2 className="font-jakarta text-sm sm:text-base font-bold text-[#1E3A4C]">
-                  ¿Buscas un examen específico?
-                </h2>
-                <p className="text-[11.5px] sm:text-xs text-slate-500 font-medium">
-                  Escríbenos directamente y te brindamos precio, preparación y turno al instante.
-                </p>
-                <motion.a
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20consultar%20por%20un%20examen%20cl%C3%ADnico%20en%20Tacna"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-3 sm:py-3.5 px-4 bg-[#25D366] hover:bg-[#20ba5a] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl sm:rounded-2xl shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer transition-all"
-                >
-                  <IconBrandWhatsapp className="w-4 h-4" />
-                  <span>Consultar por WhatsApp</span>
-                </motion.a>
-              </div>
-            </div>
-
+          {/* Tarjeta de Contacto Directo en Navy Deep (.catalog-contact) */}
+          <div className="bg-[#09283c] text-white rounded-[24px] p-[28px_24px] sm:p-[32px_28px] shadow-[0_18px_45px_rgba(9,40,60,0.18)] flex flex-col items-center text-center relative overflow-hidden">
+            <span className="w-[52px] h-[52px] rounded-[16px] bg-white/[0.1] border border-white/[0.15] text-[#25D366] flex items-center justify-center mb-[16px] shadow-sm">
+              <WhatsAppIcon className="w-[28px] h-[28px]" />
+            </span>
+            <h2 className="font-manrope text-[18px] sm:text-[19px] font-[800] text-white mb-[8px] leading-snug">
+              ¿Buscas un examen específico?
+            </h2>
+            <p className="font-manrope text-[12.5px] text-[#b9cad3] leading-[1.55] mb-[20px]">
+              Escríbenos directamente y te brindamos precio, preparación y turno al instante.
+            </p>
+            <a
+              href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20consultar%20por%20un%20examen%20cl%C3%ADnico%20en%20Tacna"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full min-h-[48px] px-[20px] bg-[#25D366] hover:bg-[#20ba5a] text-white font-manrope font-[800] text-[13px] rounded-[13px] shadow-[0_10px_22px_rgba(37,211,102,0.28)] transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[9px] cursor-pointer"
+            >
+              <WhatsAppIcon className="w-[19px] h-[19px]" />
+              <span>Consultar por WhatsApp</span>
+            </a>
           </div>
         </section>
 
-        {/* 2. SECCIÓN ESPECIAL DESTACADA: ECOGRAFÍAS CON ÍCONOS SVG Y ACCIÓN DIRECTA */}
-        <section className="bg-gradient-to-br from-white via-red-50/25 to-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 lg:p-10 border-2 border-red-200/80 shadow-lg shadow-red-500/5 mb-6 sm:mb-8 relative overflow-hidden">
-          
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 sm:gap-4 mb-5 sm:mb-6 pb-4 sm:pb-6 border-b border-red-100/80">
-            <div className="space-y-1">
-              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-red-100/70 text-[#FF5A5F] text-[9.5px] sm:text-[10px] font-extrabold uppercase tracking-widest">
-                <IconSparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+        {/* 2. PANEL DE ECOGRAFÍAS (.ultrasound-panel) */}
+        <section className="bg-[linear-gradient(115deg,#fff8f8,#fff)] border border-[#f5bdc1] rounded-[24px] p-[24px_20px] sm:p-[38px_40px_32px] shadow-[0_14px_35px_rgba(23,55,74,0.05)]">
+          <div className="border-b border-[#f4d9db] grid grid-cols-1 md:grid-cols-[1fr_auto] items-center gap-[20px] md:gap-[35px] pb-[25px]">
+            <div className="flex flex-col items-start text-left">
+              <p className="inline-flex items-center gap-[9px] text-[11.5px] font-[800] uppercase tracking-[0.14em] text-[#e54550] mb-[8px]">
+                <IconSparkles className="w-[14px] h-[14px] text-[#fb5962]" />
                 <span>Servicio de Ecografías en Tacna</span>
-              </div>
-              <h2 className="font-jakarta text-xl sm:text-3xl font-extrabold text-[#1E3A4C] tracking-tight">
-                Ecografías Especializadas
+              </p>
+              <h2 className="font-manrope text-[clamp(24px,3vw,34px)] font-[800] text-[#09283c] tracking-[-0.03em] mb-[7px]">
+                Ecografías especializadas
               </h2>
-              <p className="text-slate-600 text-xs sm:text-sm font-medium max-w-2xl">
+              <p className="font-manrope text-[13.5px] text-[#60788a] leading-[1.55] max-w-[680px]">
                 Diagnóstico por ultrasonido de alta resolución. Toca cualquier órgano para cotizar directamente por WhatsApp:
               </p>
             </div>
 
-            <motion.a
-              whileTap={{ scale: 0.97 }}
+            <a
               href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20consultar%20por%20el%20servicio%20de%20Ecograf%C3%ADas%20en%20Tacna"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-4 sm:px-5 py-2.5 bg-[#25D366] hover:bg-[#20ba5a] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-md shadow-emerald-600/20 cursor-pointer transition-all flex items-center justify-center gap-1.5"
+              className="w-full sm:w-auto min-h-[46px] px-[20px] bg-[#20ca70] hover:bg-[#16b963] text-white font-manrope font-[800] text-[13px] rounded-[13px] shadow-[0_10px_22px_rgba(20,184,121,0.24)] transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[9px] cursor-pointer shrink-0"
             >
-              <IconBrandWhatsapp className="w-4 h-4" />
-              <span>Cotizar Ecografías</span>
-            </motion.a>
+              <WhatsAppIcon className="w-[18px] h-[18px]" />
+              <span>Cotizar ecografías</span>
+            </a>
           </div>
 
-          {/* Grilla de Órganos con Íconos SVG Médicos y Enlace Directo a WhatsApp (Slider Horizontal Suave en Mobile) */}
-          <div>
-            <div className="flex items-center justify-between mb-2 sm:mb-3">
-              <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
-                Órganos evaluados:
-              </span>
-              <span className="sm:hidden text-[10px] font-semibold text-[#FF5A5F] flex items-center gap-1">
-                <span>Desliza</span>
-                <span>→</span>
-              </span>
-            </div>
-            
-            <div className="flex overflow-x-auto snap-x snap-mandatory gap-2 sm:gap-2.5 pb-2 -mx-1 px-1 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 scrollbar-none">
+          {/* Grilla de Órganos (.organ-grid) */}
+          <div className="pt-[22px]">
+            <p className="font-manrope text-[10.5px] font-[800] uppercase tracking-[0.13em] text-[#8aa0b1] mb-[12px] text-left">
+              Órganos evaluados:
+            </p>
+            <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-[10px]">
               {ECOGRAFIA_ORGANS.map((organ, i) => (
-                <motion.a 
+                <a
                   key={i}
-                  whileHover={{ y: -2, scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
                   href={`https://api.whatsapp.com/send/?phone=51952920616&text=${encodeURIComponent(organ.whatsappText)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-[124px] sm:w-auto shrink-0 snap-center sm:shrink p-3 sm:p-3.5 bg-white rounded-xl sm:rounded-2xl border border-red-100/90 shadow-2xs hover:shadow-md hover:border-red-300 transition-all flex flex-col items-center text-center group cursor-pointer"
+                  className="bg-white/80 hover:bg-white border border-[#f3d4d6] hover:border-[#ef9da3] rounded-[16px] flex flex-col items-center text-center min-h-[150px] p-[14px_8px_12px] shadow-2xs hover:shadow-[0_10px_22px_rgba(23,55,74,0.08)] hover:-translate-y-[3px] transition-all group cursor-pointer"
                 >
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-red-50 text-[#FF5A5F] group-hover:bg-[#FF5A5F] group-hover:text-white transition-colors flex items-center justify-center mb-1.5 sm:mb-2 shadow-2xs">
+                  <span className="w-[40px] h-[40px] rounded-[12px] bg-[#fff0f1] text-[#fb5962] group-hover:bg-[#fb5962] group-hover:text-white transition-colors flex items-center justify-center mb-[9px] shrink-0">
                     {organ.iconSvg}
-                  </div>
-                  <span className="text-xs font-extrabold text-[#1E3A4C] leading-tight group-hover:text-[#FF5A5F] transition-colors truncate w-full">
+                  </span>
+                  <strong className="font-manrope text-[11px] font-[800] text-[#09283c] mb-[4px] leading-tight group-hover:text-[#fb5962] transition-colors truncate w-full">
                     {organ.name}
-                  </span>
-                  <span className="text-[9px] sm:text-[9.5px] text-slate-400 mt-0.5 sm:mt-1 font-medium leading-tight line-clamp-1 sm:line-clamp-2">
+                  </strong>
+                  <small className="font-manrope text-[8.5px] text-[#879cad] min-h-[30px] leading-[1.35] line-clamp-2">
                     {organ.desc}
-                  </span>
-                  <span className="mt-1.5 sm:mt-2 text-[8.5px] sm:text-[9px] text-[#25D366] font-bold uppercase tracking-wider flex items-center gap-0.5">
+                  </small>
+                  <em className="font-manrope text-[8px] font-[800] uppercase tracking-[0.05em] text-[#10ad61] not-italic flex items-center gap-[2px] mt-auto">
                     <span>Consultar</span>
-                    <IconChevronRight className="w-2.5 h-2.5" />
-                  </span>
-                </motion.a>
+                    <IconChevronRight className="w-[10px] h-[10px]" />
+                  </em>
+                </a>
               ))}
             </div>
           </div>
         </section>
 
-        {/* 3. BUSCADOR Y FILTROS POR CATEGORÍAS */}
-        <section className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-lg shadow-slate-900/5 border border-slate-200/80 mb-6 sm:mb-8 space-y-4 sm:space-y-6">
-          
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 sm:gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0 border border-red-100">
-                <IconSearch className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+        {/* 3. HERRAMIENTAS DE BÚSQUEDA Y CATEGORÍAS (.catalog-tools) */}
+        <section className="border border-[#dce6ec] bg-white rounded-[22px] p-[24px_20px] sm:p-[29px_31px_27px] shadow-[0_14px_32px_rgba(23,55,74,0.07)]">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_minmax(270px,340px)] items-center gap-[20px] md:gap-[30px]">
+            <div className="flex items-center gap-[14px] text-left">
+              <div className="w-[44px] h-[44px] rounded-[13px] bg-[#fff0f1] text-[#fb5962] flex items-center justify-center shrink-0">
+                <IconMicroscope className="w-[22px] h-[22px] stroke-[1.8]" />
               </div>
               <div>
-                <h3 className="font-jakarta text-base sm:text-xl font-extrabold text-[#1E3A4C]">
+                <h2 className="font-manrope text-[18px] sm:text-[20px] font-[800] text-[#09283c] leading-tight mb-[2px]">
                   Explora nuestros análisis clínicos
-                </h3>
-                <p className="text-[11px] sm:text-xs text-slate-500 font-medium">
-                  Selecciona una categoría o busca por nombre:
+                </h2>
+                <p className="font-manrope text-[12px] text-[#60788a] leading-[1.35]">
+                  Selecciona una categoría o escribe el nombre del análisis:
                 </p>
               </div>
             </div>
 
-            {/* Input Buscador */}
-            <div className="relative w-full sm:w-80">
-              <input 
-                type="text" 
+            {/* Input Buscador (.catalog-search) */}
+            <div className="border border-[#dce6ec] bg-[#f8fafc] focus-within:border-[#f19aa0] focus-within:shadow-[0_0_0_4px_#fff0f1] rounded-[14px] flex items-center gap-[10px] h-[46px] px-[15px] transition-all">
+              <IconSearch className="w-[18px] h-[18px] text-[#8ba0b3] shrink-0" />
+              <input
+                type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Buscar glucosa, hemograma, orina..."
-                className="w-full pl-9 sm:pl-10 pr-8 sm:pr-9 py-2.5 sm:py-2.5 bg-slate-50 border border-slate-200 rounded-xl sm:rounded-2xl text-slate-700 font-medium text-xs sm:text-sm focus:outline-none focus:border-[#FF5A5F] focus:bg-white transition-all"
+                className="w-full font-manrope text-[13px] text-[#09283c] bg-transparent border-0 outline-none placeholder-[#8ba0b3]"
               />
-              <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
               {searchTerm && (
-                <button 
+                <button
                   onClick={() => setSearchTerm('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
+                  className="text-[#8ba0b3] hover:text-[#fb5962] p-1 cursor-pointer"
                 >
-                  <IconX className="w-3.5 h-3.5" />
+                  <IconX className="w-[15px] h-[15px]" />
                 </button>
               )}
             </div>
           </div>
 
-          {/* Pills de Categorías con Conteo (Deslizable táctil suave) */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1.5 -mx-1 px-1 sm:mx-0 sm:px-0 scrollbar-none">
+          {/* Tabs de Categorías (.category-tabs) */}
+          <div className="flex items-center gap-[8px] mt-[23px] overflow-x-auto pb-[4px] scrollbar-none">
             {CATEGORIES_LIST.map((cat) => {
               const isSelected = selectedCategory === cat;
               const count = getCategoryCount(cat);
@@ -519,15 +495,15 @@ const Services: React.FC = () => {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-3.5 sm:px-4 py-2 rounded-xl sm:rounded-full text-xs font-extrabold whitespace-nowrap transition-all duration-200 flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0 ${
-                    isSelected 
-                      ? 'bg-[#FF5A5F] text-white shadow-md shadow-red-500/20' 
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  className={`min-h-[38px] rounded-full px-[15px] text-[11px] font-manrope font-[800] flex items-center gap-[8px] shrink-0 transition-all cursor-pointer ${
+                    isSelected
+                      ? 'bg-[#fb5962] text-white shadow-[0_8px_18px_rgba(251,89,98,0.22)]'
+                      : 'bg-[#f0f5f8] text-[#12354a] hover:bg-[#e4ecf1]'
                   }`}
                 >
                   <span>{cat}</span>
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                    isSelected ? 'bg-white/20 text-white' : 'bg-white text-slate-500 border border-slate-200'
+                  <span className={`text-[9px] px-[6px] py-[2px] rounded-full font-[800] ${
+                    isSelected ? 'bg-white text-[#fb5962]' : 'bg-white text-[#7d91a0]'
                   }`}>
                     {count}
                   </span>
@@ -537,17 +513,16 @@ const Services: React.FC = () => {
           </div>
         </section>
 
-        {/* 4. LISTADO DE TARJETAS DE EXÁMENES CON BOTÓN DE WHATSAPP DIRECTO */}
-        <section className="space-y-4">
-          
-          <div className="flex items-center justify-between px-2">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#1E3A4C]">
+        {/* 4. LISTADO DE EXÁMENES (.exam-grid) */}
+        <section className="space-y-[16px]">
+          <div className="flex items-center justify-between px-[4px]">
+            <p className="font-manrope text-[11px] font-[800] uppercase tracking-[0.13em] text-[#09283c]">
               Mostrando {filteredExams.length} análisis disponible(s)
-            </span>
+            </p>
             {selectedCategory !== 'Todos' && (
-              <button 
+              <button
                 onClick={() => setSelectedCategory('Todos')}
-                className="text-xs font-bold text-[#FF5A5F] hover:underline cursor-pointer"
+                className="font-manrope text-[12px] font-[800] text-[#fb5962] hover:text-[#e54550] cursor-pointer"
               >
                 Ver todos
               </button>
@@ -555,130 +530,125 @@ const Services: React.FC = () => {
           </div>
 
           {filteredExams.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]">
               {filteredExams.map((exam) => (
-                <motion.div
+                <div
                   key={exam.id}
-                  layout
-                  whileHover={{ y: -3, transition: { duration: 0.15 } }}
-                  className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 border-slate-200/80 hover:border-red-200/90 shadow-sm sm:shadow-md shadow-slate-900/5 hover:shadow-xl hover:shadow-red-500/5 transition-all flex flex-col justify-between"
+                  className="border border-[#dce6ec] bg-white rounded-[21px] p-[25px_24px_20px] shadow-[0_7px_18px_rgba(23,55,74,0.06)] hover:shadow-[0_14px_28px_rgba(23,55,74,0.1)] hover:border-[#efb3b7] hover:-translate-y-1 transition-all flex flex-col justify-between min-h-[278px]"
                 >
-                  <div className="space-y-2.5 sm:space-y-3">
-                    
+                  <div>
                     {/* Header de la tarjeta */}
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="px-2.5 py-0.5 rounded-full bg-red-50 text-[#FF5A5F] border border-red-100 text-[9.5px] sm:text-[10px] font-extrabold uppercase tracking-wider">
+                    <div className="flex items-center justify-between gap-[10px] min-h-[23px] mb-[12px]">
+                      <span className="font-manrope text-[9px] font-[800] uppercase tracking-[0.06em] text-[#e54550] bg-[#fff4f5] border border-[#f7d1d4] rounded-full px-[9px] py-[5px]">
                         {exam.category}
                       </span>
                       {exam.popular && (
-                        <span className="text-[9.5px] sm:text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200/60 px-2 py-0.5 rounded-full flex items-center gap-1">
-                          ★ Muy Solicitado
+                        <span className="font-manrope text-[9px] font-[800] text-[#b67200] bg-[#fffaf0] border border-[#f3d486] rounded-full px-[9px] py-[5px]">
+                          ★ Muy solicitado
                         </span>
                       )}
                     </div>
 
-                    {/* Título y Resumen directo */}
-                    <div>
-                      <h4 className="font-jakarta text-sm sm:text-base font-extrabold text-[#1E3A4C] leading-snug">
-                        {exam.name}
-                      </h4>
-                      <p className="text-[11.5px] sm:text-xs text-slate-500 line-clamp-2 mt-1 sm:mt-1.5 leading-relaxed font-medium">
-                        {exam.summary}
-                      </p>
-                    </div>
+                    {/* Titular y Descripción */}
+                    <h3 className="font-manrope text-[17px] font-[800] text-[#09283c] leading-[1.25] mb-[8px] text-left">
+                      {exam.name}
+                    </h3>
+                    <p className="font-manrope text-[12px] text-[#60788a] leading-[1.55] min-h-[54px] mb-[13px] text-left">
+                      {exam.summary}
+                    </p>
 
-                    {/* Metadatos rápidos */}
-                    <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 text-[10.5px] sm:text-[11px] text-slate-600 font-medium">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200/80 text-slate-700 font-semibold">
-                        <IconDroplet className="w-3.5 h-3.5 text-[#FF5A5F]" />
-                        <span>{exam.sampleType}</span>
-                      </span>
+                    {/* Muestra requerida (.sample) */}
+                    <div className="border-y border-[#edf2f5] py-[11px] flex items-center gap-[7px] text-[10px] font-manrope font-[750] text-[#12354a]">
+                      <IconDroplet className="w-[14px] h-[14px] text-[#fb5962]" />
+                      <span>{exam.sampleType}</span>
                     </div>
-
                   </div>
 
-                  {/* Botón Principal y Botón Info */}
-                  <div className="pt-3 sm:pt-4 mt-3 sm:mt-4 border-t border-slate-100 flex items-center gap-2">
-                    <motion.a
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.98 }}
+                  {/* Acciones de la tarjeta (.exam-actions) */}
+                  <div className="grid grid-cols-[1fr_39px] gap-[8px] pt-[14px] mt-auto">
+                    <a
                       href={getWhatsappUrl(exam.name)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 py-2.5 px-3.5 bg-slate-50 hover:bg-[#25D366]/10 border border-slate-200 hover:border-[#25D366]/60 text-slate-700 hover:text-[#1EBE5D] font-bold text-xs rounded-xl sm:rounded-2xl transition-all flex items-center justify-center gap-2 cursor-pointer group/btn shadow-2xs"
+                      className="border border-[#dce6ec] hover:border-[#20ca70]/50 bg-[#f8fafc] hover:bg-[#20ca70]/10 text-[#12354a] hover:text-[#16b963] min-h-[40px] rounded-[13px] flex items-center justify-center gap-[8px] px-[14px] text-[11px] font-manrope font-[800] transition-all cursor-pointer group"
                     >
-                      <IconBrandWhatsapp className="w-4 h-4 text-[#25D366] shrink-0 transition-transform group-hover/btn:scale-110" />
+                      <WhatsAppIcon className="w-[16px] h-[16px] text-[#20ca70] shrink-0" />
                       <span>Consultar prueba</span>
-                      <IconChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover/btn:text-[#1EBE5D] transition-transform group-hover/btn:translate-x-0.5" />
-                    </motion.a>
+                      <IconChevronRight className="w-[14px] h-[14px] text-[#99abb7] group-hover:text-[#20ca70] group-hover:translate-x-0.5 transition-all ml-auto" />
+                    </a>
 
                     <button
                       onClick={() => setActiveModalExam(exam)}
                       title="Ver información del examen"
-                      className="p-2.5 bg-white hover:bg-slate-100 text-slate-400 hover:text-[#FF5A5F] border border-slate-200 rounded-xl sm:rounded-2xl transition-colors cursor-pointer shrink-0 shadow-2xs"
+                      className="border border-[#dce6ec] hover:border-[#fb5962]/40 bg-white hover:bg-[#fff0f1] text-[#8da1af] hover:text-[#fb5962] rounded-[13px] flex items-center justify-center transition-all cursor-pointer shadow-2xs"
                     >
-                      <IconInfoCircle className="w-4 h-4" />
+                      <IconInfoCircle className="w-[18px] h-[18px]" />
                     </button>
                   </div>
-
-                </motion.div>
+                </div>
               ))}
             </div>
           ) : (
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-center border border-slate-200 shadow-sm space-y-3 sm:space-y-4">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-red-50 text-[#FF5A5F] flex items-center justify-center mx-auto">
-                <IconSearch className="w-5 h-5 sm:w-6 sm:h-6" />
+            <div className="bg-white border border-dashed border-[#cbd9e1] rounded-[22px] p-[60px_20px] text-center space-y-[14px]">
+              <div className="w-[54px] h-[54px] rounded-[16px] bg-[#fff0f1] text-[#fb5962] flex items-center justify-center mx-auto">
+                <IconSearch className="w-[24px] h-[24px]" />
               </div>
-              <h3 className="font-jakarta text-sm sm:text-base font-bold text-[#1E3A4C]">
+              <h3 className="font-manrope text-[17px] font-[800] text-[#09283c]">
                 No encontramos resultados para &quot;{searchTerm}&quot;
               </h3>
-              <p className="text-xs text-slate-500 max-w-md mx-auto">
-                Contamos con más análisis especiales. Consúltanos directamente para ayudarte.
+              <p className="font-manrope text-[13px] text-[#60788a] max-w-[480px] mx-auto">
+                Contamos con más de 300 análisis clínicos y pruebas especiales. Consúltanos directamente para orientarte.
               </p>
               <a
                 href={`https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20busco%20informaci%C3%B3n%20sobre:%20${encodeURIComponent(searchTerm)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3 bg-[#25D366] text-white font-bold text-xs uppercase tracking-wider rounded-xl sm:rounded-2xl shadow-md cursor-pointer hover:bg-[#20ba5a]"
+                className="inline-flex items-center gap-[9px] min-h-[46px] px-[22px] bg-[#20ca70] hover:bg-[#16b963] text-white font-manrope font-[800] text-[13px] rounded-[13px] shadow-[0_10px_22px_rgba(20,184,121,0.24)] cursor-pointer transition-all"
               >
-                <IconBrandWhatsapp className="w-4 h-4" />
+                <WhatsAppIcon className="w-[18px] h-[18px]" />
                 <span>Consultar por WhatsApp</span>
               </a>
             </div>
           )}
-
         </section>
 
-        {/* 5. BANNER FINAL: SERVICIO A DOMICILIO EN TACNA */}
-        <section className="mt-8 sm:mt-12 bg-gradient-to-r from-red-50 via-white to-red-50/50 rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-10 border-2 border-red-200/80 shadow-lg shadow-red-500/5 flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6">
-          <div className="flex flex-col sm:flex-row items-center sm:items-start md:items-center gap-3.5 sm:gap-4 text-center sm:text-left">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white border border-red-200 text-[#FF5A5F] flex items-center justify-center shrink-0 shadow-sm">
-              <IconHomeHeart className="w-6 h-6 sm:w-7 sm:h-7" />
-            </div>
-            <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#FF5A5F] block mb-1">
-                Atención en la comodidad de tu hogar
-              </span>
-              <h3 className="font-jakarta text-lg sm:text-2xl font-extrabold text-[#1E3A4C]">
-                ¿No puedes salir de casa? Vamos hacia ti.
-              </h3>
-              <p className="text-slate-500 text-xs sm:text-sm mt-0.5 sm:mt-1">
-                Toma de muestras de laboratorio a domicilio en toda la ciudad de Tacna.
-              </p>
-            </div>
+        {/* 5. BANNER FINAL AZUL NAVY (.final-cta Fiel a la Principal) */}
+        <section className="bg-[#09283c] rounded-[26px] p-[36px_26px] sm:p-[48px_52px] text-white shadow-[0_20px_50px_rgba(9,40,60,0.18)] relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-[30px]">
+          {/* Acento circular decorativo */}
+          <div className="absolute -top-[120px] -right-[120px] w-[320px] h-[320px] rounded-full border-[60px] border-white/[0.03] pointer-events-none"></div>
+
+          <div className="flex flex-col items-start text-left max-w-[680px] relative z-10">
+            <p className="inline-flex items-center gap-[9px] text-[12px] font-[800] uppercase tracking-[0.14em] text-[#ff9da3] mb-[15px]">
+              <span className="w-[7px] h-[7px] rounded-full bg-[#fb5962] shadow-[0_0_0_5px_rgba(251,89,98,0.15)] shrink-0"></span>
+              <span>Atención a domicilio en Tacna</span>
+            </p>
+            <h2 className="font-manrope text-[clamp(24px,3vw,36px)] font-[800] text-white leading-[1.15] tracking-[-0.03em] mb-[12px]">
+              ¿No puedes salir de casa? Vamos hacia ti.
+            </h2>
+            <p className="font-manrope text-[14px] sm:text-[15px] text-[#b9cad3] leading-[1.65]">
+              Realizamos la toma de muestras de laboratorio en tu hogar con personal especializado, puntualidad y protocolos clínicos 100% seguros.
+            </p>
           </div>
 
-          <motion.a
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20agendar%20una%20toma%20de%20muestra%20a%20domicilio%20en%20Tacna"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto px-5 sm:px-6 py-3.5 bg-[#25D366] hover:bg-[#20ba5a] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl sm:rounded-2xl shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 shrink-0 cursor-pointer transition-all"
-          >
-            <IconBrandWhatsapp className="w-5 h-5" />
-            <span>Agendar a Domicilio</span>
-          </motion.a>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-[12px] w-full lg:w-auto shrink-0 relative z-10">
+            <a
+              href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20agendar%20una%20toma%20de%20muestra%20a%20domicilio%20en%20Tacna"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="min-h-[48px] px-[22px] bg-white hover:bg-slate-100 text-[#09283c] font-manrope font-[800] text-[13px] rounded-[13px] shadow-sm transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[9px] cursor-pointer"
+            >
+              <WhatsAppIcon className="w-[18px] h-[18px] text-[#25D366]" />
+              <span>Agendar por WhatsApp</span>
+            </a>
+
+            <a
+              href="tel:51952920616"
+              className="min-h-[48px] px-[22px] bg-transparent hover:bg-white/[0.08] border border-white/[0.22] hover:border-white/40 text-white font-manrope font-[800] text-[13px] rounded-[13px] transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[9px] cursor-pointer"
+            >
+              <IconPhone className="w-[18px] h-[18px]" />
+              <span>952 920 616</span>
+            </a>
+          </div>
         </section>
 
       </div>
@@ -686,73 +656,69 @@ const Services: React.FC = () => {
       {/* 6. MODAL DE INFORMACIÓN RÁPIDA */}
       <AnimatePresence>
         {activeModalExam && (
-          <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-3.5 sm:p-4">
+          <div className="fixed inset-0 z-50 bg-[#071f2f]/80 backdrop-blur-[8px] flex items-center justify-center p-[16px]">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.18, ease: "easeOut" }}
-              className="bg-white rounded-2xl sm:rounded-3xl max-w-lg w-full p-5 sm:p-8 shadow-2xl border border-slate-100 relative space-y-4 sm:space-y-5 max-h-[88vh] overflow-y-auto"
+              className="bg-white rounded-[24px] max-w-lg w-full p-[28px_24px] sm:p-[36px_32px] shadow-[0_30px_80px_rgba(0,0,0,0.35)] border border-[#dce6ec] relative space-y-[20px] max-h-[88vh] overflow-y-auto font-manrope"
             >
               
               {/* Header del Modal */}
-              <div className="flex justify-between items-start border-b border-slate-100 pb-3.5 sm:pb-4">
-                <div className="space-y-1">
-                  <span className="text-[9.5px] sm:text-[10px] font-extrabold uppercase tracking-widest text-[#FF5A5F] bg-red-50 border border-red-100 px-2.5 py-0.5 rounded-full inline-block">
+              <div className="flex justify-between items-start border-b border-[#edf2f5] pb-[16px]">
+                <div className="flex flex-col items-start text-left space-y-1">
+                  <span className="text-[9.5px] font-[800] uppercase tracking-[0.08em] text-[#e54550] bg-[#fff4f5] border border-[#f7d1d4] px-[9px] py-[3px] rounded-full inline-block">
                     {activeModalExam.category}
                   </span>
-                  <h3 className="font-jakarta text-lg sm:text-2xl font-extrabold text-[#1E3A4C] mt-1 leading-snug">
+                  <h3 className="font-manrope text-[20px] sm:text-[22px] font-[800] text-[#09283c] mt-1 leading-snug">
                     {activeModalExam.name}
                   </h3>
                 </div>
                 <button 
                   onClick={() => setActiveModalExam(null)}
-                  className="p-1.5 sm:p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-colors cursor-pointer"
+                  className="w-[36px] h-[36px] rounded-[10px] border border-[#dce6ec] text-[#8da1af] hover:text-[#09283c] hover:bg-[#f8fafc] flex items-center justify-center transition-colors cursor-pointer shrink-0"
                 >
-                  <IconX className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <IconX className="w-[18px] h-[18px]" />
                 </button>
               </div>
 
               {/* Resumen */}
-              <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm text-slate-700">
-                <div className="p-3.5 sm:p-4 bg-slate-50/80 rounded-xl sm:rounded-2xl border border-slate-100 space-y-1">
-                  <span className="font-extrabold text-[#1E3A4C] uppercase tracking-wider text-[10px] sm:text-[11px] block">
+              <div className="space-y-[14px] text-left">
+                <div className="p-[16px] bg-[#f8fafc] rounded-[16px] border border-[#edf2f5] space-y-1">
+                  <span className="font-manrope font-[800] text-[#09283c] uppercase tracking-[0.08em] text-[10.5px] block">
                     ¿Para qué sirve este examen?
                   </span>
-                  <p className="leading-relaxed text-slate-600 font-medium text-xs sm:text-sm">
+                  <p className="font-manrope text-[13px] text-[#60788a] leading-[1.6]">
                     {activeModalExam.summary}
                   </p>
                 </div>
 
-                <div className="space-y-2 pt-1">
-                  <div className="flex items-center gap-3 p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white border border-slate-100 shadow-2xs">
-                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-red-50 text-[#FF5A5F] flex items-center justify-center shrink-0">
-                      <IconDroplet className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
-                    </div>
-                    <div>
-                      <span className="font-extrabold text-[#1E3A4C] block text-xs">Muestra requerida</span>
-                      <span className="text-slate-600 text-xs font-medium">{activeModalExam.sampleType}</span>
-                    </div>
+                <div className="flex items-center gap-[12px] p-[14px_16px] rounded-[16px] bg-white border border-[#dce6ec]">
+                  <div className="w-[36px] h-[36px] rounded-[11px] bg-[#fff0f1] text-[#fb5962] flex items-center justify-center shrink-0">
+                    <IconDroplet className="w-[18px] h-[18px]" />
+                  </div>
+                  <div>
+                    <span className="font-manrope font-[800] text-[#09283c] block text-[11px] uppercase tracking-wider">Muestra requerida</span>
+                    <span className="font-manrope text-[#60788a] text-[13px] font-[600]">{activeModalExam.sampleType}</span>
                   </div>
                 </div>
               </div>
 
               {/* Botón WhatsApp de Cotización Directa */}
-              <div className="pt-3 border-t border-slate-100 space-y-2 text-center">
-                <p className="text-[11px] sm:text-xs text-slate-500 font-medium">
+              <div className="pt-[14px] border-t border-[#edf2f5] space-y-[12px] text-center">
+                <p className="font-manrope text-[12px] text-[#60788a]">
                   Consulta precios, preparación y agenda tu turno al instante:
                 </p>
-                <motion.a 
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                <a 
                   href={getWhatsappUrl(activeModalExam.name)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 sm:py-3.5 bg-[#25D366] hover:bg-[#20ba5a] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl sm:rounded-2xl shadow-md sm:shadow-lg shadow-emerald-600/25 flex items-center justify-center gap-2 cursor-pointer transition-all"
+                  className="w-full min-h-[48px] bg-[#20ca70] hover:bg-[#16b963] text-white font-manrope font-[800] text-[13px] rounded-[13px] shadow-[0_10px_22px_rgba(20,184,121,0.24)] flex items-center justify-center gap-[9px] cursor-pointer transition-all"
                 >
-                  <IconBrandWhatsapp className="w-4 h-4" />
+                  <WhatsAppIcon className="w-[18px] h-[18px]" />
                   <span>Consultar por WhatsApp</span>
-                </motion.a>
+                </a>
               </div>
 
             </motion.div>

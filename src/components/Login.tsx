@@ -93,8 +93,12 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         <section className="hidden lg:flex lg:col-span-5 relative bg-[#1E3A4C] p-8 flex-col justify-between text-white overflow-hidden">
           {/* Imagen Médica de Fondo con Overlay */}
           <img 
-            src="https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=1000&q=80" 
+            src="https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=800&q=75" 
             alt="Médico especialista" 
+            loading="lazy"
+            decoding="async"
+            width={400}
+            height={500}
             className="absolute inset-0 h-full w-full object-cover opacity-35" 
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1E3A4C] via-[#1E3A4C]/80 to-[#1E3A4C]/40"></div>
