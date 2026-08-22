@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import gsap from 'gsap';
+import React, { useState } from 'react';
 import { 
   IconUserCheck, 
   IconChevronRight,
@@ -24,17 +23,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-
-  const formRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (formRef.current) {
-      gsap.fromTo(formRef.current, 
-        { autoAlpha: 0, y: 15, scale: 0.99 },
-        { autoAlpha: 1, y: 0, scale: 1, duration: 0.5, ease: "power2.out" }
-      );
-    }
-  }, []);
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,8 +73,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
       ></div>
 
       <div 
-        ref={formRef}
-        className="relative w-full max-w-4xl bg-white rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl border border-slate-200/90 overflow-hidden grid grid-cols-1 lg:grid-cols-12"
+        className="relative w-full max-w-4xl bg-white rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl border border-slate-200/90 overflow-hidden grid grid-cols-1 lg:grid-cols-12 animate-in fade-in zoom-in-95 duration-300"
       >
         
         {/* Panel Izquierdo con Imagen Médica (visible en desktop) */}

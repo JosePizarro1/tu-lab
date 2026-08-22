@@ -29,7 +29,6 @@ import {
   IconBrandInstagram
 } from '@tabler/icons-react';
 import WhatsAppIcon from './icons/WhatsAppIcon';
-import gsap from 'gsap';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import dynamic from 'next/dynamic';
@@ -49,13 +48,11 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
   const heroRef = useRef<HTMLElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const sedesSectionRef = useRef<HTMLElement>(null);
 
   const [yearsCount, setYearsCount] = React.useState(0);
   const [examsCount, setExamsCount] = React.useState(0);
-  const [showCards, setShowCards] = React.useState(false);
   const [mapVisible, setMapVisible] = React.useState(false);
   const [selectedSedeIndex, setSelectedSedeIndex] = React.useState<number>(0);
 
@@ -89,15 +86,6 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
   ];
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 30) {
-        setShowCards(true);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    if (window.scrollY > 30) setShowCards(true);
-
     // Observer para cargar Leaflet solo cuando el usuario se acerca a la sección Sedes
     const observer = new IntersectionObserver(
       (entries) => {
@@ -135,45 +123,7 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
     };
 
     requestAnimationFrame(animateCounters);
-
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  useEffect(() => {
-    if (showCards && cardsRef.current) {
-      gsap.fromTo(cardsRef.current.children,
-        { autoAlpha: 0, y: 35 },
-        { autoAlpha: 1, y: 0, stagger: 0.08, duration: 0.7, ease: 'power2.out' }
-      );
-    }
-  }, [showCards]);
-
-  const featureCards = [
-    {
-      title: 'Servicio de Análisis Clínicos',
-      description: 'Ofrecemos todo tipo de análisis clínicos, para el apoyo del diagnóstico médico.',
-      icon: <IconFlask className="w-12 h-12 text-white stroke-[1.5]" />,
-      action: () => setActiveTab('servicios')
-    },
-    {
-      title: 'Análisis de pruebas toxicológicas',
-      description: 'Utiliza para determinar si una persona ha sido expuesta a drogas legales o ilegales.',
-      icon: <IconMicroscope className="w-12 h-12 text-white stroke-[1.5]" />,
-      action: () => setActiveTab('servicios')
-    },
-    {
-      title: 'Examen PSA',
-      description: 'Ayuda a diagnosticar y hacerle seguimiento al cáncer de próstata en los hombres.',
-      icon: <IconTestPipe className="w-12 h-12 text-white stroke-[1.5]" />,
-      action: () => setActiveTab('servicios')
-    },
-    {
-      title: 'Atención a domicilio',
-      description: 'Llámanos o escríbenos por WhatsApp y te atendemos en la comodidad de tu casa o en tu trabajo.',
-      icon: <IconDna className="w-12 h-12 text-white stroke-[1.5]" />,
-      action: () => window.open('https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20atenci%C3%B3n%20a%20domicilio%20en%20Tacna', '_blank')
-    }
-  ];
 
   return (
     <div className="w-full min-h-screen bg-slate-50/40 pb-16 font-plex relative overflow-hidden">
