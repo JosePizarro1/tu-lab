@@ -201,13 +201,13 @@ export default function Page() {
       </a>
 
       {/* Footer - Diseño Oficial con Tipografía Manrope e Iconos */}
-      <footer className="w-full bg-[#ffffff] text-[#60788a] pt-[72px] pb-[38px] border-t border-[#dce6ec] font-manrope relative z-20">
-        <div className="w-[min(1180px,100%-48px)] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1.1fr_1.2fr] gap-[36px] lg:gap-[48px] mb-[48px]">
+      <footer className="w-full bg-[#ffffff] text-[#60788a] pt-[56px] sm:pt-[72px] pb-[38px] border-t border-[#dce6ec] font-manrope relative z-20">
+        <div className="w-[min(1180px,100%-40px)] sm:w-[min(1180px,100%-48px)] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1.1fr_1.2fr] gap-[36px] md:gap-[32px] lg:gap-[48px] mb-[40px] sm:mb-[48px]">
 
           {/* Columna 1: Branding & Redes Sociales */}
-          <div className="flex flex-col items-start gap-4">
+          <div className="flex flex-col items-center sm:items-start text-center sm:text-left gap-3.5 sm:gap-4">
             <div
-              className="cursor-pointer"
+              className="cursor-pointer flex justify-center sm:justify-start"
               onClick={() => { setActiveTab('inicio'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
             >
               <img
@@ -217,21 +217,21 @@ export default function Page() {
                 height={52}
                 loading="lazy"
                 decoding="async"
-                className="h-[48px] w-auto object-contain"
+                className="h-[46px] sm:h-[50px] w-auto object-contain"
               />
             </div>
-            <p className="font-manrope text-[13px] text-[#60788a] leading-[1.65] max-w-xs">
+            <p className="font-manrope text-[13px] text-[#60788a] leading-[1.65] max-w-sm sm:max-w-xs mx-auto sm:mx-0">
               Laboratorio clínico en Tacna con más de 6 años de experiencia en diagnóstico preciso y atención humana.
             </p>
 
             {/* Redes Sociales con estilo oficial */}
-            <div className="flex items-center gap-[10px] pt-1">
+            <div className="flex items-center justify-center sm:justify-start gap-[10px] pt-1">
               <a
                 href="https://www.facebook.com/UNIIDOSLAB.Laboratorio.Clinico/"
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Facebook UNIDOSLAB"
-                className="w-[38px] h-[38px] rounded-[11px] bg-white border border-[#dce6ec] text-[#09283c] hover:text-[#fb5962] hover:border-[#f7c7ca] flex items-center justify-center transition-all shadow-xs"
+                className="w-[38px] h-[38px] rounded-[11px] bg-white border border-[#dce6ec] text-[#09283c] hover:text-[#fb5962] hover:border-[#f7c7ca] flex items-center justify-center transition-all shadow-xs hover:-translate-y-0.5"
               >
                 <IconBrandFacebook className="w-[19px] h-[19px]" />
               </a>
@@ -240,7 +240,7 @@ export default function Page() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Instagram UNIDOSLAB"
-                className="w-[38px] h-[38px] rounded-[11px] bg-white border border-[#dce6ec] text-[#09283c] hover:text-[#fb5962] hover:border-[#f7c7ca] flex items-center justify-center transition-all shadow-xs"
+                className="w-[38px] h-[38px] rounded-[11px] bg-white border border-[#dce6ec] text-[#09283c] hover:text-[#fb5962] hover:border-[#f7c7ca] flex items-center justify-center transition-all shadow-xs hover:-translate-y-0.5"
               >
                 <IconBrandInstagram className="w-[19px] h-[19px]" />
               </a>
@@ -249,7 +249,7 @@ export default function Page() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="WhatsApp UNIDOSLAB"
-                className="w-[38px] h-[38px] rounded-[11px] bg-white border border-[#dce6ec] text-[#09283c] hover:text-[#25D366] hover:border-[#25D366]/40 flex items-center justify-center transition-all shadow-xs"
+                className="w-[38px] h-[38px] rounded-[11px] bg-white border border-[#dce6ec] text-[#09283c] hover:text-[#25D366] hover:border-[#25D366]/40 flex items-center justify-center transition-all shadow-xs hover:-translate-y-0.5"
               >
                 <WhatsAppIcon className="w-[19px] h-[19px]" />
               </a>
@@ -257,16 +257,16 @@ export default function Page() {
           </div>
 
           {/* Columna 2: Explorar / Servicios */}
-          <div className="flex flex-col items-start">
-            <h4 className="font-manrope font-[800] text-[13px] uppercase tracking-[0.1em] text-[#09283c] mb-[18px]">
+          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+            <h4 className="font-manrope font-[800] text-[13px] uppercase tracking-[0.12em] text-[#09283c] mb-[14px] sm:mb-[18px]">
               Explorar
             </h4>
-            <ul className="space-y-[11px] text-[13px] font-manrope font-[600] w-full">
+            <ul className="flex flex-col items-center sm:items-start space-y-[10px] sm:space-y-[11px] text-[13px] font-manrope font-[600] w-full">
               <li>
                 <button
                   type="button"
                   onClick={() => { setActiveTab('inicio'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center gap-1.5"
+                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center justify-center sm:justify-start gap-1.5"
                 >
                   <span>Inicio</span>
                 </button>
@@ -275,7 +275,7 @@ export default function Page() {
                 <button
                   type="button"
                   onClick={() => { setActiveTab('servicios'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center gap-1.5"
+                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center justify-center sm:justify-start gap-1.5"
                 >
                   <span>Servicios de salud</span>
                 </button>
@@ -295,7 +295,7 @@ export default function Page() {
                       if (el) el.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}
-                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center gap-1.5"
+                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center justify-center sm:justify-start gap-1.5"
                 >
                   <span>Cómo funciona</span>
                 </button>
@@ -315,7 +315,7 @@ export default function Page() {
                       if (el) el.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}
-                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center gap-1.5"
+                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center justify-center sm:justify-start gap-1.5"
                 >
                   <span>Nuestras sedes</span>
                 </button>
@@ -324,7 +324,7 @@ export default function Page() {
                 <button
                   type="button"
                   onClick={() => { setActiveTab('resultados'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center gap-1.5"
+                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center justify-center sm:justify-start gap-1.5"
                 >
                   <span>Resultados en línea</span>
                 </button>
@@ -333,7 +333,7 @@ export default function Page() {
                 <button
                   type="button"
                   onClick={() => { setActiveTab('soy_medico'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center gap-1.5"
+                  className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center justify-center sm:justify-start gap-1.5"
                 >
                   <span>Soy médico</span>
                 </button>
@@ -342,43 +342,43 @@ export default function Page() {
           </div>
 
           {/* Columna 3: Sedes & Horarios */}
-          <div className="flex flex-col items-start">
-            <h4 className="font-manrope font-[800] text-[13px] uppercase tracking-[0.1em] text-[#09283c] mb-[18px]">
+          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+            <h4 className="font-manrope font-[800] text-[13px] uppercase tracking-[0.12em] text-[#09283c] mb-[14px] sm:mb-[18px]">
               Sedes en Tacna
             </h4>
-            <div className="space-y-[13px] text-[13px] font-manrope">
-              <div>
-                <p className="font-[800] text-[#09283c] flex items-center gap-1.5">
+            <div className="space-y-[14px] text-[13px] font-manrope w-full flex flex-col items-center sm:items-start">
+              <div className="flex flex-col items-center sm:items-start">
+                <p className="font-[800] text-[#09283c] flex items-center justify-center sm:justify-start gap-1.5">
                   <IconMapPin className="w-4 h-4 text-[#fb5962] shrink-0" />
                   <span>Sede Av. Leguía:</span>
                 </p>
-                <p className="text-[12px] text-[#60788a] pl-5 mt-0.5">Av. Leguía N° 778-C</p>
+                <p className="text-[12px] text-[#60788a] mt-0.5 sm:pl-5">Av. Leguía N° 778-C</p>
               </div>
 
-              <div>
-                <p className="font-[800] text-[#09283c] flex items-center gap-1.5">
+              <div className="flex flex-col items-center sm:items-start">
+                <p className="font-[800] text-[#09283c] flex items-center justify-center sm:justify-start gap-1.5">
                   <IconMapPin className="w-4 h-4 text-[#fb5962] shrink-0" />
                   <span>Sede Patricio Meléndez:</span>
                 </p>
-                <p className="text-[12px] text-[#60788a] pl-5 mt-0.5">Calle Patricio Meléndez N° 382 Of. 303</p>
+                <p className="text-[12px] text-[#60788a] mt-0.5 sm:pl-5">Calle Patricio Meléndez N° 382 Of. 303</p>
               </div>
 
-              <div className="pt-2 border-t border-[#dce6ec]">
-                <p className="font-[800] text-[#09283c] flex items-center gap-1.5 text-[12px]">
+              <div className="pt-3 border-t border-[#dce6ec] w-full max-w-xs sm:max-w-none flex flex-col items-center sm:items-start">
+                <p className="font-[800] text-[#09283c] flex items-center justify-center sm:justify-start gap-1.5 text-[12px]">
                   <IconClock className="w-4 h-4 text-[#fb5962] shrink-0" />
                   <span>Horario de atención:</span>
                 </p>
-                <p className="text-[12px] text-[#60788a] pl-5 mt-0.5">
+                <p className="text-[12px] text-[#60788a] mt-0.5 sm:pl-5 leading-relaxed">
                   Lun a Sáb: 8:00 am – 1:00 pm / 3:00 pm – 8:00 pm<br />
-                  <span className="text-[11px] text-[#8aa0ae]">(Leguía desde 7:45 am)</span>
+                  <span className="text-[11px] text-[#8aa0ae] font-medium">(Sede Leguía desde 7:45 am)</span>
                 </p>
               </div>
             </div>
           </div>
 
           {/* Columna 4: Canales de Atención */}
-          <div className="flex flex-col items-start gap-3">
-            <h4 className="font-manrope font-[800] text-[13px] uppercase tracking-[0.1em] text-[#09283c] mb-[6px]">
+          <div className="flex flex-col items-center sm:items-start text-center sm:text-left gap-3 w-full max-w-sm sm:max-w-none mx-auto sm:mx-0">
+            <h4 className="font-manrope font-[800] text-[13px] uppercase tracking-[0.12em] text-[#09283c] mb-[4px] sm:mb-[6px]">
               Contacto directo
             </h4>
 
@@ -387,9 +387,9 @@ export default function Page() {
               href="https://wa.me/51952920616"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-2.5 px-3 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/30 text-[#1EBE5D] font-manrope font-[800] text-[12.5px] rounded-[13px] transition-all flex items-center gap-2 cursor-pointer"
+              className="w-full min-h-[44px] py-2.5 px-3.5 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/30 text-[#1EBE5D] font-manrope font-[800] text-[12.5px] rounded-[13px] transition-all flex items-center justify-center sm:justify-start gap-2.5 cursor-pointer shadow-2xs hover:-translate-y-0.5"
             >
-              <WhatsAppIcon className="w-4 h-4 text-[#25D366] shrink-0" />
+              <WhatsAppIcon className="w-[17px] h-[17px] text-[#25D366] shrink-0" />
               <span>952 920 616 (24 Horas)</span>
             </a>
 
@@ -398,16 +398,16 @@ export default function Page() {
               href="https://wa.me/51969940249"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-2.5 px-3 bg-white hover:bg-slate-50 border border-[#dce6ec] text-[#09283c] hover:text-[#25D366] font-manrope font-[800] text-[12.5px] rounded-[13px] transition-all flex items-center gap-2 cursor-pointer shadow-2xs"
+              className="w-full min-h-[44px] py-2.5 px-3.5 bg-white hover:bg-slate-50 border border-[#dce6ec] text-[#09283c] hover:text-[#25D366] font-manrope font-[800] text-[12.5px] rounded-[13px] transition-all flex items-center justify-center sm:justify-start gap-2.5 cursor-pointer shadow-2xs hover:-translate-y-0.5"
             >
-              <WhatsAppIcon className="w-4 h-4 text-[#25D366] shrink-0" />
+              <WhatsAppIcon className="w-[17px] h-[17px] text-[#25D366] shrink-0" />
               <span>969 940 249 (Citas)</span>
             </a>
 
             {/* Correo Electrónico */}
             <a
               href="mailto:uniilab.laboratorioclinico@outlook.es"
-              className="flex items-center gap-2 text-[12px] text-[#60788a] hover:text-[#fb5962] transition-colors mt-1"
+              className="flex items-center justify-center sm:justify-start gap-2 text-[12px] text-[#60788a] hover:text-[#fb5962] transition-colors mt-1 w-full"
             >
               <IconMail className="w-4 h-4 text-[#fb5962] shrink-0" />
               <span className="truncate">uniilab.laboratorioclinico@outlook.es</span>
@@ -417,9 +417,9 @@ export default function Page() {
         </div>
 
         {/* Línea Divisoria Inferior y Derechos */}
-        <div className="w-[min(1180px,100%-48px)] mx-auto pt-[24px] border-t border-[#dce6ec] flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] text-[#8aa0ae] font-medium text-center sm:text-left">
+        <div className="w-[min(1180px,100%-40px)] sm:w-[min(1180px,100%-48px)] mx-auto pt-[24px] border-t border-[#dce6ec] flex flex-col sm:flex-row items-center justify-between gap-3.5 sm:gap-4 text-[12px] text-[#8aa0ae] font-medium text-center sm:text-left">
           <span suppressHydrationWarning>&copy; {new Date().getFullYear()} UNIDOSLAB · Unidos por tu Salud. Tacna, Perú.</span>
-          <div className="flex justify-center sm:justify-start gap-6">
+          <div className="flex items-center justify-center sm:justify-start gap-4 sm:gap-6">
             <button
               type="button"
               onClick={() => { setActiveTab('terminos'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
