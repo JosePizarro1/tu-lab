@@ -44,10 +44,12 @@ export const SedeSchema = z.object({
   telefono: z.string().optional(),
 });
 
+import { ALL_ROLES } from '@/types/roles';
+
 // Esquema de Usuarios
 export const UsuarioSchema = z.object({
   username: z.string().min(3, 'El nombre de usuario debe tener al menos 3 caracteres'),
   password: z.string().min(4, 'La contraseña debe tener al menos 4 caracteres'),
   nombre: z.string().min(1, 'El nombre es obligatorio'),
-  rol: z.string().min(1, 'El rol es obligatorio'),
+  rol: z.enum(ALL_ROLES, { message: 'Rol no válido' }),
 });

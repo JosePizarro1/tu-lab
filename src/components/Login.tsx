@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { 
   IconUserCheck, 
   IconChevronRight,
@@ -8,14 +9,16 @@ import {
   IconEyeOff,
   IconStethoscope,
   IconLock,
-  IconInfoCircle
+  IconInfoCircle,
+  IconArrowLeft
 } from '@tabler/icons-react';
 
 import Swal from 'sweetalert2';
-import { database } from '../services/db';
+import { database, Usuario } from '../services/db';
+import { getRoleGreeting } from '@/types/roles';
 
 interface LoginProps {
-  onLoginSuccess: () => void;
+  onLoginSuccess: (usuario: Usuario) => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
@@ -29,7 +32,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
     setErrorMsg('');
 
     Swal.fire({
-      title: 'Portal Médico',
+      title: 'Portal Clínico',
       text: 'Verificando credenciales...',
       allowOutsideClick: false,
       didOpen: () => {
@@ -44,12 +47,12 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         sessionStorage.setItem('usuario', JSON.stringify(usuario));
         Swal.fire({
           title: 'Acceso Concedido',
-          text: `Bienvenido(a), Dr(a). ${usuario.nombre}`,
+          text: getRoleGreeting(usuario.rol, usuario.nombre),
           icon: 'success',
           timer: 1400,
           showConfirmButton: false
         }).then(() => {
-          onLoginSuccess();
+          onLoginSuccess(usuario);
         });
       } else {
         Swal.close();
@@ -120,17 +123,28 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
           <div>
             {/* Header del Formulario */}
             <header className="mb-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-50 border border-red-100 rounded-full mb-2.5">
-                <span className="w-1.5 h-1.5 bg-[#FF5A5F] rounded-full"></span>
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#FF5A5F]">
-                  Acceso Profesional
-                </span>
+              <div className="flex items-center justify-between mb-2.5">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-50 border border-red-100 rounded-full">
+                  <span className="w-1.5 h-1.5 bg-[#FF5A5F] rounded-full"></span>
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#FF5A5F]">
+                    Acceso Profesional
+                  </span>
+                </div>
+
+                <Link
+                  href="/"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-[#FF5A5F] transition-colors"
+                >
+                  <IconArrowLeft className="w-3.5 h-3.5" />
+                  <span>Volver al inicio</span>
+                </Link>
               </div>
+
               <h1 className="font-jakarta text-2xl sm:text-3xl font-extrabold text-[#1E3A4C] tracking-tight">
-                Soy Médico
+                Portal UNIDOSLAB
               </h1>
               <p className="text-slate-500 mt-1 text-xs font-medium">
-                Ingresa con tu usuario asignado o número de colegiatura.
+                Ingresa con tu usuario y contraseña de acceso al sistema.
               </p>
             </header>
 

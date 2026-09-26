@@ -8,11 +8,13 @@ export const SESSION_COOKIE_NAME = 'session_token';
 export const SESSION_DURATION_DAYS = 30;
 export const SESSION_DURATION_SECONDS = SESSION_DURATION_DAYS * 24 * 60 * 60; // 30 días en segundos
 
+import { UserRole } from '@/types/roles';
+
 export interface UserSessionPayload {
   id: string;
   username: string;
   nombre: string;
-  rol: string;
+  rol: UserRole;
 }
 
 /**

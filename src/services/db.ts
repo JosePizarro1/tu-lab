@@ -1,3 +1,5 @@
+import { UserRole } from '@/types/roles';
+
 export interface Sede {
   id: string;
   nombre: string;
@@ -22,7 +24,8 @@ export interface Paciente {
   apellido: string;
   telefono?: string;
   correo?: string;
-  sedeRegistro: string;
+  sede?: string;
+  sedeRegistro?: string;
   sedeId: string;
   fechaRegistro: string;
 }
@@ -34,7 +37,7 @@ export interface PruebaClinica {
   status: 'En Proceso' | 'Completado';
   fecha: string;
   resultado?: string;
-  sede: string;
+  sede?: string;
   sedeId: string;
 }
 
@@ -51,7 +54,7 @@ export interface Usuario {
   id: string;
   username: string;
   nombre: string;
-  rol: string;
+  rol: UserRole;
   activo: boolean;
 }
 
@@ -132,7 +135,7 @@ export const database = {
     }
   },
 
-  crearUsuario: async (usuario: { username: string; password: string; nombre: string; rol: string }): Promise<boolean> => {
+  crearUsuario: async (usuario: { username: string; password: string; nombre: string; rol: UserRole }): Promise<boolean> => {
     try {
       const res = await fetch('/api/usuarios', {
         method: 'POST',
@@ -146,7 +149,7 @@ export const database = {
     }
   },
 
-  actualizarUsuario: async (id: string, data: Partial<{ username: string; password: string; nombre: string; rol: string; activo: boolean }>): Promise<boolean> => {
+  actualizarUsuario: async (id: string, data: Partial<{ username: string; password: string; nombre: string; rol: UserRole; activo: boolean }>): Promise<boolean> => {
     try {
       const res = await fetch('/api/usuarios', {
         method: 'PUT',

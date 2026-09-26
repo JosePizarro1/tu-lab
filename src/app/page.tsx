@@ -7,7 +7,6 @@ import Header from '../components/Header';
 import Home from '../components/Home';
 
 // Dynamic imports para reducir el bundle inicial en mobile y desktop
-const Login = dynamic(() => import('../components/Login'), { ssr: false });
 const Services = dynamic(() => import('../components/Services'), { ssr: false });
 const Terminos = dynamic(() => import('../components/Terminos'), { ssr: false });
 const Privacidad = dynamic(() => import('../components/Privacidad'), { ssr: false });
@@ -42,12 +41,6 @@ export default function Page() {
     switch (activeTab) {
       case 'inicio':
         return <Home setActiveTab={setActiveTab} />;
-
-      case 'soy_medico':
-        return <Login onLoginSuccess={() => {
-          sessionStorage.setItem('isLoggedIn', 'true');
-          router.push('/dashboard');
-        }} />;
 
       case 'servicios':
         return <Services />;
@@ -332,7 +325,7 @@ export default function Page() {
               <li>
                 <button
                   type="button"
-                  onClick={() => { setActiveTab('soy_medico'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  onClick={() => router.push('/login')}
                   className="text-[#60788a] hover:text-[#fb5962] transition-colors cursor-pointer flex items-center justify-center sm:justify-start gap-1.5"
                 >
                   <span>Soy médico</span>

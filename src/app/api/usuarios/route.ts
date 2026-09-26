@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
 
+import { UsuarioSchema } from '@/lib/schemas';
+import { ALL_ROLES } from '@/types/roles';
+
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
@@ -16,12 +19,17 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const { username, password, nombre, rol } = await req.json();
+    const body = await req.json();
+    const parsed = UsuarioSchema.safeParse(body);
 
-    if (!username || !password || !nombre || !rol) {
-      return NextResponse.json({ error: 'Todos los campos son requeridos' }, { status: 400 });
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: 'Datos inválidos', details: parsed.error.format() },
+        { status: 400 }
+      );
     }
 
+    const { username, password, nombre, rol } = parsed.data;
     const id = 'U-' + username.toUpperCase();
 
     await sql`
@@ -42,6 +50,10 @@ export async function PUT(req: NextRequest) {
 
     if (!id) {
       return NextResponse.json({ error: 'ID de usuario requerido' }, { status: 400 });
+    }
+
+    if (rol !== undefined && !ALL_ROLES.includes(rol)) {
+      return NextResponse.json({ error: 'Rol no válido' }, { status: 400 });
     }
 
     if (username !== undefined) {

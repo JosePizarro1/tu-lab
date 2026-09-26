@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { IconMenu, IconX, IconArrowRight } from '@tabler/icons-react';
 import WhatsAppIcon from './icons/WhatsAppIcon';
 
@@ -10,6 +11,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -32,6 +34,12 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   ];
 
   const handleNavClick = (tabId: string) => {
+    if (tabId === 'soy_medico') {
+      setMobileMenuOpen(false);
+      router.push('/login');
+      return;
+    }
+
     if (tabId === 'proceso') {
       if (activeTab !== 'inicio') {
         setActiveTab('inicio');

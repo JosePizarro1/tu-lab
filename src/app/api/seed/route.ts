@@ -109,8 +109,9 @@ export async function GET() {
     if (uCount === 0) {
       await sql`
         INSERT INTO "Usuario" (id, username, password, nombre, rol, activo) VALUES 
-        ('U-ADMIN', 'admin', 'admin', 'Administrador Clínico', 'ADMIN', true),
-        ('U-DOCTOR', 'doctor', 'doctor', 'Dr. Juan Pérez', 'DOCTOR', true)
+        ('U-ADMIN', 'admin', 'admin', 'Administrador Clínico', 'ADMINISTRADOR', true),
+        ('U-DOCTOR', 'doctor', 'doctor', 'Dr. Juan Pérez', 'DOCTOR', true),
+        ('U-RECEPCION', 'recepcion', 'recepcion', 'Ana Gómez', 'RECEPCIONISTA', true)
       `;
     }
 

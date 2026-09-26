@@ -1,4 +1,5 @@
 import { sql } from './db';
+import { ROLES, UserRole } from '@/types/roles';
 
 const SEDES = [
   { id: 'SEDE-BRENA', nombre: 'Breña', direccion: 'Av. Breña 123, Lima', telefono: '01-5550101' },
@@ -28,9 +29,10 @@ const INITIAL_PRUEBAS = [
   { id: 'P3', pacienteDni: '87654321', examen: 'Colesterol Total', status: 'En Proceso', fecha: '2026-07-02', sedeId: 'SEDE-COMAS' }
 ];
 
-const INITIAL_USUARIOS = [
-  { id: 'U-ADMIN', username: 'admin', password: 'admin', nombre: 'Administrador Clínico', rol: 'ADMIN' },
-  { id: 'U-DOCTOR', username: 'doctor', password: 'doctor', nombre: 'Dr. Juan Pérez', rol: 'DOCTOR' },
+const INITIAL_USUARIOS: { id: string; username: string; password: string; nombre: string; rol: UserRole }[] = [
+  { id: 'U-ADMIN', username: 'admin', password: 'admin', nombre: 'Administrador Clínico', rol: ROLES.ADMIN },
+  { id: 'U-DOCTOR', username: 'doctor', password: 'doctor', nombre: 'Dr. Juan Pérez', rol: ROLES.DOCTOR },
+  { id: 'U-RECEPCION', username: 'recepcion', password: 'recepcion', nombre: 'Ana Gómez', rol: ROLES.RECEPCIONISTA },
 ];
 
 export async function ensureSeed() {
@@ -110,6 +112,11 @@ export async function ensureSeed() {
     await sql`ALTER TABLE "Paciente" ADD COLUMN IF NOT EXISTS "sedeId" VARCHAR(36) REFERENCES "Sede"(id)`;
     await sql`ALTER TABLE "PruebaClinica" ADD COLUMN IF NOT EXISTS "sedeId" VARCHAR(36) REFERENCES "Sede"(id)`;
 
+    // Normalizar roles existentes en la BD
+    await sql`UPDATE "Usuario" SET rol = 'ADMINISTRADOR' WHERE rol IN ('ADMIN', 'Administrador', 'admin')`;
+    await sql`UPDATE "Usuario" SET rol = 'DOCTOR' WHERE rol IN ('DOCTOR', 'Doctor', 'Tecnico', 'doctor', 'tecnico')`;
+    await sql`UPDATE "Usuario" SET rol = 'RECEPCIONISTA' WHERE rol IN ('RECEPCIONISTA', 'Secretaria', 'Recepcionista', 'secretaria')`;
+
     // 4. Poblar sedes si están vacías
     const sedeCount = await sql`SELECT COUNT(*) FROM "Sede"`;
     const sCount = parseInt((sedeCount[0] as any).count, 10);
@@ -137,18 +144,18 @@ export async function ensureSeed() {
       WHERE "sedeId" IS NULL AND sede IS NOT NULL
     `;
 
-    // 6. Poblar datos iniciales si la tabla Usuario está vacía
-    const countRes = await sql`SELECT COUNT(*) FROM "Usuario"`;
-    const uCount = parseInt((countRes[0] as any).count, 10);
-    if (uCount === 0) {
-      for (const u of INITIAL_USUARIOS) {
-        await sql`
-          INSERT INTO "Usuario" (id, username, password, nombre, rol, activo)
-          VALUES (${u.id}, ${u.username}, ${u.password}, ${u.nombre}, ${u.rol}, true)
-          ON CONFLICT (id) DO NOTHING
-        `;
-      }
+    // 6. Poblar datos iniciales
+    for (const u of INITIAL_USUARIOS) {
+      await sql`
+        INSERT INTO "Usuario" (id, username, password, nombre, rol, activo)
+        VALUES (${u.id}, ${u.username}, ${u.password}, ${u.nombre}, ${u.rol}, true)
+        ON CONFLICT (id) DO UPDATE SET rol = ${u.rol}, activo = true
+      `;
+    }
 
+    const countRes = await sql`SELECT COUNT(*) FROM "Reactivo"`;
+    const rCount = parseInt((countRes[0] as any).count, 10);
+    if (rCount === 0) {
       for (const r of INITIAL_REACTIVOS) {
         await sql`
           INSERT INTO "Reactivo" (id, name, stock, unit, "minStock", sede, "sedeId")

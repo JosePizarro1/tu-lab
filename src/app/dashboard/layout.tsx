@@ -101,9 +101,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         refreshGlobalData,
       }}
     >
-      <div className="min-h-screen bg-slate-50 flex font-sans">
+      <div className="min-h-screen bg-[#F4F6FA] flex font-sans antialiased text-slate-800">
         {/* Sidebar persistente */}
-        <Sidebar onLogout={handleLogout} rolUsuario={usuario?.rol} />
+        <Sidebar onLogout={handleLogout} usuario={usuario} rolUsuario={usuario?.rol} />
 
         {/* Contenido principal */}
         <div className="flex-1 flex flex-col min-w-0 min-h-screen">
@@ -115,7 +115,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             onLogout={handleLogout}
           />
 
-          <main className="flex-1 p-4 sm:p-6 pb-24 md:pb-6 overflow-y-auto">
+          <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-24 md:pb-8 overflow-y-auto">
             {children}
           </main>
         </div>
