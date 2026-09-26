@@ -46,10 +46,10 @@ const SedesMap: React.FC<SedesMapProps> = ({ sedes, selectedSedeIndex, onSelectS
         attributionControl: false
       });
 
-      // CartoDB Voyager clean and bright map tiles
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      // Esri World Street Map (Limpio, estilo Google Maps, gratuito y sin números de casas ni API key)
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 19,
-        subdomains: 'abcd'
+        attribution: 'Tiles &copy; Esri'
       }).addTo(map);
 
       mapInstanceRef.current = map;
