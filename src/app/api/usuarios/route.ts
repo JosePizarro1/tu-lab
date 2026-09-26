@@ -20,27 +20,50 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const parsed = UsuarioSchema.safeParse(body);
+    console.log('[API POST /api/usuarios] Solicitud recibida:', {
+      ...body,
+      password: body.password ? '******' : undefined,
+    });
 
+    const parsed = UsuarioSchema.safeParse(body);
     if (!parsed.success) {
+      const errorMsg = parsed.error.issues.map((i) => i.message).join('. ');
+      console.warn('[API POST /api/usuarios] Error de validación Zod:', errorMsg, parsed.error.format());
       return NextResponse.json(
-        { error: 'Datos inválidos', details: parsed.error.format() },
+        { error: errorMsg, details: parsed.error.format() },
         { status: 400 }
       );
     }
 
     const { username, password, nombre, rol } = parsed.data;
-    const id = 'U-' + username.toUpperCase();
+    const cleanUsername = username.trim().toLowerCase();
+    const id = 'U-' + cleanUsername.toUpperCase().replace(/\s+/g, '_');
+
+    // Verificar si ya existe usuario con el mismo username o ID
+    const existing = await sql`
+      SELECT id, username FROM "Usuario"
+      WHERE id = ${id} OR LOWER(username) = ${cleanUsername}
+      LIMIT 1
+    `;
+
+    if (existing.length > 0) {
+      console.warn(`[API POST /api/usuarios] Conflicto: el usuario ya existe: "${cleanUsername}" (ID: ${id})`);
+      return NextResponse.json(
+        { error: `El nombre de usuario "${cleanUsername}" ya está registrado en el sistema.` },
+        { status: 409 }
+      );
+    }
 
     await sql`
       INSERT INTO "Usuario" (id, username, password, nombre, rol, activo)
-      VALUES (${id}, ${username}, ${password}, ${nombre}, ${rol}, true)
-      ON CONFLICT (id) DO NOTHING
+      VALUES (${id}, ${cleanUsername}, ${password}, ${nombre.trim()}, ${rol}, true)
     `;
 
+    console.log('[API POST /api/usuarios] Usuario creado exitosamente:', { id, username: cleanUsername, nombre: nombre.trim(), rol });
     return NextResponse.json({ success: true, id }, { status: 201 });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    console.error('[API POST /api/usuarios] Error en base de datos al crear usuario:', e);
+    return NextResponse.json({ error: e.message || 'Error interno del servidor al crear usuario' }, { status: 500 });
   }
 }
 

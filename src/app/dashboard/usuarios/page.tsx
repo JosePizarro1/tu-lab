@@ -40,16 +40,27 @@ export default function UsuariosPage() {
 
   const handleCrearUsuario = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!usernameInput || !passwordInput || !nombreInput) return;
+    if (!usernameInput.trim() || !passwordInput || !nombreInput.trim()) {
+      Swal.fire('Atención', 'Por favor completá todos los campos requeridos.', 'warning');
+      return;
+    }
 
-    const ok = await database.crearUsuario({
-      username: usernameInput,
-      password: passwordInput,
-      nombre: nombreInput,
+    console.log('[UsuariosPage] Enviando solicitud para crear usuario:', {
+      username: usernameInput.trim(),
+      nombre: nombreInput.trim(),
       rol: rolInput,
     });
 
-    if (ok) {
+    const result = await database.crearUsuario({
+      username: usernameInput.trim(),
+      password: passwordInput,
+      nombre: nombreInput.trim(),
+      rol: rolInput,
+    });
+
+    console.log('[UsuariosPage] Respuesta de creación:', result);
+
+    if (result.ok) {
       Swal.fire('Éxito', 'Usuario creado correctamente.', 'success');
       setShowModal(false);
       setUsernameInput('');
@@ -58,7 +69,7 @@ export default function UsuariosPage() {
       setRolInput(ROLES.DOCTOR);
       loadUsuarios();
     } else {
-      Swal.fire('Error', 'No se pudo crear el usuario.', 'error');
+      Swal.fire('Error al crear usuario', result.error || 'No se pudo crear el usuario.', 'error');
     }
   };
 
@@ -139,13 +150,14 @@ export default function UsuariosPage() {
             <form onSubmit={handleCrearUsuario} className="space-y-4">
               <div>
                 <label className="text-[10px] uppercase tracking-wider text-slate-400 font-extrabold mb-1.5 block">
-                  Username / Identificador
+                  Username / Identificador (mínimo 3 caracteres)
                 </label>
                 <input
                   type="text"
                   value={usernameInput}
                   onChange={(e) => setUsernameInput(e.target.value)}
                   placeholder="ej. jperez"
+                  minLength={3}
                   className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-[#fb5962] focus:bg-white transition-all font-mono"
                   required
                 />
@@ -153,13 +165,14 @@ export default function UsuariosPage() {
 
               <div>
                 <label className="text-[10px] uppercase tracking-wider text-slate-400 font-extrabold mb-1.5 block">
-                  Contraseña Temporal
+                  Contraseña (mínimo 4 caracteres)
                 </label>
                 <input
                   type="password"
                   value={passwordInput}
                   onChange={(e) => setPasswordInput(e.target.value)}
                   placeholder="••••••••"
+                  minLength={4}
                   className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-[#fb5962] focus:bg-white transition-all"
                   required
                 />

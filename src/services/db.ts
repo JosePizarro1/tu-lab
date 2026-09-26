@@ -135,17 +135,30 @@ export const database = {
     }
   },
 
-  crearUsuario: async (usuario: { username: string; password: string; nombre: string; rol: UserRole }): Promise<boolean> => {
+  crearUsuario: async (usuario: { username: string; password: string; nombre: string; rol: UserRole }): Promise<{ ok: boolean; error?: string }> => {
     try {
+      console.log('[database.crearUsuario] Enviando datos a /api/usuarios:', {
+        username: usuario.username,
+        nombre: usuario.nombre,
+        rol: usuario.rol,
+      });
+
       const res = await fetch('/api/usuarios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(usuario)
       });
-      return res.ok;
-    } catch (e) {
-      console.error(e);
-      return false;
+
+      const data = await res.json().catch(() => ({}));
+      console.log('[database.crearUsuario] Respuesta recibida:', res.status, data);
+
+      if (!res.ok) {
+        return { ok: false, error: data.error || 'Error al crear usuario' };
+      }
+      return { ok: true };
+    } catch (e: any) {
+      console.error('[database.crearUsuario] Excepción al crear usuario:', e);
+      return { ok: false, error: e?.message || 'Error de conexión con el servidor' };
     }
   },
 
