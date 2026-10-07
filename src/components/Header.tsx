@@ -124,10 +124,10 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
         <div className="flex items-center gap-3">
           <button
             type="button"
-            onClick={() => handleNavClick('resultados')}
-            className="hidden sm:inline-flex items-center justify-center gap-2 min-h-[44px] px-[19px] bg-[#fb5962] hover:bg-[#e54550] text-white font-manrope font-[800] text-[13px] rounded-[13px] shadow-[0_11px_24px_rgba(251,89,98,0.23)] hover:shadow-[0_14px_28px_rgba(229,69,80,0.28)] transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+            onClick={() => handleNavClick('servicios')}
+            className="hidden sm:inline-flex items-center justify-center gap-2 min-h-[44px] px-[20px] bg-[#fb5962] hover:bg-[#e54550] text-white font-manrope font-[800] text-[13px] rounded-[13px] shadow-[0_11px_24px_rgba(251,89,98,0.23)] hover:shadow-[0_14px_28px_rgba(229,69,80,0.28)] transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
           >
-            <span>Consultar resultados</span>
+            <span>Agendar cita</span>
             <IconArrowRight className="w-4 h-4 stroke-[2.2]" />
           </button>
 
@@ -172,10 +172,10 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
             <div className="pt-3 border-t border-[#dce6ec] flex flex-col gap-2.5">
               <button
                 type="button"
-                onClick={() => handleNavClick('resultados')}
+                onClick={() => handleNavClick('servicios')}
                 className="w-full min-h-[48px] bg-[#fb5962] hover:bg-[#e54550] text-white font-manrope font-[800] text-xs uppercase tracking-wider rounded-[13px] shadow-[0_11px_24px_rgba(251,89,98,0.23)] flex items-center justify-center gap-2 cursor-pointer transition-all"
               >
-                <span>Consultar resultados</span>
+                <span>Agendar cita</span>
                 <IconArrowRight className="w-4 h-4" />
               </button>
 

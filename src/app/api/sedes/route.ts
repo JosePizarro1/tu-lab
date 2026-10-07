@@ -3,14 +3,35 @@ import { sql } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
+let cachedSedes: any = null;
+let lastFetchSedesTime = 0;
+const CACHE_TTL_SEDES_MS = 60 * 1000 * 15; // 15 minutos
+
 export async function GET() {
   try {
-    const list = await sql`SELECT * FROM "Sede" ORDER BY nombre ASC`;
-    return NextResponse.json(list);
+    const now = Date.now();
+    if (cachedSedes && (now - lastFetchSedesTime) < CACHE_TTL_SEDES_MS) {
+      return NextResponse.json(cachedSedes, {
+        headers: {
+          'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=1800',
+        },
+      });
+    }
+
+    const list = await sql`SELECT * FROM "Sede" WHERE activo = true ORDER BY nombre ASC`;
+    cachedSedes = list;
+    lastFetchSedesTime = now;
+
+    return NextResponse.json(list, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=1800',
+      },
+    });
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
+
 
 export async function POST(req: NextRequest) {
   try {

@@ -213,24 +213,26 @@ const Home: React.FC<HomeProps> = ({ setActiveTab }) => {
                 transition={{ duration: 0.6, delay: 0.25 }}
                 className="flex flex-wrap items-center gap-[13px] w-full sm:w-auto"
               >
-                <a
-                  href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20agendar%20una%20atenci%C3%B3n"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="min-h-[48px] px-[22px] bg-[#fb5962] hover:bg-[#e54550] text-white font-manrope font-[800] text-[13px] rounded-[13px] shadow-[0_11px_24px_rgba(251,89,98,0.23)] hover:shadow-[0_14px_28px_rgba(229,69,80,0.28)] transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[10px] cursor-pointer"
-                >
-                  <WhatsAppIcon className="w-[19px] h-[19px]" />
-                  <span>Agendar atención</span>
-                </a>
-
+                {/* Botón Principal: Reservar Cita Online (Lleva directo a la agenda) */}
                 <button
                   type="button"
                   onClick={() => setActiveTab('servicios')}
+                  className="min-h-[48px] px-[24px] bg-[#fb5962] hover:bg-[#e54550] text-white font-manrope font-[800] text-[13px] rounded-[13px] shadow-[0_11px_24px_rgba(251,89,98,0.23)] hover:shadow-[0_14px_28px_rgba(229,69,80,0.28)] transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[10px] cursor-pointer"
+                >
+                  <IconCalendarEvent className="w-[19px] h-[19px]" />
+                  <span>Reservar cita online</span>
+                </button>
+
+                {/* Botón Secundario: Toma de Muestras a Domicilio por WhatsApp */}
+                <a
+                  href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20agendar%20una%20toma%20de%20muestra%20a%20domicilio%20en%20Tacna"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="min-h-[48px] px-[22px] bg-white hover:bg-slate-50 border border-[#dce6ec] hover:border-[#b9cad4] text-[#09283c] font-manrope font-[800] text-[13px] rounded-[13px] shadow-none hover:shadow-[0_10px_24px_rgba(23,55,74,0.08)] transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[10px] cursor-pointer"
                 >
-                  <span>Conocer servicios</span>
-                  <IconArrowRight className="w-[18px] h-[18px]" />
-                </button>
+                  <WhatsAppIcon className="w-[19px] h-[19px] text-[#25D366]" />
+                  <span>Toma a domicilio</span>
+                </a>
               </motion.div>
 
               {/* Métricas de prueba animadas y 100% responsive (.hero-proof) */}

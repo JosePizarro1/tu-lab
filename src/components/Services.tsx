@@ -1,618 +1,689 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  IconSearch, 
-  IconX, 
-  IconMicroscope, 
-  IconActivity, 
-  IconHomeHeart, 
-  IconStethoscope,
+import {
+  IconCheck,
   IconChevronRight,
+  IconChevronLeft,
+  IconPhone,
+  IconMapPin,
+  IconBuildingHospital,
   IconClock,
-  IconDroplet,
-  IconShieldCheck,
-  IconSparkles,
   IconInfoCircle,
-  IconSend,
-  IconPhone
+  IconBuilding
 } from '@tabler/icons-react';
 import WhatsAppIcon from './icons/WhatsAppIcon';
-import {
-  IconOrganLiver,
-  IconOrganGallbladder,
-  IconOrganPancreas,
-  IconOrganSpleen,
-  IconOrganStomach,
-  IconOrganProstate,
-  IconOrganUterus,
-  IconOrganKidneys,
-  IconOrganBladder
-} from './OrganIcons';
+import { database, Especialidad, Sede } from '@/services/db';
+import Swal from 'sweetalert2';
 
-export interface ExamItem {
-  id: string;
-  name: string;
-  category: 'Hematología' | 'Bioquímica' | 'Orina y heces' | 'Hormonas y perfil tiroideo' | 'Infecciosas / despistaje' | 'Ecografías' | 'Servicio a domicilio';
-  subCategory?: string;
-  summary: string;
-  sampleType: string;
-  popular?: boolean;
+interface SlotColumna {
+  fecha: string;
+  slots: { hora: string; disponible: boolean }[];
 }
 
-const EXAMS_CATALOG: ExamItem[] = [
-  // 1. HEMATOLOGÍA
-  {
-    id: 'hemograma-completo',
-    name: 'Hemograma completo',
-    category: 'Hematología',
-    subCategory: 'Hematología',
-    summary: 'Evaluación integral de glóbulos rojos, glóbulos blancos, plaquetas y hemoglobina.',
-    sampleType: 'Muestra de Sangre',
-    popular: true
-  },
-  {
-    id: 'grupo-sanguineo-rh',
-    name: 'Grupo Sanguíneo y Factor RH',
-    category: 'Hematología',
-    subCategory: 'Tipificación',
-    summary: 'Determinación de grupo sanguíneo (A, B, AB, O) y factor Rh (positivo o negativo).',
-    sampleType: 'Muestra de Sangre',
-    popular: true
-  },
-  {
-    id: 'tiempo-coagulacion-sangria',
-    name: 'Tiempo de Coagulación / Sangría',
-    category: 'Hematología',
-    subCategory: 'Hemostasia',
-    summary: 'Evaluación de tiempos de coagulación y sangría sanguínea.',
-    sampleType: 'Muestra de Sangre'
-  },
+interface ServicesProps {
+  setActiveTab?: (tab: string) => void;
+}
 
-  // 2. BIOQUÍMICA
+const SEDES_CONFIG = [
   {
-    id: 'glucosa',
-    name: 'Glucosa',
-    category: 'Bioquímica',
-    subCategory: 'Metabolismo',
-    summary: 'Medición de glucosa en sangre en ayunas para control y descarte de diabetes.',
-    sampleType: 'Muestra de Sangre',
-    popular: true
+    id: 'SEDE-LEGUIA',
+    nombre: 'Sede Av. Leguía',
+    direccion: 'Av. Leguía N° 778-C, Tacna',
+    horarioDesc: 'Lun a Sáb: 7:45 am – 1:00 pm / 3:00 pm – 8:00 pm',
+    notaApertura: 'Atención desde las 7:45 am',
   },
   {
-    id: 'hemoglobina-glicosilada',
-    name: 'Hemoglobina Glicosilada (control de diabetes)',
-    category: 'Bioquímica',
-    subCategory: 'Control Metabólico',
-    summary: 'Control y monitoreo de niveles promedio de glucosa de los últimos meses.',
-    sampleType: 'Muestra de Sangre',
-    popular: true
-  },
-  {
-    id: 'perfil-lipidico',
-    name: 'Perfil Lipídico (Colesterol total, HDL, LDL, Triglicéridos)',
-    category: 'Bioquímica',
-    subCategory: 'Lípidos',
-    summary: 'Evaluación de colesterol total, HDL, LDL y triglicéridos en sangre.',
-    sampleType: 'Muestra de Sangre',
-    popular: true
-  },
-  {
-    id: 'perfil-hepatico',
-    name: 'Perfil Hepático (TGO, TGP, Bilirrubinas)',
-    category: 'Bioquímica',
-    subCategory: 'Función Hepática',
-    summary: 'Evaluación de enzimas TGO, TGP y bilirrubinas para la función del hígado.',
-    sampleType: 'Muestra de Sangre'
-  },
-  {
-    id: 'perfil-renal',
-    name: 'Perfil Renal (Creatinina, Urea, Ácido Úrico)',
-    category: 'Bioquímica',
-    subCategory: 'Función Renal',
-    summary: 'Medición de creatinina, urea y ácido úrico para la función renal.',
-    sampleType: 'Muestra de Sangre'
-  },
-
-  // 3. ORINA Y HECES
-  {
-    id: 'examen-orina-completo',
-    name: 'Examen de Orina Completo',
-    category: 'Orina y heces',
-    subCategory: 'Urianálisis',
-    summary: 'Análisis físico, químico y microscópico del sedimento urinario.',
-    sampleType: 'Muestra de Orina',
-    popular: true
-  },
-  {
-    id: 'examen-heces-graham',
-    name: 'Examen de Heces / Test de Graham (parásitos, muy pedido para niños)',
-    category: 'Orina y heces',
-    subCategory: 'Parasitología',
-    summary: 'Estudio de heces y cinta de Graham para detección de parásitos y oxiuros.',
-    sampleType: 'Muestra de Heces / Cinta Graham',
-    popular: true
-  },
-  {
-    id: 'urocultivo',
-    name: 'Urocultivo',
-    category: 'Orina y heces',
-    subCategory: 'Microbiología',
-    summary: 'Cultivo microbiológico de orina para identificación de bacterias.',
-    sampleType: 'Muestra de Orina estéril'
-  },
-
-  // 4. HORMONAS Y PERFIL TIROIDEO
-  {
-    id: 'perfil-tiroideo',
-    name: 'TSH, T3, T4 Libre (perfil tiroideo)',
-    category: 'Hormonas y perfil tiroideo',
-    subCategory: 'Endocrinología',
-    summary: 'Dosaje de hormonas tiroideas TSH, T3 y T4 libre en sangre.',
-    sampleType: 'Muestra de Sangre',
-    popular: true
-  },
-  {
-    id: 'beta-hcg-embarazo',
-    name: 'Beta HCG (prueba de embarazo)',
-    category: 'Hormonas y perfil tiroideo',
-    subCategory: 'Salud Femenina',
-    summary: 'Detección cuantitativa y cualitativa de la hormona Beta HCG en sangre.',
-    sampleType: 'Muestra de Sangre',
-    popular: true
-  },
-
-  // 5. INFECCIOSAS / DESPISTAJE
-  {
-    id: 'hiv-prueba-rapida',
-    name: 'HIV (prueba rápida)',
-    category: 'Infecciosas / despistaje',
-    subCategory: 'Inmunología',
-    summary: 'Prueba rápida de descarte de VIH con atención confidencial.',
-    sampleType: 'Muestra de Sangre',
-    popular: true
-  },
-  {
-    id: 'vdrl-rpr-sifilis',
-    name: 'VDRL / RPR (sífilis)',
-    category: 'Infecciosas / despistaje',
-    subCategory: 'Serología',
-    summary: 'Prueba serológica de descarte para sífilis (VDRL / RPR).',
-    sampleType: 'Muestra de Sangre'
-  },
-  {
-    id: 'hepatitis-b-c',
-    name: 'Hepatitis B y C',
-    category: 'Infecciosas / despistaje',
-    subCategory: 'Marcadores Virales',
-    summary: 'Descarte y marcadores serológicos de Hepatitis B y Hepatitis C.',
-    sampleType: 'Muestra de Sangre'
-  },
-  {
-    id: 'helicobacter-pylori',
-    name: 'Helicobacter Pylori',
-    category: 'Infecciosas / despistaje',
-    subCategory: 'Gastroenterología',
-    summary: 'Detección de la bacteria Helicobacter Pylori para control gástrico.',
-    sampleType: 'Muestra de Sangre / Prueba de Aliento',
-    popular: true
-  },
-
-  // 6. ECOGRAFÍAS
-  {
-    id: 'ecografias-evaluacion',
-    name: 'Ecografías y Evaluación de Órganos',
-    category: 'Ecografías',
-    subCategory: 'Imágenes',
-    summary: 'Evaluación por ultrasonido: Hígado, Vesícula, Páncreas, Bazo, Anillo Gástrico, Próstata, Útero, Riñones y Vejiga.',
-    sampleType: 'Ultrasonido en Sede',
-    popular: true
-  },
-
-  // 7. SERVICIO A DOMICILIO
-  {
-    id: 'servicio-a-domicilio',
-    name: 'Toma de Muestras a Domicilio',
-    category: 'Servicio a domicilio',
-    subCategory: 'Atención a Domicilio',
-    summary: 'Servicio de toma de muestras clínicas en tu hogar en toda la ciudad de Tacna.',
-    sampleType: 'Atención en tu hogar',
-    popular: true
-  }
-];
-
-const CATEGORIES_LIST = [
-  'Todos',
-  'Hematología',
-  'Bioquímica',
-  'Orina y heces',
-  'Hormonas y perfil tiroideo',
-  'Infecciosas / despistaje',
-  'Ecografías',
-  'Servicio a domicilio'
-];
-
-// Íconos oficiales anatómicos de Health Icons para los 9 órganos de ecografía
-const ECOGRAFIA_ORGANS = [
-  { 
-    name: 'Hígado', 
-    desc: 'Hígado graso y control',
-    whatsappText: 'Hola UNIDOSLAB, deseo consultar precio y disponibilidad para la Ecografía de Hígado en Tacna.',
-    iconSvg: <IconOrganLiver className="w-5 h-5" />
-  },
-  { 
-    name: 'Vesícula', 
-    desc: 'Cálculos y pólipos',
-    whatsappText: 'Hola UNIDOSLAB, deseo consultar precio y disponibilidad para la Ecografía de Vesícula en Tacna.',
-    iconSvg: <IconOrganGallbladder className="w-5 h-5" />
-  },
-  { 
-    name: 'Páncreas', 
-    desc: 'Pancreatitis y tejido',
-    whatsappText: 'Hola UNIDOSLAB, deseo consultar precio y disponibilidad para la Ecografía de Páncreas en Tacna.',
-    iconSvg: <IconOrganPancreas className="w-5 h-5" />
-  },
-  { 
-    name: 'Bazo', 
-    desc: 'Estructura esplénica',
-    whatsappText: 'Hola UNIDOSLAB, deseo consultar precio y disponibilidad para la Ecografía de Bazo en Tacna.',
-    iconSvg: <IconOrganSpleen className="w-5 h-5" />
-  },
-  { 
-    name: 'Anillo Gástrico', 
-    desc: 'Control post-bariátrico',
-    whatsappText: 'Hola UNIDOSLAB, deseo consultar precio y disponibilidad para la Ecografía de Anillo Gástrico en Tacna.',
-    iconSvg: <IconOrganStomach className="w-5 h-5" />
-  },
-  { 
-    name: 'Próstata', 
-    desc: 'Control prostático y vías',
-    whatsappText: 'Hola UNIDOSLAB, deseo consultar precio y disponibilidad para la Ecografía de Próstata en Tacna.',
-    iconSvg: <IconOrganProstate className="w-5 h-5" />
-  },
-  { 
-    name: 'Útero', 
-    desc: 'Útero, ovarios y endometrio',
-    whatsappText: 'Hola UNIDOSLAB, deseo consultar precio y disponibilidad para la Ecografía de Útero en Tacna.',
-    iconSvg: <IconOrganUterus className="w-5 h-5" />
-  },
-  { 
-    name: 'Riñones', 
-    desc: 'Descarte de cálculos y quistes',
-    whatsappText: 'Hola UNIDOSLAB, deseo consultar precio y disponibilidad para la Ecografía Renal (Riñones) en Tacna.',
-    iconSvg: <IconOrganKidneys className="w-5 h-5" />
-  },
-  { 
-    name: 'Vejiga', 
-    desc: 'Paredes y residuo urinario',
-    whatsappText: 'Hola UNIDOSLAB, deseo consultar precio y disponibilidad para la Ecografía de Vejiga en Tacna.',
-    iconSvg: <IconOrganBladder className="w-5 h-5" />
+    id: 'SEDE-MELENDEZ',
+    nombre: 'Sede Patricio Meléndez',
+    direccion: 'Calle Patricio Meléndez N° 382 Of. 303, Tacna',
+    horarioDesc: 'Lun a Sáb: 8:00 am – 1:00 pm / 3:00 pm – 8:00 pm',
+    notaApertura: 'Atención desde las 8:00 am',
   },
 ];
 
-const Services: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
-  const [activeModalExam, setActiveModalExam] = useState<ExamItem | null>(null);
+const DIAS_SEMANA = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic'];
 
-  const filteredExams = useMemo(() => {
-    return EXAMS_CATALOG.filter(exam => {
-      const term = searchTerm.toLowerCase().trim();
-      const matchesSearch = !term || 
-        exam.name.toLowerCase().includes(term) || 
-        exam.summary.toLowerCase().includes(term) ||
-        (exam.subCategory && exam.subCategory.toLowerCase().includes(term));
-      
-      const matchesCategory = selectedCategory === 'Todos' || exam.category === selectedCategory;
-      return matchesSearch && matchesCategory;
+const Services: React.FC<ServicesProps> = ({ setActiveTab }) => {
+  // Sede seleccionada
+  const [selectedSedeId, setSelectedSedeId] = useState<string>('SEDE-LEGUIA');
+
+  // Especialidades
+  const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
+  const [selectedEspId, setSelectedEspId] = useState<string>('');
+  const [loadingEsp, setLoadingEsp] = useState(true);
+
+  // Navegación de fechas (carrusel de 4 días) - Fecha local de Perú (Tacna/Lima)
+  const hoyStr = useMemo(() => {
+    try {
+      const formatter = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'America/Lima',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      });
+      return formatter.format(new Date());
+    } catch {
+      return new Date().toISOString().split('T')[0];
+    }
+  }, []);
+  const [fechaOffset, setFechaOffset] = useState<number>(0);
+
+  const [columnas, setColumnas] = useState<SlotColumna[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+
+  // Cita seleccionada
+  const [slotSeleccionado, setSlotSeleccionado] = useState<{ fecha: string; hora: string } | null>(null);
+
+  // Formulario del paciente (mínimo viable: DNI, Teléfono y Motivo opcional)
+  const [dni, setDni] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [motivo, setMotivo] = useState('');
+  const [aceptaTerminos, setAceptaTerminos] = useState(true);
+  const [guardandoCita, setGuardandoCita] = useState(false);
+
+  // Confirmación
+  const [citaConfirmada, setCitaConfirmada] = useState<any | null>(null);
+
+  // Sede actual activa
+  const sedeActual = useMemo(() => {
+    return SEDES_CONFIG.find(s => s.id === selectedSedeId) || SEDES_CONFIG[0];
+  }, [selectedSedeId]);
+
+  // Fecha base para las 4 columnas
+  const fechaInicioCalculada = useMemo(() => {
+    const d = new Date(hoyStr + 'T12:00:00');
+    d.setDate(d.getDate() + fechaOffset);
+    return d.toISOString().split('T')[0];
+  }, [hoyStr, fechaOffset]);
+
+  // Cargar especialidades
+  useEffect(() => {
+    const init = async () => {
+      setLoadingEsp(true);
+      const data = await database.getEspecialidades();
+      setEspecialidades(data);
+      if (data.length > 0) {
+        setSelectedEspId(data[0].id);
+      }
+      setLoadingEsp(false);
+    };
+    init();
+  }, []);
+
+  // Cache del lado del cliente para evitar peticiones repetidas al cambiar de sede o navegar fechas
+  const slotsCacheRef = React.useRef<Map<string, SlotColumna[]>>(new Map());
+
+  // Cargar disponibilidad cuando cambie especialidad, fecha o sede
+  useEffect(() => {
+    if (!selectedEspId) return;
+
+    const cacheKey = `${fechaInicioCalculada}_${selectedEspId}_${selectedSedeId}`;
+    if (slotsCacheRef.current.has(cacheKey)) {
+      setColumnas(slotsCacheRef.current.get(cacheKey)!);
+      setLoadingSlots(false);
+      return;
+    }
+
+    let isMounted = true;
+    const fetchColumnas = async () => {
+      setLoadingSlots(true);
+      const res = await database.getDisponibilidadMultiDia(fechaInicioCalculada, selectedEspId, 4, selectedSedeId);
+      if (isMounted) {
+        const cols = res.columnas || [];
+        slotsCacheRef.current.set(cacheKey, cols);
+        setColumnas(cols);
+        setLoadingSlots(false);
+      }
+    };
+
+    fetchColumnas();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedEspId, fechaInicioCalculada, selectedSedeId]);
+
+
+  // Manejador del DNI (solo filtro de dígitos, sin llamada pública a RENIEC)
+  const handleDniChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/\D/g, '').slice(0, 8);
+    setDni(val);
+  };
+
+  // Formatear cabecera de cada columna
+  const formatHeaderCol = (fechaStr: string) => {
+    const fecha = new Date(fechaStr + 'T12:00:00');
+    const hoy = new Date(hoyStr + 'T12:00:00');
+    const diffDias = Math.round((fecha.getTime() - hoy.getTime()) / (1000 * 60 * 60 * 24));
+
+    let titulo = DIAS_SEMANA[fecha.getDay()];
+    if (diffDias === 0) titulo = 'Hoy';
+    else if (diffDias === 1) titulo = 'Mañana';
+
+    const diaNum = fecha.getDate();
+    const mesNom = MESES[fecha.getMonth()];
+
+    return {
+      titulo,
+      subtitulo: `${diaNum} ${mesNom}`,
+    };
+  };
+
+  // Enviar reserva
+  const handleReservar = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!slotSeleccionado) {
+      Swal.fire('Atención', 'Seleccione un horario disponible', 'warning');
+      return;
+    }
+    if (!aceptaTerminos) {
+      Swal.fire('Atención', 'Debe aceptar los términos y condiciones para continuar.', 'warning');
+      return;
+    }
+    if (dni.length < 8) {
+      Swal.fire('Atención', 'Ingrese un DNI válido de 8 dígitos', 'warning');
+      return;
+    }
+    if (!telefono.trim()) {
+      Swal.fire('Atención', 'Ingrese un celular de contacto para la confirmación', 'warning');
+      return;
+    }
+
+    const espActual = especialidades.find(e => e.id === selectedEspId);
+
+    setGuardandoCita(true);
+    const res = await database.crearCita({
+      sedeId: selectedSedeId,
+      especialidadId: selectedEspId,
+      fecha: slotSeleccionado.fecha,
+      hora: slotSeleccionado.hora,
+      duracionMinutos: espActual?.duracionMinutos || 30,
+      pacienteDni: dni,
+      pacienteNombre: 'Por confirmar',
+      pacienteTelefono: telefono,
+      motivo: motivo || undefined,
+      origen: 'web',
+      estado: 'pendiente',
     });
-  }, [searchTerm, selectedCategory]);
+    setGuardandoCita(false);
 
-  const getWhatsappUrl = (examName: string) => {
-    const text = encodeURIComponent(`Hola UNIDOSLAB, deseo consultar precio, preparación y disponibilidad para el servicio: *${examName}* en Tacna.`);
-    return `https://api.whatsapp.com/send/?phone=51952920616&text=${text}`;
+    if (!res.ok) {
+      Swal.fire('Error', res.error || 'No se pudo reservar el turno', 'error');
+      return;
+    }
+
+    // Invalidar caché local de disponibilidad porque se acaba de ocupar un slot
+    slotsCacheRef.current.clear();
+
+    setCitaConfirmada({
+      ...res.cita,
+      sedeNombre: sedeActual.nombre,
+      sedeDireccion: sedeActual.direccion,
+      especialidadNombre: espActual?.nombre,
+    });
   };
 
-  const getCategoryCount = (catName: string) => {
-    if (catName === 'Todos') return EXAMS_CATALOG.length;
-    return EXAMS_CATALOG.filter(e => e.category === catName).length;
+  const resetFormulario = () => {
+    setCitaConfirmada(null);
+    setSlotSeleccionado(null);
+    setMotivo('');
+    slotsCacheRef.current.clear();
+    if (selectedEspId) {
+      database.getDisponibilidadMultiDia(fechaInicioCalculada, selectedEspId, 4, selectedSedeId).then(res => {
+        setColumnas(res.columnas || []);
+      });
+    }
   };
+
+
+  const selectedEspObj = especialidades.find(e => e.id === selectedEspId);
 
   return (
-    <div className="w-full min-h-screen bg-[#f7fafc] pt-[104px] sm:pt-[128px] pb-[96px] font-manrope">
-      <div className="w-[min(1180px,100%-48px)] mx-auto space-y-[32px] sm:space-y-[44px]">
+    <div className="bg-[#f8fafc] min-h-screen text-[#09283c] font-manrope pt-[96px] pb-[80px]">
+      <div className="w-[min(1180px,100%-32px)] sm:w-[min(1180px,100%-48px)] mx-auto">
 
-        {/* 1. HERO HEADER DE SERVICIOS (.catalog-hero-grid) */}
-        <section className="border border-[#dce6ec] bg-[radial-gradient(circle_at_79%_46%,rgba(251,89,98,0.07),transparent_27%),linear-gradient(135deg,#fff,#fbfdfe)] rounded-[28px] p-[28px_20px] sm:p-[48px] shadow-[0_16px_38px_rgba(23,55,74,0.08)] grid grid-cols-1 lg:grid-cols-[1.55fr_0.65fr] gap-[36px] lg:gap-[52px] items-center">
-          <div className="flex flex-col items-start text-left">
-            <p className="inline-flex items-center gap-[9px] text-[12px] font-[800] uppercase tracking-[0.14em] text-[#e54550] mb-[17px]">
-              <span className="w-[7px] h-[7px] rounded-full bg-[#fb5962] shadow-[0_0_0_5px_#fff0f1] shrink-0"></span>
-              <span>UNIDOSLAB · Catálogo de Servicios</span>
-            </p>
+        {/* 1. ENCABEZADO DE SECCIÓN */}
+        <div className="text-center max-w-[760px] mx-auto mb-[36px]">
+          <p className="inline-flex items-center gap-[9px] text-[12px] font-[800] uppercase tracking-[0.14em] text-[#e54550] mb-[12px]">
+            <span className="w-[7px] h-[7px] rounded-full bg-[#fb5962] shadow-[0_0_0_5px_#fff0f1] shrink-0"></span>
+            <span>Atención Médica y Laboratorio</span>
+          </p>
+          <h1 className="font-manrope text-[clamp(28px,3.8vw,46px)] font-[800] text-[#09283c] leading-[1.12] tracking-[-0.035em] mb-[12px]">
+            Agenda tu Cita en UNIDOSLAB
+          </h1>
 
-            <h1 className="font-manrope text-[clamp(34px,4.5vw,64px)] font-[800] text-[#09283c] leading-[1.04] tracking-[-0.035em] mb-[20px]">
-              Catálogo de exámenes <br />
-              <span className="text-[#fb5962]">y servicios médicos.</span>
-            </h1>
+        </div>
 
-            <p className="font-manrope text-[15px] sm:text-[16px] text-[#60788a] leading-[1.72] max-w-[720px] mb-[25px]">
-              Resultados precisos, confidenciales y con entrega digital inmediata. Consulta y cotiza cualquiera de nuestros análisis clínicos o ecografías directamente por WhatsApp.
-            </p>
+        {/* 2. CARD PRINCIPAL */}
+        <div className="bg-white rounded-[24px] sm:rounded-[30px] border border-[#dce6ec] shadow-[0_18px_50px_rgba(9,40,60,0.07)] overflow-hidden mb-[50px]">
+          <div className="p-[20px] sm:p-[36px] lg:p-[42px]">
 
-            {/* 3 Badges de Beneficios (.catalog-benefits) */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-[11px] w-full">
-              <span className="min-h-[54px] text-[#12354a] bg-[#f8fafc] border border-[#e5edf2] rounded-[14px] flex items-center gap-[9px] p-[10px_13px] text-[12px] font-[700]">
-                <div className="w-[34px] h-[34px] rounded-[10px] bg-[#fff0f1] text-[#fb5962] flex items-center justify-center shrink-0">
-                  <IconClock className="w-[18px] h-[18px]" />
+            {citaConfirmada ? (
+              /* PANTALLA DE ÉXITO */
+              <motion.div
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="max-w-[580px] mx-auto text-center py-[20px]"
+              >
+                <div className="w-[72px] h-[72px] bg-[#fff0f1] text-[#e54550] rounded-full flex items-center justify-center mx-auto mb-[20px] border border-[#f7d1d4] shadow-sm">
+                  <IconCheck className="w-[38px] h-[38px] stroke-[2.8]" />
                 </div>
-                <span>Resultados rápidos</span>
-              </span>
-
-              <span className="min-h-[54px] text-[#12354a] bg-[#f8fafc] border border-[#e5edf2] rounded-[14px] flex items-center gap-[9px] p-[10px_13px] text-[12px] font-[700]">
-                <div className="w-[34px] h-[34px] rounded-[10px] bg-[#fff0f1] text-[#fb5962] flex items-center justify-center shrink-0">
-                  <IconShieldCheck className="w-[18px] h-[18px]" />
-                </div>
-                <span>Control de calidad</span>
-              </span>
-
-              <span className="min-h-[54px] text-[#12354a] bg-[#f8fafc] border border-[#e5edf2] rounded-[14px] flex items-center gap-[9px] p-[10px_13px] text-[12px] font-[700]">
-                <div className="w-[34px] h-[34px] rounded-[10px] bg-[#e5f9f1] text-[#14b879] flex items-center justify-center shrink-0">
-                  <IconHomeHeart className="w-[18px] h-[18px]" />
-                </div>
-                <span>Atención a domicilio</span>
-              </span>
-            </div>
-          </div>
-
-          {/* Tarjeta de Contacto Directo en Navy Deep (.catalog-contact) */}
-          <div className="bg-[#09283c] text-white rounded-[24px] p-[28px_24px] sm:p-[32px_28px] shadow-[0_18px_45px_rgba(9,40,60,0.18)] flex flex-col items-center text-center relative overflow-hidden">
-            <span className="w-[52px] h-[52px] rounded-[16px] bg-white/[0.1] border border-white/[0.15] text-[#25D366] flex items-center justify-center mb-[16px] shadow-sm">
-              <WhatsAppIcon className="w-[28px] h-[28px]" />
-            </span>
-            <h2 className="font-manrope text-[18px] sm:text-[19px] font-[800] text-white mb-[8px] leading-snug">
-              ¿Buscas un examen específico?
-            </h2>
-            <p className="font-manrope text-[12.5px] text-[#b9cad3] leading-[1.55] mb-[20px]">
-              Escríbenos directamente y te brindamos precio, preparación y turno al instante.
-            </p>
-            <a
-              href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20consultar%20por%20un%20examen%20cl%C3%ADnico%20en%20Tacna"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full min-h-[48px] px-[20px] bg-[#25D366] hover:bg-[#20ba5a] text-white font-manrope font-[800] text-[13px] rounded-[13px] shadow-[0_10px_22px_rgba(37,211,102,0.28)] transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[9px] cursor-pointer"
-            >
-              <WhatsAppIcon className="w-[19px] h-[19px]" />
-              <span>Consultar por WhatsApp</span>
-            </a>
-          </div>
-        </section>
-
-        {/* 2. PANEL DE ECOGRAFÍAS (.ultrasound-panel) */}
-        <section className="bg-[linear-gradient(115deg,#fff8f8,#fff)] border border-[#f5bdc1] rounded-[24px] p-[24px_20px] sm:p-[38px_40px_32px] shadow-[0_14px_35px_rgba(23,55,74,0.05)]">
-          <div className="border-b border-[#f4d9db] grid grid-cols-1 md:grid-cols-[1fr_auto] items-center gap-[20px] md:gap-[35px] pb-[25px]">
-            <div className="flex flex-col items-start text-left">
-              <p className="inline-flex items-center gap-[9px] text-[11.5px] font-[800] uppercase tracking-[0.14em] text-[#e54550] mb-[8px]">
-                <IconSparkles className="w-[14px] h-[14px] text-[#fb5962]" />
-                <span>Servicio de Ecografías en Tacna</span>
-              </p>
-              <h2 className="font-manrope text-[clamp(24px,3vw,34px)] font-[800] text-[#09283c] tracking-[-0.03em] mb-[7px]">
-                Ecografías especializadas
-              </h2>
-              <p className="font-manrope text-[13.5px] text-[#60788a] leading-[1.55] max-w-[680px]">
-                Diagnóstico por ultrasonido de alta resolución. Toca cualquier órgano para cotizar directamente por WhatsApp:
-              </p>
-            </div>
-
-            <a
-              href="https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20deseo%20consultar%20por%20el%20servicio%20de%20Ecograf%C3%ADas%20en%20Tacna"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto min-h-[46px] px-[20px] bg-[#20ca70] hover:bg-[#16b963] text-white font-manrope font-[800] text-[13px] rounded-[13px] shadow-[0_10px_22px_rgba(20,184,121,0.24)] transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[9px] cursor-pointer shrink-0"
-            >
-              <WhatsAppIcon className="w-[18px] h-[18px]" />
-              <span>Cotizar ecografías</span>
-            </a>
-          </div>
-
-          {/* Grilla de Órganos (.organ-grid) */}
-          <div className="pt-[22px]">
-            <p className="font-manrope text-[10.5px] font-[800] uppercase tracking-[0.13em] text-[#8aa0b1] mb-[12px] text-left">
-              Órganos evaluados:
-            </p>
-            <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-[10px]">
-              {ECOGRAFIA_ORGANS.map((organ, i) => (
-                <a
-                  key={i}
-                  href={`https://api.whatsapp.com/send/?phone=51952920616&text=${encodeURIComponent(organ.whatsappText)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white/80 hover:bg-white border border-[#f3d4d6] hover:border-[#ef9da3] rounded-[16px] flex flex-col items-center text-center min-h-[150px] p-[14px_8px_12px] shadow-2xs hover:shadow-[0_10px_22px_rgba(23,55,74,0.08)] hover:-translate-y-[3px] transition-all group cursor-pointer"
-                >
-                  <span className="w-[40px] h-[40px] rounded-[12px] bg-[#fff0f1] text-[#fb5962] group-hover:bg-[#fb5962] group-hover:text-white transition-colors flex items-center justify-center mb-[9px] shrink-0">
-                    {organ.iconSvg}
-                  </span>
-                  <strong className="font-manrope text-[11px] font-[800] text-[#09283c] mb-[4px] leading-tight group-hover:text-[#fb5962] transition-colors truncate w-full">
-                    {organ.name}
-                  </strong>
-                  <small className="font-manrope text-[8.5px] text-[#879cad] min-h-[30px] leading-[1.35] line-clamp-2">
-                    {organ.desc}
-                  </small>
-                  <em className="font-manrope text-[8px] font-[800] uppercase tracking-[0.05em] text-[#10ad61] not-italic flex items-center gap-[2px] mt-auto">
-                    <span>Consultar</span>
-                    <IconChevronRight className="w-[10px] h-[10px]" />
-                  </em>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 3. HERRAMIENTAS DE BÚSQUEDA Y CATEGORÍAS (.catalog-tools) */}
-        <section className="border border-[#dce6ec] bg-white rounded-[22px] p-[24px_20px] sm:p-[29px_31px_27px] shadow-[0_14px_32px_rgba(23,55,74,0.07)]">
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_minmax(270px,340px)] items-center gap-[20px] md:gap-[30px]">
-            <div className="flex items-center gap-[14px] text-left">
-              <div className="w-[44px] h-[44px] rounded-[13px] bg-[#fff0f1] text-[#fb5962] flex items-center justify-center shrink-0">
-                <IconMicroscope className="w-[22px] h-[22px] stroke-[1.8]" />
-              </div>
-              <div>
-                <h2 className="font-manrope text-[18px] sm:text-[20px] font-[800] text-[#09283c] leading-tight mb-[2px]">
-                  Explora nuestros análisis clínicos
-                </h2>
-                <p className="font-manrope text-[12px] text-[#60788a] leading-[1.35]">
-                  Selecciona una categoría o escribe el nombre del análisis:
+                <span className="text-[11px] font-[800] tracking-widest uppercase text-[#e54550] bg-[#fff0f1] border border-[#ffd5d8] px-[14px] py-[5px] rounded-full">
+                  ¡Turno Reservado con Éxito!
+                </span>
+                <h3 className="text-[25px] sm:text-[27px] font-[800] text-[#09283c] mt-[14px] mb-[10px]">
+                  Cita Agendada en UNIDOSLAB
+                </h3>
+                <p className="text-[14px] sm:text-[15px] text-[#60788a] leading-[1.6] mb-[26px]">
+                  Hemos registrado tu reserva. Te esperamos en <b>{citaConfirmada.sedeNombre}</b> ({citaConfirmada.sedeDireccion}) 10 minutos antes con tu DNI.
                 </p>
-              </div>
-            </div>
 
-            {/* Input Buscador (.catalog-search) */}
-            <div className="border border-[#dce6ec] bg-[#f8fafc] focus-within:border-[#f19aa0] focus-within:shadow-[0_0_0_4px_#fff0f1] rounded-[14px] flex items-center gap-[10px] h-[46px] px-[15px] transition-all">
-              <IconSearch className="w-[18px] h-[18px] text-[#8ba0b3] shrink-0" />
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Buscar glucosa, hemograma, orina..."
-                className="w-full font-manrope text-[13px] text-[#09283c] bg-transparent border-0 outline-none placeholder-[#8ba0b3]"
-              />
-              {searchTerm && (
-                <button
-                  onClick={() => setSearchTerm('')}
-                  className="text-[#8ba0b3] hover:text-[#fb5962] p-1 cursor-pointer"
-                >
-                  <IconX className="w-[15px] h-[15px]" />
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Tabs de Categorías (.category-tabs) */}
-          <div className="flex items-center gap-[8px] mt-[23px] overflow-x-auto pb-[4px] scrollbar-none">
-            {CATEGORIES_LIST.map((cat) => {
-              const isSelected = selectedCategory === cat;
-              const count = getCategoryCount(cat);
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`min-h-[38px] rounded-full px-[15px] text-[11px] font-manrope font-[800] flex items-center gap-[8px] shrink-0 transition-all cursor-pointer ${
-                    isSelected
-                      ? 'bg-[#fb5962] text-white shadow-[0_8px_18px_rgba(251,89,98,0.22)]'
-                      : 'bg-[#f0f5f8] text-[#12354a] hover:bg-[#e4ecf1]'
-                  }`}
-                >
-                  <span>{cat}</span>
-                  <span className={`text-[9px] px-[6px] py-[2px] rounded-full font-[800] ${
-                    isSelected ? 'bg-white text-[#fb5962]' : 'bg-white text-[#7d91a0]'
-                  }`}>
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* 4. LISTADO DE EXÁMENES (.exam-grid) */}
-        <section className="space-y-[16px]">
-          <div className="flex items-center justify-between px-[4px]">
-            <p className="font-manrope text-[11px] font-[800] uppercase tracking-[0.13em] text-[#09283c]">
-              Mostrando {filteredExams.length} análisis disponible(s)
-            </p>
-            {selectedCategory !== 'Todos' && (
-              <button
-                onClick={() => setSelectedCategory('Todos')}
-                className="font-manrope text-[12px] font-[800] text-[#fb5962] hover:text-[#e54550] cursor-pointer"
-              >
-                Ver todos
-              </button>
-            )}
-          </div>
-
-          {filteredExams.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]">
-              {filteredExams.map((exam) => (
-                <div
-                  key={exam.id}
-                  className="border border-[#dce6ec] bg-white rounded-[21px] p-[25px_24px_20px] shadow-[0_7px_18px_rgba(23,55,74,0.06)] hover:shadow-[0_14px_28px_rgba(23,55,74,0.1)] hover:border-[#efb3b7] hover:-translate-y-1 transition-all flex flex-col justify-between min-h-[278px]"
-                >
-                  <div>
-                    {/* Header de la tarjeta */}
-                    <div className="flex items-center justify-between gap-[10px] min-h-[23px] mb-[12px]">
-                      <span className="font-manrope text-[9px] font-[800] uppercase tracking-[0.06em] text-[#e54550] bg-[#fff4f5] border border-[#f7d1d4] rounded-full px-[9px] py-[5px]">
-                        {exam.category}
-                      </span>
-                      {exam.popular && (
-                        <span className="font-manrope text-[9px] font-[800] text-[#b67200] bg-[#fffaf0] border border-[#f3d486] rounded-full px-[9px] py-[5px]">
-                          ★ Muy solicitado
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Titular y Descripción */}
-                    <h3 className="font-manrope text-[17px] font-[800] text-[#09283c] leading-[1.25] mb-[8px] text-left">
-                      {exam.name}
-                    </h3>
-                    <p className="font-manrope text-[12px] text-[#60788a] leading-[1.55] min-h-[54px] mb-[13px] text-left">
-                      {exam.summary}
-                    </p>
-
-                    {/* Muestra requerida (.sample) */}
-                    <div className="border-y border-[#edf2f5] py-[11px] flex items-center gap-[7px] text-[10px] font-manrope font-[750] text-[#12354a]">
-                      <IconDroplet className="w-[14px] h-[14px] text-[#fb5962]" />
-                      <span>{exam.sampleType}</span>
-                    </div>
+                <div className="bg-[#f8fafc] border border-[#dce6ec] rounded-[22px] p-[22px] text-left space-y-[12px] mb-[28px]">
+                  <div className="flex justify-between items-center pb-[10px] border-b border-slate-200">
+                    <span className="text-[12px] text-slate-500 font-extrabold uppercase">Código de Cita</span>
+                    <span className="text-[15px] font-extrabold text-[#e54550] font-mono">{citaConfirmada.id}</span>
                   </div>
-
-                  {/* Acciones de la tarjeta (.exam-actions) */}
-                  <div className="grid grid-cols-[1fr_39px] gap-[8px] pt-[14px] mt-auto">
-                    <a
-                      href={getWhatsappUrl(exam.name)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="border border-[#dce6ec] hover:border-[#20ca70]/50 bg-[#f8fafc] hover:bg-[#20ca70]/10 text-[#12354a] hover:text-[#16b963] min-h-[40px] rounded-[13px] flex items-center justify-center gap-[8px] px-[14px] text-[11px] font-manrope font-[800] transition-all cursor-pointer group"
-                    >
-                      <WhatsAppIcon className="w-[16px] h-[16px] text-[#20ca70] shrink-0" />
-                      <span>Consultar prueba</span>
-                      <IconChevronRight className="w-[14px] h-[14px] text-[#99abb7] group-hover:text-[#20ca70] group-hover:translate-x-0.5 transition-all ml-auto" />
-                    </a>
-
-                    <button
-                      onClick={() => setActiveModalExam(exam)}
-                      title="Ver información del examen"
-                      className="border border-[#dce6ec] hover:border-[#fb5962]/40 bg-white hover:bg-[#fff0f1] text-[#8da1af] hover:text-[#fb5962] rounded-[13px] flex items-center justify-center transition-all cursor-pointer shadow-2xs"
-                    >
-                      <IconInfoCircle className="w-[18px] h-[18px]" />
-                    </button>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[13px] text-slate-500 font-semibold">Sede de Atención</span>
+                    <span className="text-[14px] font-bold text-[#09283c]">{citaConfirmada.sedeNombre}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[13px] text-slate-500 font-semibold">Especialidad</span>
+                    <span className="text-[14px] font-bold text-[#09283c]">{citaConfirmada.especialidadNombre}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[13px] text-slate-500 font-semibold">Fecha y Hora</span>
+                    <span className="text-[14px] font-bold text-[#09283c]">{citaConfirmada.fecha} a las {citaConfirmada.hora} hrs</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[13px] text-slate-500 font-semibold">DNI del Paciente</span>
+                    <span className="text-[14px] font-bold text-[#09283c] font-mono">{citaConfirmada.pacienteDni}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[13px] text-slate-500 font-semibold">Celular de Contacto</span>
+                    <span className="text-[14px] font-bold text-[#09283c]">{citaConfirmada.pacienteTelefono}</span>
                   </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="bg-white border border-dashed border-[#cbd9e1] rounded-[22px] p-[60px_20px] text-center space-y-[14px]">
-              <div className="w-[54px] h-[54px] rounded-[16px] bg-[#fff0f1] text-[#fb5962] flex items-center justify-center mx-auto">
-                <IconSearch className="w-[24px] h-[24px]" />
-              </div>
-              <h3 className="font-manrope text-[17px] font-[800] text-[#09283c]">
-                No encontramos resultados para &quot;{searchTerm}&quot;
-              </h3>
-              <p className="font-manrope text-[13px] text-[#60788a] max-w-[480px] mx-auto">
-                Contamos con más de 300 análisis clínicos y pruebas especiales. Consúltanos directamente para orientarte.
-              </p>
-              <a
-                href={`https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20busco%20informaci%C3%B3n%20sobre:%20${encodeURIComponent(searchTerm)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-[9px] min-h-[46px] px-[22px] bg-[#20ca70] hover:bg-[#16b963] text-white font-manrope font-[800] text-[13px] rounded-[13px] shadow-[0_10px_22px_rgba(20,184,121,0.24)] cursor-pointer transition-all"
-              >
-                <WhatsAppIcon className="w-[18px] h-[18px]" />
-                <span>Consultar por WhatsApp</span>
-              </a>
-            </div>
-          )}
-        </section>
 
-        {/* 5. BANNER FINAL AZUL NAVY (.final-cta Fiel a la Principal) */}
+                <div className="flex flex-col sm:flex-row gap-[12px] justify-center">
+                  <a
+                    href={`https://api.whatsapp.com/send/?phone=51952920616&text=Hola%20UNIDOSLAB,%20acabo%20de%20reservar%20mi%20cita%20con%20c%C3%B3digo%20${citaConfirmada.id}%20para%20${encodeURIComponent(citaConfirmada.especialidadNombre)}%20en%20${encodeURIComponent(citaConfirmada.sedeNombre)}%20el%20${citaConfirmada.fecha}%20a%20las%20${citaConfirmada.hora}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-[24px] py-[13px] bg-[#25D366] hover:bg-[#20ba59] text-white font-[800] text-[13px] rounded-[14px] shadow-sm flex items-center justify-center gap-[8px] transition-all"
+                  >
+                    <WhatsAppIcon className="w-[18px] h-[18px]" />
+                    <span>Confirmar por WhatsApp</span>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={resetFormulario}
+                    className="px-[22px] py-[13px] bg-slate-100 hover:bg-slate-200 text-[#09283c] font-[800] text-[13px] rounded-[14px] transition-colors cursor-pointer"
+                  >
+                    Agendar otra cita
+                  </button>
+                </div>
+              </motion.div>
+            ) : (
+              /* FLUJO DE RESERVA */
+              <div className="relative pl-[30px] sm:pl-[44px] space-y-[32px]">
+
+                {/* LÍNEA GUÍA VERTICAL */}
+                <div className="absolute left-[11px] sm:left-[17px] top-[14px] bottom-[14px] w-[2px] bg-[#ffd5d8] pointer-events-none"></div>
+
+                {/* 1. SELECCIÓN DE SEDE EN TACNA */}
+                <div className="relative">
+                  <div className="absolute -left-[30px] sm:-left-[44px] top-[2px] w-[24px] h-[24px] rounded-full bg-white border-2 border-[#fb5962] text-[#fb5962] flex items-center justify-center shadow-xs">
+                    <IconCheck className="w-[14px] h-[14px] stroke-[3]" />
+                  </div>
+                  <div>
+                    <span className="block text-[14px] font-[800] text-[#09283c] mb-2.5">
+                      Sede de Atención en Tacna
+                    </span>
+
+                    {/* Tarjetas de Selección de Sedes: Ancho completo y responsivo */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px] w-full">
+                      {SEDES_CONFIG.map((s) => {
+                        const isSelected = selectedSedeId === s.id;
+                        return (
+                          <div
+                            key={s.id}
+                            onClick={() => {
+                              setSelectedSedeId(s.id);
+                              setSlotSeleccionado(null);
+                            }}
+                            className={`p-[20px] rounded-[20px] border-2 cursor-pointer transition-all duration-200 flex flex-col justify-between ${
+                              isSelected
+                                ? 'border-[#fb5962] bg-[#fff8f8] shadow-[0_8px_20px_rgba(251,89,98,0.12)] -translate-y-0.5'
+                                : 'border-[#e2e8f0] bg-white hover:border-slate-300 hover:bg-slate-50/50'
+                            }`}
+                          >
+                            <div>
+                              <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                                <div className="flex items-center gap-2">
+                                  <div className={`p-1.5 rounded-lg ${isSelected ? 'bg-[#fb5962] text-white' : 'bg-slate-100 text-slate-600'}`}>
+                                    <IconBuildingHospital className="w-4 h-4" />
+                                  </div>
+                                  <h4 className="font-[800] text-[16px] text-[#09283c]">{s.nombre}</h4>
+                                </div>
+                                <span className={`text-[11px] font-[800] px-[10px] py-[3px] rounded-full shrink-0 ${
+                                  isSelected ? 'bg-[#fb5962] text-white' : 'bg-slate-100 text-slate-600'
+                                }`}>
+                                  {s.notaApertura}
+                                </span>
+                              </div>
+                              <p className="text-[13px] text-[#60788a] font-medium leading-snug flex items-center gap-1.5 mt-1">
+                                <IconMapPin className="w-4 h-4 text-slate-400 shrink-0" />
+                                <span>{s.direccion}</span>
+                              </p>
+                            </div>
+
+                            <div className="mt-3 pt-3 border-t border-slate-100/80 flex items-center gap-1.5 text-[12px] text-slate-500 font-semibold">
+                              <IconClock className="w-3.5 h-3.5 text-[#fb5962] shrink-0" />
+                              <span>{s.horarioDesc}</span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. SELECCIÓN DE SERVICIO / ESPECIALIDAD */}
+                <div className="relative">
+                  <div className="absolute -left-[30px] sm:-left-[44px] top-[2px] w-[24px] h-[24px] rounded-full bg-white border-2 border-[#fb5962] text-[#fb5962] flex items-center justify-center shadow-xs">
+                    <IconCheck className="w-[14px] h-[14px] stroke-[3]" />
+                  </div>
+                  <div>
+                    <label className="block text-[14px] font-[800] text-[#09283c] mb-2">
+                      Servicios y Especialidad
+                    </label>
+                    <div className="relative w-full max-w-[560px]">
+                      <select
+                        value={selectedEspId}
+                        onChange={(e) => {
+                          setSelectedEspId(e.target.value);
+                          setSlotSeleccionado(null);
+                        }}
+                        className="w-full appearance-none bg-white border border-[#cbd5e1] hover:border-[#fb5962] rounded-[16px] px-[18px] py-[13px] text-[15px] font-[700] text-[#09283c] focus:outline-none focus:ring-2 focus:ring-[#fb5962]/20 focus:border-[#fb5962] transition-all cursor-pointer shadow-2xs"
+                      >
+                        {especialidades.map((esp) => (
+                          <option key={esp.id} value={esp.id}>
+                            Consulta {esp.nombre} (~{esp.duracionMinutos} min)
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute right-[18px] top-1/2 -translate-y-1/2 text-slate-500">
+                        <IconChevronRight className="w-5 h-5 rotate-90" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. MODALIDAD DE ATENCIÓN */}
+                <div className="relative">
+                  <div className="absolute -left-[30px] sm:-left-[44px] top-[2px] w-[24px] h-[24px] rounded-full bg-white border-2 border-[#fb5962] text-[#fb5962] flex items-center justify-center shadow-xs">
+                    <IconCheck className="w-[14px] h-[14px] stroke-[3]" />
+                  </div>
+                  <div>
+                    <span className="block text-[14px] font-[800] text-[#09283c] mb-1">
+                      Modalidad de atención
+                    </span>
+                    <p className="text-[14px] text-[#60788a]">
+                      Tarifas accesibles particulares y convenios directos en caja (Pago en sede).
+                    </p>
+                  </div>
+                </div>
+
+                {/* 4. CALENDARIO DE DISPONIBILIDAD */}
+                <div className="pt-[6px]">
+
+                  {/* Encabezado del calendario con flechas */}
+                  <div className="flex items-center justify-between mb-[18px]">
+                    <div>
+                      <span className="text-[13px] font-[800] uppercase tracking-wider text-[#09283c] block">
+                        Horarios Disponibles en {sedeActual.nombre}
+                      </span>
+                      <span className="text-[12px] text-[#60788a]">
+                        {sedeActual.horarioDesc}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-[8px]">
+                      {fechaOffset > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => setFechaOffset(Math.max(0, fechaOffset - 4))}
+                          className="w-[34px] h-[34px] rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center justify-center cursor-pointer shadow-2xs transition-colors"
+                          title="Días anteriores"
+                        >
+                          <IconChevronLeft className="w-4 h-4" />
+                        </button>
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={() => setFechaOffset(fechaOffset + 4)}
+                        className="w-[34px] h-[34px] rounded-full bg-[#fff0f1] hover:bg-[#ffe2e5] text-[#e54550] border border-[#ffd5d8] flex items-center justify-center cursor-pointer shadow-2xs transition-colors"
+                        title="Ver siguientes días"
+                      >
+                        <IconChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Matriz de 4 Columnas */}
+                  {loadingSlots ? (
+                    <div className="py-16 text-center text-slate-400 font-bold text-xs uppercase tracking-wider">
+                      Cargando horarios de atención...
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-[10px] sm:gap-[14px]">
+                      {columnas.map((col) => {
+                        const { titulo, subtitulo } = formatHeaderCol(col.fecha);
+                        return (
+                          <div key={col.fecha} className="flex flex-col items-center bg-[#f8fafc] sm:bg-transparent rounded-[18px] p-2 sm:p-0">
+
+                            <div className="text-center mb-[14px]">
+                              <span className="block text-[14px] sm:text-[15px] font-[800] text-[#09283c] leading-tight">
+                                {titulo}
+                              </span>
+                              <span className="block text-[12px] sm:text-[13px] font-[600] text-[#60788a] mt-0.5">
+                                {subtitulo}
+                              </span>
+                            </div>
+
+                            <div className="flex flex-col items-center gap-[8px] sm:gap-[10px] w-full max-h-[320px] overflow-y-auto px-1 py-1">
+                              {col.slots.length === 0 ? (
+                                <div className="py-6 text-center">
+                                  <span className="text-[11px] font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded-full uppercase tracking-wider select-none">
+                                    Sin atención
+                                  </span>
+                                </div>
+                              ) : (
+                                col.slots.map((slot) => {
+
+                                  const isSelected =
+                                    slotSeleccionado?.fecha === col.fecha &&
+                                    slotSeleccionado?.hora === slot.hora;
+
+                                  if (!slot.disponible) {
+                                    return (
+                                      <span
+                                        key={slot.hora}
+                                        className="text-[13px] sm:text-[14px] font-[700] text-slate-400 line-through py-[6px] select-none cursor-not-allowed"
+                                      >
+                                        {slot.hora}
+                                      </span>
+                                    );
+                                  }
+
+                                  return (
+                                    <button
+                                      key={slot.hora}
+                                      type="button"
+                                      onClick={() =>
+                                        setSlotSeleccionado({ fecha: col.fecha, hora: slot.hora })
+                                      }
+                                      className={`w-full max-w-[105px] py-[7px] sm:py-[8px] px-[8px] rounded-[16px] text-[13px] sm:text-[14px] font-[800] transition-all cursor-pointer ${isSelected
+                                          ? 'bg-[#fb5962] text-white shadow-md shadow-[#fb5962]/30 scale-105'
+                                          : 'bg-[#fff0f1] hover:bg-[#ffd5d8] text-[#e54550]'
+                                        }`}
+                                    >
+                                      {slot.hora}
+                                    </button>
+                                  );
+                                })
+                              )}
+                            </div>
+
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* FORMULARIO DE RESERVA AL SELECCIONAR UN TURNO */}
+                  <AnimatePresence>
+                    {slotSeleccionado && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="mt-[32px] pt-[28px] border-t border-slate-200"
+                      >
+                        <div className="bg-[#fff8f8] border border-[#fbd3d6] rounded-[20px] p-[18px] mb-[24px] flex flex-col sm:flex-row sm:items-center justify-between gap-[10px]">
+                          <div>
+                            <span className="text-[12px] font-[800] uppercase text-[#e54550] tracking-wider block">
+                              Turno Seleccionado en {sedeActual.nombre}
+                            </span>
+                            <span className="text-[16px] font-[800] text-[#09283c]">
+                              {selectedEspObj?.nombre} — {slotSeleccionado.fecha} a las {slotSeleccionado.hora} hrs
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setSlotSeleccionado(null)}
+                            className="text-[#e54550] hover:text-[#fb5962] text-xs font-bold underline self-start sm:self-auto cursor-pointer"
+                          >
+                            Cambiar horario
+                          </button>
+                        </div>
+
+                        <form onSubmit={handleReservar} className="space-y-[18px]">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px]">
+                            {/* DNI */}
+                            <div>
+                              <label className="block text-[12px] font-[800] uppercase text-[#09283c] tracking-wider mb-1.5">
+                                DNI del Paciente *
+                              </label>
+                              <input
+                                type="text"
+                                required
+                                maxLength={8}
+                                placeholder="Ej. 72345678"
+                                value={dni}
+                                onChange={handleDniChange}
+                                className="w-full bg-[#f8fafc] border border-[#cbd5e1] rounded-[14px] px-[14px] py-[11px] text-[14px] font-[700] text-[#09283c] focus:outline-none focus:bg-white focus:border-[#fb5962]"
+                              />
+                            </div>
+
+                            {/* CELULAR */}
+                            <div>
+                              <label className="block text-[12px] font-[800] uppercase text-[#09283c] tracking-wider mb-1.5">
+                                Celular / WhatsApp *
+                              </label>
+                              <input
+                                type="tel"
+                                required
+                                placeholder="Ej. 952920616"
+                                value={telefono}
+                                onChange={(e) => setTelefono(e.target.value)}
+                                className="w-full bg-[#f8fafc] border border-[#cbd5e1] rounded-[14px] px-[14px] py-[11px] text-[14px] font-[700] text-[#09283c] focus:outline-none focus:bg-white focus:border-[#fb5962]"
+                              />
+                            </div>
+
+                            {/* MOTIVO (OPCIONAL) */}
+                            <div className="sm:col-span-2">
+                              <label className="block text-[12px] font-[800] uppercase text-[#09283c] tracking-wider mb-1.5">
+                                Motivo de Consulta o Comentario (Opcional)
+                              </label>
+                              <input
+                                type="text"
+                                placeholder="Ej. Chequeo preventivo, dolor abdominal, etc."
+                                value={motivo}
+                                onChange={(e) => setMotivo(e.target.value)}
+                                className="w-full bg-[#f8fafc] border border-[#cbd5e1] rounded-[14px] px-[14px] py-[11px] text-[14px] font-[600] text-[#09283c] focus:outline-none focus:bg-white focus:border-[#fb5962]"
+                              />
+                            </div>
+                          </div>
+
+                          {/* CHECKBOX DE TÉRMINOS Y CONDICIONES */}
+                          <div className="pt-[10px] pb-[6px]">
+                            <label className="flex items-start gap-[10px] cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={aceptaTerminos}
+                                onChange={(e) => setAceptaTerminos(e.target.checked)}
+                                className="w-[18px] h-[18px] mt-0.5 text-[#fb5962] accent-[#fb5962] rounded cursor-pointer shrink-0"
+                              />
+                              <span className="text-[13px] text-[#60788a] leading-[1.5]">
+                                Al reservar una cita, aceptas nuestros{' '}
+                                <button
+                                  type="button"
+                                  onClick={() => setActiveTab?.('terminos')}
+                                  className="text-[#e54550] hover:underline font-[700] cursor-pointer"
+                                >
+                                  términos y condiciones
+                                </button>{' '}
+                                y confirmas que entiendes nuestro{' '}
+                                <button
+                                  type="button"
+                                  onClick={() => setActiveTab?.('privacidad')}
+                                  className="text-[#e54550] hover:underline font-[700] cursor-pointer"
+                                >
+                                  aviso de privacidad
+                                </button>
+                                .
+                              </span>
+                            </label>
+                          </div>
+
+                          {/* BOTÓN CONFIRMAR */}
+                          <div className="pt-2 flex justify-end">
+                            <button
+                              type="submit"
+                              disabled={guardandoCita || !aceptaTerminos}
+                              className="w-full sm:w-auto px-[36px] py-[14px] bg-[#fb5962] hover:bg-[#e54550] disabled:bg-slate-300 text-white font-[800] text-[14px] rounded-[16px] shadow-[0_10px_25px_rgba(251,89,98,0.3)] disabled:shadow-none transition-all flex items-center justify-center gap-[8px] cursor-pointer"
+                            >
+                              {guardandoCita ? (
+                                <span>Procesando reserva...</span>
+                              ) : (
+                                <>
+                                  <IconCheck className="w-[18px] h-[18px]" />
+                                  <span>Confirmar Cita en {sedeActual.nombre}</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
+                        </form>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                </div>
+
+              </div>
+            )}
+
+          </div>
+
+        </div>
+
+        {/* 3. SECCIÓN PRESERVADA: ¿No puedes salir de casa? Vamos hacia ti. */}
         <section className="bg-[#09283c] rounded-[26px] p-[36px_26px] sm:p-[48px_52px] text-white shadow-[0_20px_50px_rgba(9,40,60,0.18)] relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-[30px]">
           {/* Acento circular decorativo */}
           <div className="absolute -top-[120px] -right-[120px] w-[320px] h-[320px] rounded-full border-[60px] border-white/[0.03] pointer-events-none"></div>
@@ -637,7 +708,7 @@ const Services: React.FC = () => {
               rel="noopener noreferrer"
               className="min-h-[48px] px-[22px] bg-white hover:bg-slate-100 text-[#09283c] font-manrope font-[800] text-[13px] rounded-[13px] shadow-sm transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-[9px] cursor-pointer"
             >
-              <WhatsAppIcon className="w-[18px] h-[18px] text-[#25D366]" />
+              <WhatsAppIcon className="w-[18px] h-[18px]" />
               <span>Agendar por WhatsApp</span>
             </a>
 
@@ -652,80 +723,6 @@ const Services: React.FC = () => {
         </section>
 
       </div>
-
-      {/* 6. MODAL DE INFORMACIÓN RÁPIDA */}
-      <AnimatePresence>
-        {activeModalExam && (
-          <div className="fixed inset-0 z-50 bg-[#071f2f]/80 backdrop-blur-[8px] flex items-center justify-center p-[16px]">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              transition={{ duration: 0.18, ease: "easeOut" }}
-              className="bg-white rounded-[24px] max-w-lg w-full p-[28px_24px] sm:p-[36px_32px] shadow-[0_30px_80px_rgba(0,0,0,0.35)] border border-[#dce6ec] relative space-y-[20px] max-h-[88vh] overflow-y-auto font-manrope"
-            >
-              
-              {/* Header del Modal */}
-              <div className="flex justify-between items-start border-b border-[#edf2f5] pb-[16px]">
-                <div className="flex flex-col items-start text-left space-y-1">
-                  <span className="text-[9.5px] font-[800] uppercase tracking-[0.08em] text-[#e54550] bg-[#fff4f5] border border-[#f7d1d4] px-[9px] py-[3px] rounded-full inline-block">
-                    {activeModalExam.category}
-                  </span>
-                  <h3 className="font-manrope text-[20px] sm:text-[22px] font-[800] text-[#09283c] mt-1 leading-snug">
-                    {activeModalExam.name}
-                  </h3>
-                </div>
-                <button 
-                  onClick={() => setActiveModalExam(null)}
-                  className="w-[36px] h-[36px] rounded-[10px] border border-[#dce6ec] text-[#8da1af] hover:text-[#09283c] hover:bg-[#f8fafc] flex items-center justify-center transition-colors cursor-pointer shrink-0"
-                >
-                  <IconX className="w-[18px] h-[18px]" />
-                </button>
-              </div>
-
-              {/* Resumen */}
-              <div className="space-y-[14px] text-left">
-                <div className="p-[16px] bg-[#f8fafc] rounded-[16px] border border-[#edf2f5] space-y-1">
-                  <span className="font-manrope font-[800] text-[#09283c] uppercase tracking-[0.08em] text-[10.5px] block">
-                    ¿Para qué sirve este examen?
-                  </span>
-                  <p className="font-manrope text-[13px] text-[#60788a] leading-[1.6]">
-                    {activeModalExam.summary}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-[12px] p-[14px_16px] rounded-[16px] bg-white border border-[#dce6ec]">
-                  <div className="w-[36px] h-[36px] rounded-[11px] bg-[#fff0f1] text-[#fb5962] flex items-center justify-center shrink-0">
-                    <IconDroplet className="w-[18px] h-[18px]" />
-                  </div>
-                  <div>
-                    <span className="font-manrope font-[800] text-[#09283c] block text-[11px] uppercase tracking-wider">Muestra requerida</span>
-                    <span className="font-manrope text-[#60788a] text-[13px] font-[600]">{activeModalExam.sampleType}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Botón WhatsApp de Cotización Directa */}
-              <div className="pt-[14px] border-t border-[#edf2f5] space-y-[12px] text-center">
-                <p className="font-manrope text-[12px] text-[#60788a]">
-                  Consulta precios, preparación y agenda tu turno al instante:
-                </p>
-                <a 
-                  href={getWhatsappUrl(activeModalExam.name)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full min-h-[48px] bg-[#20ca70] hover:bg-[#16b963] text-white font-manrope font-[800] text-[13px] rounded-[13px] shadow-[0_10px_22px_rgba(20,184,121,0.24)] flex items-center justify-center gap-[9px] cursor-pointer transition-all"
-                >
-                  <WhatsAppIcon className="w-[18px] h-[18px]" />
-                  <span>Consultar por WhatsApp</span>
-                </a>
-              </div>
-
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
     </div>
   );
 };

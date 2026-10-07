@@ -23,6 +23,7 @@ export const ROLE_DEFAULT_ROUTES: Record<UserRole, string> = {
 export const ROLE_PERMISSIONS: Record<UserRole, string[]> = {
   [ROLES.ADMIN]: [
     '/dashboard',
+    '/dashboard/citas',
     '/dashboard/pacientes',
     '/dashboard/resultados',
     '/dashboard/inventario',
@@ -31,12 +32,14 @@ export const ROLE_PERMISSIONS: Record<UserRole, string[]> = {
   ],
   [ROLES.DOCTOR]: [
     '/dashboard',
+    '/dashboard/citas',
     '/dashboard/pacientes',
     '/dashboard/resultados',
     '/dashboard/inventario',
   ],
   [ROLES.RECEPCIONISTA]: [
     '/dashboard',
+    '/dashboard/citas',
     '/dashboard/pacientes',
     '/dashboard/resultados',
   ],

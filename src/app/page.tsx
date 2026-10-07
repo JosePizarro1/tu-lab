@@ -43,7 +43,7 @@ export default function Page() {
         return <Home setActiveTab={setActiveTab} />;
 
       case 'servicios':
-        return <Services />;
+        return <Services setActiveTab={setActiveTab} />;
 
       case 'sedes':
         return <Home setActiveTab={setActiveTab} />;

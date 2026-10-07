@@ -24,7 +24,9 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const sedeActivaObj = sedes.find((s) => s.id === sedeActivaId);
-  const sedeActivaNombre = sedeActivaId === 'ALL' ? 'Todas las Sedes' : (sedeActivaObj?.nombre || sedeActivaId);
+  const rawNombre = sedeActivaId === 'ALL' ? 'Todas las Sedes' : (sedeActivaObj?.nombre || sedeActivaId);
+  // Limpiar si ya incluye "Sede " para evitar "Sede Sede ..."
+  const displaySedeNombre = rawNombre.startsWith('Sede ') ? rawNombre : `Sede ${rawNombre}`;
 
   return (
     <header className="h-16 bg-white/80 backdrop-blur-md border-b border-slate-200/70 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 shadow-2xs">
@@ -61,11 +63,12 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="w-5 h-5 rounded-lg bg-[#fff0f1] text-[#fb5962] flex items-center justify-center">
               <IconBuilding className="w-3.5 h-3.5" />
             </div>
-            <span>Sede {sedeActivaNombre}</span>
+            <span>{displaySedeNombre}</span>
             <IconChevronDown
               className={`w-3.5 h-3.5 text-slate-400 transition-transform ${showDropdown ? 'rotate-180' : ''}`}
             />
           </button>
+
 
           {showDropdown && (
             <>

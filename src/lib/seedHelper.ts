@@ -1,9 +1,15 @@
 import { sql } from './db';
 import { ROLES, UserRole } from '@/types/roles';
 
+const INITIAL_ESPECIALIDADES = [
+  { id: 'esp-medicina-general', nombre: 'Medicina General', descripcion: 'Atención primaria integral, diagnóstico y tratamiento de afecciones comunes.', duracionMinutos: 30, icono: 'IconStethoscope' },
+  { id: 'esp-obstetricia', nombre: 'Obstetricia', descripcion: 'Salud materna, control prenatal, consejería reproductiva y salud de la mujer.', duracionMinutos: 30, icono: 'IconHeartbeat' },
+  { id: 'esp-enfermeria', nombre: 'Enfermería', descripcion: 'Toma de muestras clínicas, inyectables, curaciones y control de signos vitales.', duracionMinutos: 20, icono: 'IconNurse' },
+];
+
 const SEDES = [
-  { id: 'SEDE-BRENA', nombre: 'Breña', direccion: 'Av. Breña 123, Lima', telefono: '01-5550101' },
-  { id: 'SEDE-COMAS', nombre: 'Comas', direccion: 'Av. Comas 456, Lima', telefono: '01-5550202' },
+  { id: 'SEDE-LEGUIA', nombre: 'Sede Av. Leguía', direccion: 'Av. Leguía N° 778-C, Tacna', telefono: '952 920 616' },
+  { id: 'SEDE-MELENDEZ', nombre: 'Sede Patricio Meléndez', direccion: 'Calle Patricio Meléndez N° 382 Of. 303, Tacna', telefono: '952 920 616' },
 ];
 
 const INITIAL_REACTIVOS = [
@@ -35,18 +41,26 @@ const INITIAL_USUARIOS: { id: string; username: string; password: string; nombre
   { id: 'U-RECEPCION', username: 'recepcion', password: 'recepcion', nombre: 'Ana Gómez', rol: ROLES.RECEPCIONISTA },
 ];
 
+let isSeeded = false;
+let seedPromise: Promise<void> | null = null;
+
 export async function ensureSeed() {
-  try {
-    // 1. Crear tabla Sede (nueva)
-    await sql`
-      CREATE TABLE IF NOT EXISTS "Sede" (
-        id VARCHAR(36) PRIMARY KEY,
-        nombre VARCHAR(255) UNIQUE NOT NULL,
-        direccion TEXT,
-        telefono VARCHAR(20),
-        activo BOOLEAN DEFAULT true
-      );
-    `;
+  if (isSeeded) return;
+  if (seedPromise) return seedPromise;
+
+  seedPromise = (async () => {
+    try {
+      // 1. Crear tabla Sede (nueva)
+      await sql`
+        CREATE TABLE IF NOT EXISTS "Sede" (
+          id VARCHAR(36) PRIMARY KEY,
+          nombre VARCHAR(255) UNIQUE NOT NULL,
+          direccion TEXT,
+          telefono VARCHAR(20),
+          activo BOOLEAN DEFAULT true
+        );
+      `;
+
 
     // 2. Crear tablas existentes
     await sql`
@@ -105,12 +119,91 @@ export async function ensureSeed() {
       );
     `;
 
+    await sql`
+      CREATE TABLE IF NOT EXISTS "Especialidad" (
+        id VARCHAR(64) PRIMARY KEY,
+        nombre VARCHAR(255) NOT NULL,
+        descripcion TEXT,
+        "duracionMinutos" INT DEFAULT 30,
+        icono VARCHAR(64) DEFAULT 'IconStethoscope',
+        activo BOOLEAN DEFAULT true
+      );
+    `;
+
+    await sql`
+      CREATE TABLE IF NOT EXISTS "Cita" (
+        id VARCHAR(64) PRIMARY KEY,
+        "especialidadId" VARCHAR(64) NOT NULL REFERENCES "Especialidad"(id) ON DELETE RESTRICT,
+        fecha VARCHAR(10) NOT NULL,
+        hora VARCHAR(10) NOT NULL,
+        "duracionMinutos" INT DEFAULT 30,
+        "pacienteDni" VARCHAR(20) NOT NULL,
+        "pacienteNombre" VARCHAR(255) NOT NULL,
+        "pacienteTelefono" VARCHAR(50),
+        "pacienteEmail" VARCHAR(255),
+        motivo TEXT,
+        origen VARCHAR(20) DEFAULT 'web',
+        estado VARCHAR(20) DEFAULT 'pendiente',
+        "creadoEn" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `;
+
+    await sql`
+      CREATE TABLE IF NOT EXISTS "HorarioBloqueado" (
+        id VARCHAR(64) PRIMARY KEY,
+        "sedeId" VARCHAR(64) NOT NULL,
+        "especialidadId" VARCHAR(64),
+        fecha VARCHAR(10) NOT NULL,
+        "horaInicio" VARCHAR(10) NOT NULL,
+        "horaFin" VARCHAR(10) NOT NULL,
+        motivo TEXT,
+        "creadoEn" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `;
+
+    for (const esp of INITIAL_ESPECIALIDADES) {
+      await sql`
+        INSERT INTO "Especialidad" (id, nombre, descripcion, "duracionMinutos", icono, activo)
+        VALUES (${esp.id}, ${esp.nombre}, ${esp.descripcion}, ${esp.duracionMinutos}, ${esp.icono}, true)
+        ON CONFLICT (id) DO UPDATE SET 
+          nombre = ${esp.nombre},
+          descripcion = ${esp.descripcion},
+          "duracionMinutos" = ${esp.duracionMinutos},
+          icono = ${esp.icono},
+          activo = true
+      `;
+    }
+
+    await sql`ALTER TABLE "Cita" ADD COLUMN IF NOT EXISTS "sedeId" VARCHAR(64) DEFAULT 'SEDE-LEGUIA'`;
+    await sql`ALTER TABLE "Cita" ADD COLUMN IF NOT EXISTS "recordatorioEnviado" BOOLEAN DEFAULT false`;
+    await sql`ALTER TABLE "Cita" ADD COLUMN IF NOT EXISTS "recordatorioEnviadoEn" TIMESTAMP`;
+
     // 3. Migraciones: agregar columnas nuevas si no existen
     await sql`ALTER TABLE "Usuario" ADD COLUMN IF NOT EXISTS "activo" BOOLEAN DEFAULT true`;
+
 
     await sql`ALTER TABLE "Reactivo" ADD COLUMN IF NOT EXISTS "sedeId" VARCHAR(36) REFERENCES "Sede"(id)`;
     await sql`ALTER TABLE "Paciente" ADD COLUMN IF NOT EXISTS "sedeId" VARCHAR(36) REFERENCES "Sede"(id)`;
     await sql`ALTER TABLE "PruebaClinica" ADD COLUMN IF NOT EXISTS "sedeId" VARCHAR(36) REFERENCES "Sede"(id)`;
+
+    // Asegurar y limpiar para que existan ÚNICAMENTE las 2 sedes oficiales de Tacna
+    for (const s of SEDES) {
+      await sql`
+        INSERT INTO "Sede" (id, nombre, direccion, telefono, activo)
+        VALUES (${s.id}, ${s.nombre}, ${s.direccion}, ${s.telefono}, true)
+        ON CONFLICT (id) DO UPDATE SET
+          nombre = ${s.nombre},
+          direccion = ${s.direccion},
+          telefono = ${s.telefono},
+          activo = true
+      `;
+    }
+
+    // Desactivar o reasignar sedes viejas/duplicadas que no sean las 2 oficiales
+    await sql`
+      UPDATE "Sede" SET activo = false 
+      WHERE id NOT IN ('SEDE-LEGUIA', 'SEDE-MELENDEZ')
+    `;
 
     // Normalizar roles existentes en la BD
     await sql`UPDATE "Usuario" SET rol = 'ADMINISTRADOR' WHERE rol IN ('ADMIN', 'Administrador', 'admin')`;
@@ -183,7 +276,21 @@ export async function ensureSeed() {
 
       console.log('Base de datos sembrada automáticamente con Neon SQL.');
     }
+
+    // 7. Crear índices estratégicos para optimización y escalabilidad de consultas
+    await sql`CREATE INDEX IF NOT EXISTS "idx_cita_disponibilidad" ON "Cita" (fecha, "especialidadId", "sedeId", estado)`;
+    await sql`CREATE INDEX IF NOT EXISTS "idx_cita_paciente_dni" ON "Cita" ("pacienteDni")`;
+    await sql`CREATE INDEX IF NOT EXISTS "idx_bloqueo_filtro" ON "HorarioBloqueado" (fecha, "sedeId", "especialidadId")`;
+    await sql`CREATE INDEX IF NOT EXISTS "idx_sede_activo" ON "Sede" (activo)`;
+
+    isSeeded = true;
   } catch (e) {
     console.error('Fallo en la siembra automática de base de datos:', e);
+    seedPromise = null;
+    throw e;
   }
+  })();
+
+  return seedPromise;
 }
+

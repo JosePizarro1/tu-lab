@@ -10,6 +10,9 @@ export async function middleware(req: NextRequest) {
     pathname === '/api/login' ||
     pathname === '/api/reniec' ||
     pathname === '/api/seed' ||
+    pathname === '/api/especialidades' ||
+    pathname.startsWith('/api/citas/disponibilidad') ||
+    (pathname === '/api/citas' && req.method === 'POST') ||
     pathname.startsWith('/_next') ||
     pathname.includes('.');
 

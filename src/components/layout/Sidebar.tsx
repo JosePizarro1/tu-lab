@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
@@ -13,7 +13,9 @@ import {
   IconShieldCheck,
   IconStethoscope,
   IconHeadset,
-  IconUserCheck
+  IconUserCheck,
+  IconChevronLeft,
+  IconChevronRight
 } from '@tabler/icons-react';
 import { Usuario } from '@/services/db';
 import { UserRole, ROLES, hasPermission } from '@/types/roles';
@@ -28,8 +30,27 @@ export const Sidebar: React.FC<SidebarProps> = ({ onLogout, usuario, rolUsuario 
   const pathname = usePathname();
   const currentRole = usuario?.rol || rolUsuario;
 
+  // Estado contraído (persiste en localStorage)
+  const [collapsed, setCollapsed] = useState<boolean>(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('sidebar_collapsed');
+    if (saved !== null) {
+      setCollapsed(saved === 'true');
+    }
+  }, []);
+
+  const toggleCollapsed = () => {
+    setCollapsed((prev) => {
+      const next = !prev;
+      localStorage.setItem('sidebar_collapsed', String(next));
+      return next;
+    });
+  };
+
   const menuItems = [
     { label: 'Resumen General', path: '/dashboard', icon: IconLayoutDashboard },
+    { label: 'Citas y Agenda', path: '/dashboard/citas', icon: IconClipboardList },
     { label: 'Pacientes', path: '/dashboard/pacientes', icon: IconUsers },
     { label: 'Resultados Clínicos', path: '/dashboard/resultados', icon: IconClipboardList },
     { label: 'Inventario / Reactivos', path: '/dashboard/inventario', icon: IconFlask },
@@ -58,28 +79,55 @@ export const Sidebar: React.FC<SidebarProps> = ({ onLogout, usuario, rolUsuario 
 
   return (
     <>
-      {/* Sidebar Desktop */}
-      <aside className="w-64 bg-white border-r border-slate-200/80 hidden md:flex flex-col justify-between h-screen sticky top-0 z-40 shadow-xs">
+      {/* Sidebar Desktop con soporte para contraer/expandir */}
+      <aside 
+        className={`${
+          collapsed ? 'w-20' : 'w-64'
+        } bg-white border-r border-slate-200/80 hidden md:flex flex-col justify-between h-screen sticky top-0 z-40 shadow-xs transition-all duration-300 ease-in-out`}
+      >
         <div>
-          {/* Logo & Header */}
-          <div className="h-16 flex items-center px-6 border-b border-slate-100">
-            <Link href="/dashboard" className="flex items-center gap-2.5">
-              <img 
-                src="/logo-unidoslab-opt.webp" 
-                alt="UNIDOSLAB" 
-                width={132}
-                height={42}
-                decoding="async"
-                className="h-8 w-auto object-contain" 
-              />
-            </Link>
+          {/* Logo & Botón para Contraer */}
+          <div className={`h-16 flex items-center ${collapsed ? 'justify-center px-2' : 'justify-between px-5'} border-b border-slate-100 relative`}>
+            {!collapsed ? (
+              <Link href="/dashboard" className="flex items-center gap-2.5 overflow-hidden">
+                <img 
+                  src="/logo-unidoslab-opt.webp" 
+                  alt="UNIDOSLAB" 
+                  width={132}
+                  height={42}
+                  decoding="async"
+                  className="h-8 w-auto object-contain" 
+                />
+              </Link>
+            ) : (
+              <Link href="/dashboard" className="w-10 h-10 rounded-xl bg-[#fff0f1] text-[#fb5962] font-black flex items-center justify-center text-sm shadow-2xs">
+                U
+              </Link>
+            )}
+
+            {/* Botón flotante para contraer/expandir */}
+            <button
+              onClick={toggleCollapsed}
+              className={`p-1.5 rounded-lg border border-slate-200/90 text-slate-400 hover:text-slate-800 hover:bg-slate-50 transition-colors cursor-pointer ${
+                collapsed ? 'mt-2' : ''
+              }`}
+              title={collapsed ? 'Expandir barra lateral' : 'Contraer barra lateral'}
+            >
+              {collapsed ? (
+                <IconChevronRight className="w-4 h-4" />
+              ) : (
+                <IconChevronLeft className="w-4 h-4" />
+              )}
+            </button>
           </div>
 
           {/* Navigation Links */}
-          <div className="p-4 space-y-1.5">
-            <p className="px-3 pb-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
-              Menú Principal
-            </p>
+          <div className="p-3 space-y-1.5">
+            {!collapsed && (
+              <p className="px-3 pb-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                Menú Principal
+              </p>
+            )}
             {visibleMenuItems.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.path;
@@ -88,14 +136,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ onLogout, usuario, rolUsuario 
                 <Link
                   key={item.path}
                   href={item.path}
-                  className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+                  title={collapsed ? item.label : undefined}
+                  className={`flex items-center ${
+                    collapsed ? 'justify-center px-0 py-3' : 'gap-3 px-3.5 py-2.5'
+                  } rounded-xl text-xs font-semibold transition-all ${
                     isActive
-                      ? 'bg-[#fb5962] text-white shadow-md shadow-rose-500/20 font-bold translate-x-1'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-[#fff0f1]/70 hover:translate-x-0.5'
+                      ? 'bg-[#fb5962] text-white shadow-md shadow-rose-500/20 font-bold'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-[#fff0f1]/70'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 stroke-[2] ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                  <span>{item.label}</span>
+                  <Icon className={`w-5 h-5 stroke-[2] shrink-0 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  {!collapsed && <span className="truncate">{item.label}</span>}
                 </Link>
               );
             })}
@@ -103,36 +154,53 @@ export const Sidebar: React.FC<SidebarProps> = ({ onLogout, usuario, rolUsuario 
         </div>
 
         {/* Footer / User Profile Card */}
-        <div className="p-4 border-t border-slate-100 bg-slate-50/50 space-y-2">
-          {/* User Card */}
-          <div className="bg-white border border-slate-200/70 rounded-2xl p-3 shadow-2xs flex items-center justify-between gap-2.5">
+        <div className="p-3 border-t border-slate-100 bg-slate-50/50">
+          <div className={`bg-white border border-slate-200/70 rounded-2xl ${collapsed ? 'p-2 justify-center' : 'p-3 justify-between'} shadow-2xs flex items-center gap-2`}>
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-9 h-9 rounded-xl bg-[#fb5962] text-white flex items-center justify-center font-extrabold text-sm shadow-xs shrink-0">
+              <div 
+                className="w-9 h-9 rounded-xl bg-[#fb5962] text-white flex items-center justify-center font-extrabold text-sm shadow-xs shrink-0"
+                title={collapsed ? `${usuario?.nombre || 'Usuario'} (${roleInfo.label})` : undefined}
+              >
                 {initialLetter}
               </div>
-              <div className="min-w-0">
-                <p className="font-bold text-xs text-slate-800 truncate leading-tight">
-                  {usuario?.nombre || 'Usuario Activo'}
-                </p>
-                <div className="flex items-center gap-1 mt-0.5">
-                  <RoleIcon className="w-3 h-3 text-slate-400 shrink-0" />
-                  <span className="text-[10px] font-semibold text-slate-500 truncate">
-                    {roleInfo.label}
-                  </span>
+              {!collapsed && (
+                <div className="min-w-0">
+                  <p className="font-bold text-xs text-slate-800 truncate leading-tight">
+                    {usuario?.nombre || 'Usuario Activo'}
+                  </p>
+                  <div className="flex items-center gap-1 mt-0.5">
+                    <RoleIcon className="w-3 h-3 text-slate-400 shrink-0" />
+                    <span className="text-[10px] font-semibold text-slate-500 truncate">
+                      {roleInfo.label}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
+            {!collapsed && (
+              <button
+                onClick={onLogout}
+                className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer shrink-0"
+                title="Cerrar Sesión"
+              >
+                <IconPower className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+
+          {collapsed && (
             <button
               onClick={onLogout}
-              className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer shrink-0"
+              className="mt-2 w-full p-2 flex items-center justify-center text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
               title="Cerrar Sesión"
             >
               <IconPower className="w-4 h-4" />
             </button>
-          </div>
+          )}
         </div>
       </aside>
+
 
       {/* Bottom Nav Bar for Mobile */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 py-2 flex justify-around items-center z-50 shadow-lg">

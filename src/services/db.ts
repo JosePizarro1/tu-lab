@@ -58,6 +58,51 @@ export interface Usuario {
   activo: boolean;
 }
 
+export interface Especialidad {
+  id: string;
+  nombre: string;
+  descripcion?: string;
+  duracionMinutos: number;
+  icono?: string;
+  activo: boolean;
+}
+
+export interface Cita {
+  id: string;
+  sedeId?: string;
+  sedeNombre?: string;
+  especialidadId: string;
+  especialidadNombre?: string;
+  fecha: string;
+  hora: string;
+  duracionMinutos: number;
+  pacienteDni: string;
+  pacienteNombre: string;
+  pacienteTelefono?: string;
+  pacienteEmail?: string;
+  motivo?: string;
+  origen: 'web' | 'presencial' | 'telefono';
+  estado: 'pendiente' | 'confirmada' | 'completada' | 'cancelada';
+  recordatorioEnviado?: boolean;
+  recordatorioEnviadoEn?: string;
+  creadoEn?: string;
+}
+
+
+
+export interface HorarioBloqueado {
+  id: string;
+  sedeId: string;
+  sedeNombre?: string;
+  especialidadId?: string | null;
+  especialidadNombre?: string;
+  fecha: string;
+  horaInicio: string;
+  horaFin: string;
+  motivo?: string;
+  creadoEn?: string;
+}
+
 export const database = {
   initSeed: async (): Promise<void> => {
     try {
@@ -331,5 +376,163 @@ export const database = {
       console.error(e);
       return null;
     }
+  },
+
+  // --- CITAS & ESPECIALIDADES ---
+  getEspecialidades: async (): Promise<Especialidad[]> => {
+    try {
+      const res = await fetch('/api/especialidades');
+      if (!res.ok) return [];
+      return await res.json();
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  },
+
+  getCitas: async (fecha?: string, especialidadId?: string, sedeId?: string, fechaDesde?: string, fechaHasta?: string): Promise<Cita[]> => {
+    try {
+      const params = new URLSearchParams();
+      if (fecha) params.append('fecha', fecha);
+      if (fechaDesde) params.append('fechaDesde', fechaDesde);
+      if (fechaHasta) params.append('fechaHasta', fechaHasta);
+      if (especialidadId) params.append('especialidadId', especialidadId);
+      if (sedeId) params.append('sedeId', sedeId);
+      const res = await fetch(`/api/citas?${params.toString()}`);
+      if (!res.ok) return [];
+      return await res.json();
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  },
+
+
+  getDisponibilidad: async (fecha: string, especialidadId: string, sedeId?: string): Promise<{ slots: { hora: string; disponible: boolean; cita?: any }[] }> => {
+    try {
+      const params = new URLSearchParams({ fecha, especialidadId });
+      if (sedeId) params.append('sedeId', sedeId);
+      const res = await fetch(`/api/citas/disponibilidad?${params.toString()}`);
+      if (!res.ok) return { slots: [] };
+      return await res.json();
+    } catch (e) {
+      console.error(e);
+      return { slots: [] };
+    }
+  },
+
+  getDisponibilidadMultiDia: async (fechaInicio: string, especialidadId: string, dias = 4, sedeId?: string): Promise<{ columnas: { fecha: string; slots: { hora: string; disponible: boolean }[] }[] }> => {
+    try {
+      const params = new URLSearchParams({ fechaInicio, especialidadId, dias: dias.toString() });
+      if (sedeId) params.append('sedeId', sedeId);
+      const res = await fetch(`/api/citas/disponibilidad?${params.toString()}`);
+      if (!res.ok) return { columnas: [] };
+      return await res.json();
+    } catch (e) {
+      console.error(e);
+      return { columnas: [] };
+    }
+  },
+
+  crearCita: async (data: Omit<Cita, 'id' | 'creadoEn'>): Promise<{ ok: boolean; cita?: Cita; error?: string }> => {
+    try {
+      const res = await fetch('/api/citas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const resData = await res.json();
+      if (!res.ok) {
+        return { ok: false, error: resData.error || 'No se pudo agendar la cita' };
+      }
+      return { ok: true, cita: resData };
+    } catch (e: any) {
+      console.error(e);
+      return { ok: false, error: e.message };
+    }
+  },
+
+  actualizarCita: async (id: string, updateData: Partial<Cita>): Promise<{ ok: boolean; error?: string }> => {
+    try {
+      const res = await fetch('/api/citas', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, ...updateData }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return { ok: false, error: data.error || 'No se pudo actualizar la cita' };
+      }
+      return { ok: true };
+    } catch (e: any) {
+      console.error(e);
+      return { ok: false, error: e.message };
+    }
+  },
+
+  eliminarCita: async (id: string): Promise<{ ok: boolean; error?: string }> => {
+    try {
+      const res = await fetch(`/api/citas?id=${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return { ok: false, error: data.error || 'No se pudo cancelar la cita' };
+      }
+      return { ok: true };
+    } catch (e: any) {
+      console.error(e);
+      return { ok: false, error: e.message };
+    }
+  },
+
+  // --- BLOQUEOS DE HORARIO ---
+  getBloqueos: async (fecha?: string, sedeId?: string): Promise<HorarioBloqueado[]> => {
+    try {
+      const params = new URLSearchParams();
+      if (fecha) params.append('fecha', fecha);
+      if (sedeId) params.append('sedeId', sedeId);
+      const res = await fetch(`/api/citas/bloqueos?${params.toString()}`);
+      if (!res.ok) return [];
+      return await res.json();
+    } catch (e) {
+      console.error('Error al obtener bloqueos:', e);
+      return [];
+    }
+  },
+
+  crearBloqueo: async (data: Omit<HorarioBloqueado, 'id' | 'creadoEn'>): Promise<{ ok: boolean; bloqueo?: HorarioBloqueado; error?: string }> => {
+    try {
+      const res = await fetch('/api/citas/bloqueos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const resData = await res.json();
+      if (!res.ok) {
+        return { ok: false, error: resData.error || 'No se pudo registrar el bloqueo' };
+      }
+      return { ok: true, bloqueo: resData };
+    } catch (e: any) {
+      console.error(e);
+      return { ok: false, error: e.message };
+    }
+  },
+
+  eliminarBloqueo: async (id: string): Promise<{ ok: boolean; error?: string }> => {
+    try {
+      const res = await fetch(`/api/citas/bloqueos?id=${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return { ok: false, error: data.error || 'No se pudo desbloquear el horario' };
+      }
+      return { ok: true };
+    } catch (e: any) {
+      console.error(e);
+      return { ok: false, error: e.message };
+    }
   }
 };
+
